@@ -1,0 +1,4 @@
+node_modules
+package-lock.json
+.env
+Revolt Bot List.code-workspace
