@@ -12,15 +12,22 @@ router.get('/', async (req, res) => {
         bots[i].name = BotRaw.username;
         bots[i].avatar = BotRaw.avatar;
       }
-
+      let userModel = require("../../database/models/user.js")
+      let user = await userModel.findOne({ revoltId: req.session.userAccountId });
+      if(user) {
+        let userRaw = await client.users.fetch(user.revoltId);
+        user.username = userRaw.username;
+        user.avatar = userRaw.avatar;
+      }
     res.render("index.ejs", {
-        bots
+        bots,
+        user
     })
 })
 
-router.get('/bots/submit', checkAuth, async (req, res) => res.render("bots/submit.ejs"))
+router.get('/submit', checkAuth, async (req, res) => res.render("bots/submit.ejs"))
 
-router.post('/bots/submit', checkAuth, async (req, res) => {
+router.post('/submit', checkAuth, async (req, res) => {
     const data = req.body;
     if (!data) return res.status(400).json("You need to provide the bot's information.")
     let model = require("../../database/models/bot.js")
@@ -31,7 +38,7 @@ router.post('/bots/submit', checkAuth, async (req, res) => {
 
 function checkAuth(req, res, next) {
     if (req.session.userAccountId) {
-        let model = require("../database/models/user.js")
+        let model = require("../../database/models/user.js")
         model.findOne({ revoltId: req.session.userAccountId }, (error, userAccount) => {
         if (error) {
           res.status(500).send(error);

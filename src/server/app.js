@@ -1,10 +1,12 @@
 const express = require('express');
 const path = require('node:path');
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const fs = require('node:fs');
+const CleanCSS = require('clean-css');
 const session = require('express-session');
 const bodyParser = require('body-parser');
-const MongoStore = require('connect-mongo')(session)
+const MongoStore = require('connect-mongo')(session);
 
 //-Webserver-//
 const app = express();
@@ -18,6 +20,13 @@ app.use(session({
   saveUninitialized: false, 
   store: new MongoStore({ mongooseConnection: mongoose.connection }),
 }));
+app.get('/css/main.css', (req, res) => {
+  const originalCSS = fs.readFileSync('src/server/static/css/main.css', 'utf8');
+  var options = { };
+  const minifiedCSS = new CleanCSS(options).minify(originalCSS);
+  res.set('Content-Type', 'text/css');
+  res.send(minifiedCSS.styles);
+})
 
 app.get("/register", function (req, res) { res.render('auth/register.ejs') });
   
@@ -25,6 +34,7 @@ app.get("/register", function (req, res) { res.render('auth/register.ejs') });
     let model = require("../database/models/user.js")
     const revoltUser = client.users.get(req.body.revoltId);
     if (!revoltUser) return res.status(400).json({ message: "The revolt Id does not belong to an account."})
+    if (await model.findOne({ revoltId: req.body.revoltId})) return res.status(409).json({ message: "This revolt account has already been registered on Revolt Bot List. Think someone else registered your account? Contact support"})
     const userAccount = await model.create({
       revoltId: req.body.revoltId,
       password: req.body.password,
@@ -40,7 +50,7 @@ app.get("/register", function (req, res) { res.render('auth/register.ejs') });
     });
   });
   
-  app.get("/login", function (req, res) { res.render('auth/login.ejs') });
+  app.get("/login", function (req, res) { res.render('auth/login.ejs', { user: null }) });
   
   app.post('/login', (req, res) => {
     let model = require("../database/models/user.js")
