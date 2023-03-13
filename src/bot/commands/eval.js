@@ -19,7 +19,6 @@ module.exports = {
         return message.reply({ embeds: [
             {
                 colour: "Green",
-                title: "Successfully evaluated.",
                 description: `**Input**\n\`\`\`${args.join(" ")}\`\`\`\n\n**Output**\n\`\`\`js\n${code}\n\`\`\``
             }
         ] });

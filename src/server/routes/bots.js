@@ -25,7 +25,18 @@ router.get('/', async (req, res) => {
     })
 })
 
-router.get('/submit', checkAuth, async (req, res) => res.render("bots/submit.ejs"))
+router.get('/submit', checkAuth, async (req, res) => {
+  let userModel = require("../../database/models/user.js")
+      let user = await userModel.findOne({ revoltId: req.session.userAccountId });
+      if(user) {
+        let userRaw = await client.users.fetch(user.revoltId);
+        user.username = userRaw.username;
+        user.avatar = userRaw.avatar;
+      }
+  res.render("bots/submit.ejs", {
+    user
+  }) 
+})
 
 router.post('/submit', checkAuth, async (req, res) => {
     const data = req.body;

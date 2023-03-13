@@ -20,15 +20,17 @@ app.use(session({
   saveUninitialized: false, 
   store: new MongoStore({ mongooseConnection: mongoose.connection }),
 }));
-app.get('/css/main.css', (req, res) => {
-  const originalCSS = fs.readFileSync('src/server/static/css/main.css', 'utf8');
+app.use('/img', express.static(path.join(__dirname, "/static/img")))
+app.get('/css/main.scss', (req, res) => {
+  const originalCSS = fs.readFileSync('src/server/static/css/main.scss', 'utf8');
   var options = { };
   const minifiedCSS = new CleanCSS(options).minify(originalCSS);
   res.set('Content-Type', 'text/css');
   res.send(minifiedCSS.styles);
 })
 
-app.get("/register", function (req, res) { res.render('auth/register.ejs') });
+
+app.get("/register", function (req, res) { res.render('auth/register.ejs', { user: null }) });
   
   app.post('/register', async (req, res) => {
     let model = require("../database/models/user.js")

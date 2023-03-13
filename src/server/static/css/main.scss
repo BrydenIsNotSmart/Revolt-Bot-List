@@ -56,10 +56,14 @@
           padding: 1rem;
           padding-left: 1rem;
           border-radius: 0.5rem;
+          display: block;
+          width: 100%;
         }
       }
       .Container {
        border-radius: 0.5rem;
+       display: block;
+       width: 100%;
       }
     
       .applicationName {
@@ -79,3 +83,8 @@
         width: 150px;
         height: 150px;
       }
+
+      .card:hover {
+        box-shadow: 0 15px 26px 0 rgba(0,0,0,0.2);
+      }
+      
