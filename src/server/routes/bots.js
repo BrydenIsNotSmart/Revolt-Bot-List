@@ -1,4 +1,5 @@
 const express = require('express');
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 const router = express.Router();
 
 router.get('/', async (req, res) => {
@@ -44,9 +45,8 @@ router.post('/submit', checkAuth, async (req, res) => {
     if (!data) return res.status(400).json("You need to provide the bot's information.")
     let model = require("../../database/models/bot.js")
     if (await model.findOne({ id: data.botid })) return res.status(409).json({ message: "This bot is already added."})
-    let BotRaw = await client.users.fetch(data.botid).catch((err) => { console.log(err)})
+    let BotRaw = await client.bots.fetchPublic("01GSK9YZAM47EP85GQ4NGZCPEK").catch((err) => { console.log(err) });
     if (!BotRaw) return res.status(400).json({ message: "The provided bot couldn't be found on Revolt."})
-    if (!BotRaw.bot) return res.status(400).json({ message: "The provided bot is not a bot account, instead a human account."})
 
     if (data.owners) {
       let owners = []
@@ -87,7 +87,7 @@ router.post('/submit', checkAuth, async (req, res) => {
       res.status(201).json({ message: "Added to queue", code: "OK" });
       let logs = client.channels.get(config.channels.weblogs);
       logs.sendMessage(
-        `<@${req.session.userAccountId}> has submitted **${BotRaw.username}** to the list.\nhttps://revoltbots.org/bot/${BotRaw._id.toLowercase()}`
+        `<@${req.session.userAccountId}> has submitted **${BotRaw.username}** to the list.\nhttps://revoltbots.org/bot/${data.botid}`
       );
     });
 })
