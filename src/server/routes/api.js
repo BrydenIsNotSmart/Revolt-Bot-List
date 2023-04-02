@@ -18,7 +18,7 @@ router.get("/v1/bots/:id", async (req, res) => {
 module.exports = router;
 
 async function getBotData(data, fetchReviews = false, req) {
-    const BotRaw = await global.client.users.fetch(data.id).catch(() => { });
+    const BotRaw = await client.bots.fetchPublic(data.id).catch(() => { });
     const info = {
       // This doesn't need to be in another object (i.e: 'final_data')
       id: data.id,

@@ -45,7 +45,7 @@ router.post('/submit', checkAuth, async (req, res) => {
     if (!data) return res.status(400).json("You need to provide the bot's information.")
     let model = require("../../database/models/bot.js")
     if (await model.findOne({ id: data.botid })) return res.status(409).json({ message: "This bot is already added."})
-    let BotRaw = await client.bots.fetchPublic("01GSK9YZAM47EP85GQ4NGZCPEK").catch((err) => { console.log(err) });
+    let BotRaw = await client.bots.fetchPublic(data.botid).catch((err) => { console.log(err) });
     if (!BotRaw) return res.status(400).json({ message: "The provided bot couldn't be found on Revolt OR it's a private bot, make it public to add it."})
 
     if (data.owners) {
@@ -96,8 +96,8 @@ router.get("/:id", async (req, res) => {
     let model = require("../../database/models/bot")
     let bot = await model.findOne({ id: req.params.id});
     if (!bot) return res.status(404).json({ message: "This bot could not be found on our list."})
-    let BotRaw = (await client.users.fetch(bot.id)) || null;
-    if (!BotRaw) return res.status(404).json({ message: "This bot could not be found on Discord."})
+    let BotRaw = (await client.bots.fetchPublic(bot.id)) || null;
+    if (!BotRaw) return res.status(404).json({ message: "This bot could not be found on Revolt."})
     bot.name = BotRaw.username;
     bot.avatar = BotRaw.avatar;
 
