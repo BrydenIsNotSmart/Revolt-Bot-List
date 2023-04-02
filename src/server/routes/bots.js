@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
       });
     
       for (let i = 0; i < bots.length; i++) {
-        const BotRaw = await client.users.get(bots[i]._id);
+        const BotRaw = await client.bots.fetchPublic(bots[i].id);
         bots[i].name = BotRaw.username;
         bots[i].avatar = BotRaw.avatar;
       }
@@ -46,7 +46,7 @@ router.post('/submit', checkAuth, async (req, res) => {
     let model = require("../../database/models/bot.js")
     if (await model.findOne({ id: data.botid })) return res.status(409).json({ message: "This bot is already added."})
     let BotRaw = await client.bots.fetchPublic("01GSK9YZAM47EP85GQ4NGZCPEK").catch((err) => { console.log(err) });
-    if (!BotRaw) return res.status(400).json({ message: "The provided bot couldn't be found on Revolt."})
+    if (!BotRaw) return res.status(400).json({ message: "The provided bot couldn't be found on Revolt OR it's a private bot, make it public to add it."})
 
     if (data.owners) {
       let owners = []
