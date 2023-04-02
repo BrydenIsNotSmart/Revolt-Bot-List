@@ -44,7 +44,7 @@ router.post('/submit', checkAuth, async (req, res) => {
     if (!data) return res.status(400).json("You need to provide the bot's information.")
     let model = require("../../database/models/bot.js")
     if (await model.findOne({ id: data.botid })) return res.status(409).json({ message: "This bot is already added."})
-    let BotRaw = await client.users.fetch(data.botid);
+    let BotRaw = await client.users.fetch(data.botid).catch((err) => { console.log(err)})
     if (!BotRaw) return res.status(400).json({ message: "The provided bot couldn't be found on Revolt."})
     if (!BotRaw.bot) return res.status(400).json({ message: "The provided bot is not a bot account, instead a human account."})
 
