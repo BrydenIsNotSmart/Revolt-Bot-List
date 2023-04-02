@@ -8,7 +8,7 @@ router.get('/', async (req, res) => {
       });
     
       for (let i = 0; i < bots.length; i++) {
-        const BotRaw = await client.users.fetch(bots[i].id);
+        const BotRaw = await client.bots.fetchPublic(bots[i].id);
         bots[i].name = BotRaw.username;
         bots[i].avatar = BotRaw.avatar;
         bots[i].tags = bots[i].tags.join(", ")
