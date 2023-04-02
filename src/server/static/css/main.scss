@@ -1,0 +1,373 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+
+body {
+    background-color: #fe4655;
+    /*background: linear-gradient(90deg, rgba(12,10,37,1) 32%, rgba(35,12,98,1) 87%); */
+    background: linear-gradient(to left top, rgb(136, 9, 9) 40%/*bottom-right color*/, rgb(212, 13, 13) 100% /*top-left color*/);
+    margin: 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    font-family: 'Montserrat', sans-serif;
+}
+.box {
+  width: 400px;
+  height: 200px;
+  position: relative;
+  background: transparent;
+}
+
+.box .content {
+  position: relative;
+  z-index: 1;
+}
+
+.a:hover {
+  color: transparent
+}
+
+.box::before {
+  content: "";
+  top: 50px; right: 50px; bottom: 50px; left: 50px;
+  position: absolute;
+  display: block;
+  background: transparent;
+  box-shadow: 0 0 2em 2em rgba(0,0,0,0.5);
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+.card {
+  height: 375px;
+  width: 375px;
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  background-color: #111111;
+  border-radius: 10px;
+  margin-top: 15px;
+  margin-left: auto;
+  transition: all 0.2s;
+  margin-right: 10px;
+  position: relative;
+  display: inline-block;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+.viewbtn {
+  background-color: #fe4655;
+  height: 40px;
+  width: 150px;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  position: relative;
+  cursor: pointer;
+  bottom: 0;
+  margin-left: -175px;
+  margin-top: 45px;
+}
+.votebtn {
+  background-color: #fe4655;
+  height: 40px;
+  width: 150px;
+  border: none;
+  cursor: pointer;
+  float: right;
+  margin-right: 25px;
+  color: white;
+  border-radius: 5px;
+  position: relative;
+  bottom: 0;
+  margin-top: -40px;
+}
+.card_2 {
+  background-color: #001724;
+  width: 350px;
+  text-decoration: none;
+  color: white;
+  border-radius: 10px;
+  transition: all 0.2s;
+  display: inline-block;
+  height: 300px;
+  margin-left: 305px;
+  margin-top: 10px;
+}
+.card:hover {
+  top: -7px;
+}
+.botname_main {
+  color: white;
+  font-size: 25px;
+  margin-top: -105px;
+  margin-left: 130px;
+  border-radius: 10px;
+  font-weight: bold;
+  text-align: left;
+}
+.adbutton {
+  background-color: #3f2f97;
+  width: 250px;
+  height: 40px;
+  border: none;
+  overflow: visible;
+  color: white;
+  border-radius: 5px;
+  margin-top: -50px;
+  cursor: pointer;
+}
+.botimg_main {
+  width: 115px;
+  height: 115px;
+  border-radius: 50%;
+  margin-top: -115px;
+  margin-left: -235px;
+}
+.botdesc_main {
+  color: white;
+  font-size: 15px;
+  border: 10px solid transparent;
+  margin-top: 50px;
+  overflow: hidden;
+  text-align: left;
+}
+.bottags_main {
+  color: white;
+  font-size: 15px;
+  border: 10px solid transparent;
+  margin-top: 15;
+  overflow: hidden;
+  text-align: left;
+}
+ .banner {
+  height: 125px;
+  min-height:125px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  border-color: inherit;
+  border-radius: 10px;
+}
+
+@media only screen and (min-width: 1080px) {
+  .botContainer {
+    width: 100%;
+    padding-right: 125px;
+    padding-left: 125px;
+    margin-right: auto;
+    margin-left: auto
+  }
+  .indexContainer {
+    width: 100%;
+    padding-right: 721px;
+    padding-left: 100px;
+    margin-right: auto;
+    margin-left: auto
+  }
+}
+.boticon {
+  border-radius: 50%;
+  margin-top: 15px;
+  margin-left: 15px;
+  height: 75px;
+  width: 75px;
+}
+.botname {
+  color: white;
+  font-size: 25px;
+  margin-top: -70px;
+  margin-left: 110px;
+  text-align: left;
+}
+.bottags {
+  color: white;
+  font-size: 15px;
+  margin-top: -20px;
+  margin-left: 110px;
+  padding-right: 15px;
+}
+.botdesc {
+  color: white;
+  font-size: 15;
+  margin-top: 25px;
+  margin-left: 25px;
+  padding-right: 15px;
+}
+.servercount {
+  color: white;
+  margin-top: -150px;
+  margin-left: 335px;
+}
+.botvotes {
+  color: white;
+  margin-top: -15px;
+  margin-left: 335px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0e1015;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #0c0e13;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #0e1015;
+}
+
+#myBtn {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 99;
+    font-size: 18px;
+    border: 1px white solid;
+    outline: none;
+    background-color: transparent;
+    color: white;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 15px;
+}
+
+.cooolimg {
+    animation: hover 4s ease-in-out infinite;
+}
+
+@keyframes hover {
+    0% {
+        transform: translateY(0px)
+    }
+
+    50% {
+        transform: translateY(-10px)
+    }
+
+    100% {
+        transform: translateY(0px)
+    }
+}
+
+#myBtn:hover {
+    background-color: white;
+    color: black;
+}
+
+.Container {
+    background-color: transparent;
+    padding: 1rem;
+    padding-left: -115px;
+    border-radius: 0.5rem;
+    width: 100%;
+  }
+  
+  .Grid__Container {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 10px;
+  }
+  
+  .Stat__Card {
+    padding: 1rem;
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.15);
+  }
+  
+  .Stat__Container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .Stat__Title {
+    color: #6c757d;
+  }
+  
+  .Stat__Content {
+    font-size: 32px;
+    font-weight: 700;
+  }
+  
+  
+  @media (min-width: 768px) {
+    .Grid__Container {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+.card:hover {
+    top: -7px;
+}
+ .vitalText {
+  background: #fe4655;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+@media only screen and (min-width: 1080px) {
+.botMain {
+  width: 100%;
+  margin-top: 150px;
+    padding-right: 150px;
+    padding-left: 150px;
+    margin-right: auto;
+    margin-left: auto
+}
+.botPageAvatar {
+  border-radius: 50%;
+  width: 175px;
+  height: 175px;
+  border: 7px solid #3f2f97;
+}
+.botPageBelow {
+  margin-top: -115px;
+  background-color: #fe4655;
+}
+.botPageName {
+  color: white;
+  font-size: 40px;
+  margin-top: -155px;
+  padding-left: 195px
+}
+.botPageShortDesc {
+  color: white;
+  font-size: 20px;
+  margin-top: -25px;
+  padding-left: 195px
+}
+.botPageDesc {
+  color: white;
+  margin-top: -475px;
+  padding-left: 100px;
+  padding-right: 750px;
+  padding-bottom: 25px;
+  width:100%;
+  bottom:0;
+}
+.botPageInfo {
+  margin-top: 150px;
+  padding-top: 75px;
+    padding-right: 250px;
+    padding-left: 1300px;
+    margin-right: auto;
+    margin-left: auto;
+    color: white;
+}
+}
+
+.inputField {
+  width: 450px;
+  height: 40px;
+  border-radius: 10px;
+}
+.inputSelect {
+  width: 450px;
+  height: 150px;
+  border-radius: 10px;
+}
+.inputTextarea {
+  width: 450px;
+  height: 240px;
+  border-radius: 10px;
+}
