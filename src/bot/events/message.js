@@ -3,7 +3,7 @@ const Revolt = require('revolt.js');
 module.exports = {
 	name: "message",
 	async execute(message) {
-        if (message.author.bot || !message.member) return;
+        if (message.author.bot) return;
         if (!message.content.toLowerCase().startsWith(config.bot.prefix)) return;
         let args = message.content.split(" ");
         let command = args.shift().slice(config.bot.prefix.length).toLowerCase();
