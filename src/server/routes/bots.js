@@ -63,9 +63,9 @@ router.post('/submit', checkAuth, async (req, res) => {
   if (data.owners) {
       data.owners.forEach(async owner => {
         try {
-          await client.users.fetch(owner);
+          await client.users.get(owner);
         } catch (e) {
-          return res.status(409).json({ message: "One of your owners is not a real user." });
+          return res.status(409).json({ message: "One of your owners is not a real user, or isn't in our server." });
         }
       });
   }
@@ -98,10 +98,26 @@ router.get("/:id", async (req, res) => {
     if (!bot) return res.status(404).json({ message: "This bot could not be found on our list."})
     let BotRaw = (await client.bots.fetchPublic(bot.id)) || null;
     if (!BotRaw) return res.status(404).json({ message: "This bot could not be found on Revolt."})
+    const marked = require("marked");
+    const description = marked.parse(bot.description);
     bot.name = BotRaw.username;
     bot.avatar = BotRaw.avatar;
+    bot.tags = bot.tags.join(", ")
+    bot.description = description;
+    let userModel = require("../../database/models/user.js")
+    let user = await userModel.findOne({ revoltId: req.session.userAccountId });
+    if(user) {
+      let userRaw = await client.users.fetch(user.revoltId);
+      user.username = userRaw.username;
+      user.avatar = userRaw.avatar;
+      user.id = user.revoltId
+    }
 
-    res.json(bot)
+    res.render("bots/view.ejs", {
+      user: user || null,
+      botclient: client,
+      bot
+    })
 })
 
 function checkAuth(req, res, next) {

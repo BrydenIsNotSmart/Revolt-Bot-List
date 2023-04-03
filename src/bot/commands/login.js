@@ -15,7 +15,7 @@ module.exports = {
         if (message.author_id === request.revoltId) {
         request.verified = true,
         await request.save();
-        return message.reply(`:white_check_mark: I have successfully confirmed your login request.\nIf you were told to do this by someone else, conact support right now!`);
+        return message.reply(`:white_check_mark: I have successfully confirmed your login request.\nIf you were told to do this by someone else, contact support right now!`);
         } else {
          return message.reply(`:x: You are not on the same account that is trying to login.`)
         }

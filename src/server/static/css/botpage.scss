@@ -1,0 +1,124 @@
+
+    .desccard {
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      backdrop-filter: blur(50%);
+      -webkit-backdrop-filter: blur(50%);
+      width: 85vw;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(255, 255, 255, 0.15);
+      color: white
+    }
+  
+    @media only screen and (max-width: 1070px) {
+        .desccard {
+          background: rgba(255, 255, 255, 0.15);
+          box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          border-radius: 10px;
+          padding-right: 15px;
+          padding-left: 15px;
+          margin-right: auto;
+          margin-left: auto;
+          border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+      }
+
+  .idk {
+    width: 175px;
+    height: 175px;
+    border-radius: 50%;
+  }
+
+  .owner {
+    color: #D9E4EC;
+    text-decoration: none;
+  }
+
+  .owner:hover {
+    color: #D9E4EC;
+    text-decoration: none;
+  }
+
+  .card {
+    height: auto;
+    width: 100%;
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    background-color: rgba(17, 25, 40, 0.75);
+    border-radius: 10px;
+    margin-top: 15px;
+    margin-left: auto;
+    transition: all 0.2s;
+    margin-right: 10px;
+    position: relative;
+    display: inline-block;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .botname_main {
+    color: white;
+    font-size: 20px;
+    margin-top: -80px;
+    margin-left: 105px;
+    border-radius: 10px;
+    font-weight: bold;
+  }
+
+  .botimg_main {
+    width: 85px;
+    height: 85px;
+    border-radius: 100%;
+    margin-top: 10px;
+    margin-left: 10px;
+
+  }
+
+  #bot-description img {
+    max-width: 100%;
+  }
+
+  #bot-description iframe {
+    max-width: 100%;
+  }
+
+  @media only screen and (min-width: 1080px) {
+    .botpagecontainer {
+      width: 100%;
+      padding-right: 150px;
+      padding-left: 150px;
+      margin-right: auto;
+      margin-left: auto;
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+    .botpagecontainer {
+      width: 100%;
+      padding-right: 15px;
+      padding-left: 15px;
+      margin-right: auto;
+      margin-left: auto;
+    }
+  }
+  @media only screen and (min-width: 1080px) {
+    .descriptionContainer {
+      width: 100%;
+      margin-top: -45px;
+      padding-right: 150px;
+      padding-left: 150px;
+      margin-right: auto;
+      margin-left: auto;
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+    .descriptionContainer {
+      width: 100%;
+      padding-right: 15px;
+      padding-left: 15px;
+      margin-right: auto;
+      margin-left: auto;
+    }
+  }

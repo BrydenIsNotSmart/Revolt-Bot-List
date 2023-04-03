@@ -1,9 +1,118 @@
 <head>
-    <title>Login - Revolt Bots</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:site_name" content="Revolt Bot List">
+    <meta property="og:title" content="<%= bot.name %>">
+    <meta name="keywords" content="RevoltBotList,botlist,revolt,<%= bot.name %>,revoltbots,revoltservers">
+    <meta property="og:url" content="https://revoltbots.org">
+    <meta property="og:description" content="<%= bot.shortDesc %>">
+    <meta property="og:image" content="https://autumn.revolt.chat/avatars/<%= bot.avatar._id %>/<%= bot.avatar.filename %>">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sanitize-html/1.26.0/sanitize-html.min.js"></script>
+    <link rel='stylesheet' href='/css/botpage.scss'>
+    <title><%= bot.name %> - Revolt Bots</title>
     <%- include("../parts/head.ejs") %>
 </head>
 <%- include("../parts/nav.ejs") %>
 
+<div class="botpagecontainer">
+  <% if (bot.status === "awaiting" || bot.status === "inprogress") { %>
+  <div style="border-radius: 10px;margin-top: 25px;text-align: center;background-color: transparent;border-color: #ECE81A;color: white" class="alert alert-warning" role="alert">
+    <h3><i class="fa-solid fa-triangle-exclamation"></i> Warning!</h3>
+    <p>This bot is still going through the approval process and thus has not yet been approved, therefore we cannot be certain that all functions work as expected.</p>
+  </div>
+  <% } %>
+  <% if (bot.status === "denied") { %>
+  <div style="border-radius: 10px;margin-top: 25px;text-align: center;background-color: transparent;border-color: #f32013;color: white" class="alert alert-danger" role="alert">
+    <h3><i class="fa-solid fa-triangle-exclamation"></i> Danger!</h3>
+    <p>This bot has been denied, be care if you invite it.</p>
+  </div>
+  <% } %>
+  <div style="background-color: transparent" class="jumbotron mt-5">
+    <div class="row" style="width: 100%;">
+      <img class="idk" src="https://autumn.revolt.chat/avatars/<%= bot.avatar._id %>/<%= bot.avatar.filename %>">
+      <div class="col-sm">
+        <h2 style="color: white"><b><%= bot.name %></b>
+        </h2>
 
-</form>
-  </section>
+        <p style="color: white"><%- bot.shortDesc %></p>
+        <!---
+                      <span style="border-radius: 5px;" class="badge badge-primary" style="font-size: 20px;"><i class="fa-solid fa-server"></i> Servers: <%= bot.servers %></span>
+                      <span style="border-radius: 5px;" class="badge badge-danger" style="font-size: 20px;"><i class="fa-solid fa-check-to-slot"></i> Votes: <%= bot.votes %></span>
+                      -->
+        <hr>
+        </hr>
+        <p style="color:white"><i class="fa-solid fa-terminal"></i> <b>Prefix</b>: <code><%= bot.prefix %></code>&nbsp;&nbsp;|&nbsp;&nbsp;<i class="fa-solid fa-file-code" aria-hidden="true"></i> <b>Library</b>: <%= bot.library %>
+          &nbsp;&nbsp;|&nbsp;&nbsp;<i class="fa-solid fa-check-to-slot"></i> <b>Votes</b>: <%= bot.votes %>&nbsp;&nbsp;|&nbsp;&nbsp; <i class="fa-solid fa-server"></i> <b>Servers:</b> <%= bot.servers || "N/A" %>&nbsp;&nbsp;|&nbsp;&nbsp;
+          <i class="fa-solid fa-clock"></i> <b>Submitted</b>: <%= new Date(bot.submittedOn).toLocaleDateString() %></p>
+        <hr>
+        <a href="https://app.revolt.chat/bot/<%= bot.id %>" type="button" style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655" class="btn btn-primary pr-3 pl-3 mr-1"><i class="fa-solid fa-plus"></i> Invite</a>
+        <form id="votebutton" method="post" action="/bots/<%= bot.id %>/vote" style="display: none;"></form>
+        <a href="/bots/<%= bot.id %>/vote" onclick="document.getElementById('votebutton').submit();" type="button" style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-check-to-slot"></i> Vote</a>
+        <% if (bot.website) { %>
+        <a href="<%= bot.website %>" type="button" style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-globe"></i> Website</a>
+        <% } %>
+        <% if (bot.github) { %>
+        <a href="<%= bot.github %>" type="button" style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-brands fa-github"></i> GitHub</a>
+        <% } %>
+        <% if (bot.support) { %>
+        <a href="<%= bot.support %>" type="button" style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-brands fa-discord"></i> Support</a>
+        <% } %>
+        <% if (user) { %>
+        <% if (bot.owners.includes(user.revoltId)) { %>
+        <a href="/bots/<%= bot.id %>/edit" type="button" style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655; color: white" class="btn btn-warning pr-3 pl-3 mr-1"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+        <% } %>
+        <% } %>
+      </div>
+    </div><br><br>
+    <% if(bot.owners.filter(o => o !== "").length >= 2){ %>
+      <h2 style="color: white">
+        <i class="fa-solid fa-code"></i> <b>Developers</b>
+    </h2>
+    <% for(let i = 0; i < bot.owners.length; i++) { %> 
+    <a class="owner" href="/user/<%= bot.owners[i] %>"><img class="rounded-circle" style="width: 45px; height: 45px;" src="https://autumn.revolt.chat/avatars/<%= botclient.users.get(bot.owners[i]).avatar._id %>/<%= botclient.users.get(bot.owners[i]).avatar.filename %>.png">&nbsp;<b style="font-size: 20px;"><%= botclient.users.get(bot.owners[i]).username %></b></a>&nbsp;&nbsp;
+    <% } %>
+   <% }else{ %>
+      <h2 style="color: white">
+        <i class="fa-solid fa-code"></i> <b>Developer</b>
+    </h2>
+     <a class="owner" href="/user/<%= bot.owners[0] %>"><img class="rounded-circle idk" style="width: 45px; height: 45px;" src="https://autumn.revolt.chat/avatars/<%= botclient.users.get(bot.owners[0]).avatar._id %>/<%= botclient.users.get(bot.owners[0]).avatar.filename %>">&nbsp;<b style="font-size: 20px;"><%= botclient.users.get(bot.owners[0]).username %></b></a>
+    <% } %><br>
+    <hr>
+    <h2 style="color: white">
+      <i class="fa-solid fa-hashtag"></i> <b>Tags</b>
+    </h2>
+      <p style="color: white"><%= bot.tags %></p>
+  <hr>
+  </div>
+</div>
+<div class="descriptionContainer">
+  <div class="desccard" style="padding-left:0px">
+    <div class="card-body">
+      <div id="bot-description"><%= bot.description %></div>
+    </div>
+  </div>
+</div><br>
+
+<script>
+  $(document).ready(function() {
+    const descriptionBox = $("#bot-description");
+    const descriptionBoxText = descriptionBox.text() || descriptionBox.val();
+    sanitizedRender = sanitizeHtml(descriptionBoxText, {
+      allowedTags: ["address", "article", "aside", "footer", "header", "h1", "h2", "h3", "h4",
+        "h5", "h6", "hgroup", "main", "nav", "section", "blockquote", "dd", "div",
+        "dl", "dt", "figcaption", "figure", "hr", "li", "main", "ol", "p", "pre",
+        "ul", "a", "abbr", "b", "bdi", "bdo", "br", "cite", "code", "data", "dfn",
+        "em", "i", "kbd", "mark", "q", "rb", "rp", "rt", "rtc", "ruby", "s", "samp",
+        "small", "span", "strong", "sub", "sup", "time", "u", "var", "wbr", "caption",
+        "col", "colgroup", "table", "tbody", "td", "tfoot", "th", "thead", "tr", "img", "iframe", "style"
+      ],
+      allowedSchemes: ['data', 'http', 'https'],
+      allowedAttributes: {
+        a: ['href', 'name', 'target'],
+        img: ['src', 'srcset', 'alt', 'title', 'width', 'height', 'loading'],
+        iframe: ['src', 'width', 'height', 'id']
+      },
+    });
+    descriptionBox.html(sanitizedRender);
+  });
+  </script>

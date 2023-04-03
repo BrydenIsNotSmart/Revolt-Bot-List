@@ -35,6 +35,13 @@ app.get('/css/navbar.scss', (req, res) => {
   res.set('Content-Type', 'text/css');
   res.send(minifiedCSS.styles);
 })
+app.get('/css/botpage.scss', (req, res) => {
+  const originalCSS = fs.readFileSync('src/server/static/css/botpage.scss', 'utf8');
+  var options = { };
+  const minifiedCSS = new CleanCSS(options).minify(originalCSS);
+  res.set('Content-Type', 'text/css');
+  res.send(minifiedCSS.styles);
+})
   
   app.get("/login", async function (req, res) { 
     let userModel = require("../database/models/user")
