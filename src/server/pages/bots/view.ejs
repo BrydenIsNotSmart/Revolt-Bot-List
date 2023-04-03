@@ -64,19 +64,23 @@
         <% } %>
       </div>
     </div><br><br>
+    <% try { %>
     <% if(bot.owners.filter(o => o !== "").length >= 2){ %>
       <h2 style="color: white">
         <i class="fa-solid fa-code"></i> <b>Developers</b>
     </h2>
     <% for(let i = 0; i < bot.owners.length; i++) { %> 
-    <a class="owner" href="/user/<%= bot.owners[i] %>"><img class="rounded-circle" style="width: 45px; height: 45px;" src="https://autumn.revolt.chat/avatars/<%= botclient.users.get(bot.owners[i]).avatar._id %>/<%= botclient.users.get(bot.owners[i]).avatar.filename %>.png">&nbsp;<b style="font-size: 20px;"><%= botclient.users.get(bot.owners[i]).username %></b></a>&nbsp;&nbsp;
+    <a class="owner" href="/user/<%= bot.owners[i] %>"><img class="rounded-circle" style="width: 45px; height: 45px;" src="https://autumn.revolt.chat/avatars/<%= botclient.users.get(bot.owners[i]).avatar._id %>/<%= botclient.users.get(bot.owners[i]).avatar.filename %>.png">&nbsp;<b style="font-size: 20px;"><%= botclient.users.get(bot.owners[i]).username || "Unkown User" %></b></a>&nbsp;&nbsp;
     <% } %>
    <% }else{ %>
       <h2 style="color: white">
         <i class="fa-solid fa-code"></i> <b>Developer</b>
     </h2>
-     <a class="owner" href="/user/<%= bot.owners[0] %>"><img class="rounded-circle idk" style="width: 45px; height: 45px;" src="https://autumn.revolt.chat/avatars/<%= botclient.users.get(bot.owners[0]).avatar._id %>/<%= botclient.users.get(bot.owners[0]).avatar.filename %>">&nbsp;<b style="font-size: 20px;"><%= botclient.users.get(bot.owners[0]).username %></b></a>
-    <% } %><br>
+     <a class="owner" href="/user/<%= bot.owners[0] %>"><img class="rounded-circle idk" style="width: 45px; height: 45px;" src="https://autumn.revolt.chat/avatars/<%= botclient.users.get(bot.owners[0]).avatar._id %>/<%= botclient.users.get(bot.owners[0]).avatar.filename %>">&nbsp;<b style="font-size: 20px;"><%= botclient.users.get(bot.owners[0]).username || "Unkown User" %></b></a>
+    <% } %><br><br>
+    <% } catch(err) { %>
+      <a class="owner" href="/user/<%= bot.owners[0] %>">&nbsp;<b style="font-size: 20px;">Unkown User</b></a>
+  <%  } %>
     <hr>
     <h2 style="color: white">
       <i class="fa-solid fa-hashtag"></i> <b>Tags</b>

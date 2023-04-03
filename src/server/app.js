@@ -22,21 +22,21 @@ app.use(session({
 }));
 app.use('/img', express.static(path.join(__dirname, "/static/img")))
 app.get('/css/main.scss', (req, res) => {
-  const originalCSS = fs.readFileSync('src/server/static/css/main.scss', 'utf8');
+  const originalCSS = fs.readFileSync(path.join(__dirname, '/static/css/main.scss'), 'utf8');
   var options = { };
   const minifiedCSS = new CleanCSS(options).minify(originalCSS);
   res.set('Content-Type', 'text/css');
   res.send(minifiedCSS.styles);
 })
 app.get('/css/navbar.scss', (req, res) => {
-  const originalCSS = fs.readFileSync('src/server/static/css/navbar.scss', 'utf8');
+  const originalCSS = fs.readFileSync(path.join(__dirname, '/static/css/navbar.scss'), 'utf8');
   var options = { };
   const minifiedCSS = new CleanCSS(options).minify(originalCSS);
   res.set('Content-Type', 'text/css');
   res.send(minifiedCSS.styles);
 })
 app.get('/css/botpage.scss', (req, res) => {
-  const originalCSS = fs.readFileSync('src/server/static/css/botpage.scss', 'utf8');
+  const originalCSS = fs.readFileSync(path.join(__dirname, '/static/css/botpage.scss'), 'utf8');
   var options = { };
   const minifiedCSS = new CleanCSS(options).minify(originalCSS);
   res.set('Content-Type', 'text/css');
