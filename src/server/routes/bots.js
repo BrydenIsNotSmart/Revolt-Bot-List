@@ -1,6 +1,9 @@
 const express = require('express');
+const ms = require("ms")
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 const router = express.Router();
+let botModel = require("../../database/models/bot")
+let voteModel = require("../../database/models/vote")
 
 router.get('/', async (req, res) => {
     let model = require("../../database/models/bot.js")
@@ -120,6 +123,70 @@ router.get("/:id", async (req, res) => {
     })
 })
 
+router.get("/:id/vote", async (req, res) => {
+  let model = require("../../database/models/bot")
+  let bot = await model.findOne({ id: req.params.id});
+  if (!bot) return res.status(404).json({ message: "This bot could not be found on our list."})
+  let BotRaw = (await client.bots.fetchPublic(bot.id)) || null;
+  if (!BotRaw) return res.status(404).json({ message: "This bot could not be found on Revolt."})
+  bot.name = BotRaw.username;
+  bot.avatar = BotRaw.avatar;
+  let userModel = require("../../database/models/user.js")
+  let user = await userModel.findOne({ revoltId: req.session.userAccountId });
+  if(user) {
+    let userRaw = await client.users.fetch(user.revoltId);
+    user.username = userRaw.username;
+    user.avatar = userRaw.avatar;
+    user.id = user.revoltId
+  }
+
+  res.render("bots/vote.ejs", {
+    user: user || null,
+    bot
+  })
+})
+
+router.post("/:id/vote", async (req, res) => {
+  let bot = await botModel.findOne({ id: req.params.id });
+  if (!bot)
+    return res
+      .status(404)
+      .json({ message: "This bot was not found on our list." });
+  let x = await voteModel.findOne({
+    user: req.session.userAccountId,
+    bot: req.params.id,
+  });
+  if (x) {
+    const vote = canUserVote(x);
+    if (!vote.status)
+      return res.status(400).send(
+        `Please wait ${vote.formatted} before you can vote again.`
+      );
+    await x.remove().catch(() => null);
+  }
+
+  const D = Date.now(),
+    time = 43200000;
+  await voteModel.create({
+    bot: req.params.id,
+    user: req.session.userAccountId,
+    date: D,
+    time,
+  });
+  await botModel.findOneAndUpdate(
+    { id: req.params.id },
+    { $inc: { votes: 1 } }
+  );
+  const BotRaw = await client.users.fetch(bot.id)
+
+  const logs = client.channels.get(config.channels.votelogs);
+  if (logs) logs.sendMessage(`<@${req.session.userAccountId}> voted for **${BotRaw.username}**.\nhttps://revoltbots.org/bots/${BotRaw._id}`).catch(() => null);
+
+  return res.redirect(
+    `/bots/${req.params.id}?success=true&body=You voted successfully. You can vote again after 12 hours.`
+  );
+})
+
 function checkAuth(req, res, next) {
     if (req.session.userAccountId) {
         let model = require("../../database/models/user.js")
@@ -138,3 +205,10 @@ function checkAuth(req, res, next) {
   }
 
 module.exports = router;
+
+function canUserVote(x) {
+  const left = x.time - (Date.now() - x.date),
+    formatted = ms(left, { long: true });
+  if (left <= 0 || formatted.includes("-")) return { status: true };
+  return { status: false, left, formatted };
+}

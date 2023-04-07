@@ -15,6 +15,7 @@ module.exports = {
              },
                 tags: ["Bridge", "Multipurpose", "Moderation", "Giveaways", "Music", "Fun", "Chatbot", "Polls", "Counting"],
                  channels: {
-                 weblogs: "01GQ1AKANW8TVTH6R2P79069K8"
+                 weblogs: "01GQ1AKANW8TVTH6R2P79069K8",
+                 votelogs: "01GXCM24QX3WZP1GBNFQEHSHME"
               }
 }
