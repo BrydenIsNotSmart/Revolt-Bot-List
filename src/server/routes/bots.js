@@ -157,10 +157,8 @@ router.post('/:id/edit', checkAuth, async (req, res) => {
     owners.push(owner)
   })
   data.owners = owners;
-} else {
-   data.owners = [];
-   data.owners.push(req.session.userAccountId)
- }
+} 
+
 if (data.owners) {
     data.owners.forEach(async owner => {
       try {
