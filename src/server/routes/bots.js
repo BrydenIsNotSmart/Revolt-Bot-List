@@ -2,12 +2,9 @@ const express = require('express');
 const ms = require("ms")
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 const router = express.Router();
-let botModel = require("../../database/models/bot")
-let voteModel = require("../../database/models/vote")
 
 router.get('/', async (req, res) => {
-    let model = require("../../database/models/bot.js")
-    let bots = await model.find({
+    let bots = await botModel.find({
         status: "approved",
       });
     
@@ -16,7 +13,6 @@ router.get('/', async (req, res) => {
         bots[i].name = BotRaw.username;
         bots[i].avatar = BotRaw.avatar;
       }
-      let userModel = require("../../database/models/user.js")
       let user = await userModel.findOne({ revoltId: req.session.userAccountId });
       if(user) {
         let userRaw = await client.users.fetch(user.revoltId);
@@ -30,7 +26,6 @@ router.get('/', async (req, res) => {
 })
 
 router.get('/submit', checkAuth, async (req, res) => {
-  let userModel = require("../../database/models/user.js")
       let user = await userModel.findOne({ revoltId: req.session.userAccountId });
       if(user) {
         let userRaw = await client.users.fetch(user.revoltId);
@@ -46,8 +41,7 @@ router.get('/submit', checkAuth, async (req, res) => {
 router.post('/submit', checkAuth, async (req, res) => {
     const data = req.body;
     if (!data) return res.status(400).json("You need to provide the bot's information.")
-    let model = require("../../database/models/bot.js")
-    if (await model.findOne({ id: data.botid })) return res.status(409).json({ message: "This bot is already added."})
+    if (await botModel.findOne({ id: data.botid })) return res.status(409).json({ message: "This bot is already added."})
     let BotRaw = await client.bots.fetchPublic(data.botid).catch((err) => { console.log(err) });
     if (!BotRaw) return res.status(400).json({ message: "The provided bot couldn't be found on Revolt OR it's a private bot, make it public to add it."})
 
@@ -73,7 +67,7 @@ router.post('/submit', checkAuth, async (req, res) => {
       });
   }
 
-    const bot = await model.create({
+    const bot = await botModel.create({
       id: data.botid,
       prefix: data.prefix,
       shortDesc: data.shortDesc,
@@ -96,8 +90,7 @@ router.post('/submit', checkAuth, async (req, res) => {
 })
 
 router.get("/:id", async (req, res) => {
-    let model = require("../../database/models/bot")
-    let bot = await model.findOne({ id: req.params.id});
+    let bot = await botModel.findOne({ id: req.params.id});
     if (!bot) return res.status(404).json({ message: "This bot could not be found on our list."})
     let BotRaw = (await client.bots.fetchPublic(bot.id)) || null;
     if (!BotRaw) return res.status(404).json({ message: "This bot could not be found on Revolt."})
@@ -107,7 +100,6 @@ router.get("/:id", async (req, res) => {
     bot.avatar = BotRaw.avatar;
     bot.tags = bot.tags.join(", ")
     bot.description = description;
-    let userModel = require("../../database/models/user.js")
     let user = await userModel.findOne({ revoltId: req.session.userAccountId });
     if(user) {
       let userRaw = await client.users.fetch(user.revoltId);
@@ -123,15 +115,87 @@ router.get("/:id", async (req, res) => {
     })
 })
 
+router.get("/:id/edit", checkAuth, async (req, res) => {
+  let bot = await botModel.findOne({ id: req.params.id});
+  if (!bot) return res.status(404).json({ message: "This bot could not be found on our list."})
+  if (!bot.owners.includes(req.session.userAccountId)) return res.redirect("/");
+  let BotRaw = (await client.bots.fetchPublic(bot.id)) || null;
+  if (!BotRaw) return res.status(404).json({ message: "This bot could not be found on Revolt."})
+  bot.name = BotRaw.username;
+  bot.avatar = BotRaw.avatar;
+  let user = await userModel.findOne({ revoltId: req.session.userAccountId });
+
+  if(user) {
+    let userRaw = await client.users.fetch(user.revoltId);
+    user.username = userRaw.username;
+    user.avatar = userRaw.avatar;
+    user.id = user.revoltId
+  }
+
+  res.render("bots/edit.ejs", {
+    user: user || null,
+    botclient: client,
+    tags: config.tags,
+    bot
+  })
+})
+
+router.post('/:id/edit', checkAuth, async (req, res) => {
+  const data = req.body;
+  if (!data) return res.status(400).json("You need to provide the bot's information.")
+  let bot = await botModel.findOne({ id: req.params.id});
+  if (!bot) return res.status(404).json({ message: "This bot could not be found on our list."})
+  if (!bot.owners.includes(req.session.userAccountId)) return res.redirect("/")
+  let BotRaw = await client.bots.fetchPublic(req.params.id).catch((err) => { console.log(err) });
+  if (!BotRaw) return res.status(400).json({ message: "The provided bot couldn't be found on Revolt OR it's a private bot, make it public to add it."})
+
+  if (data.owners) {
+    let owners = []
+    owners.push(req.session.userAccountId)
+  
+    data.owners.split(" ").forEach(owner => {
+    owners.push(owner)
+  })
+  data.owners = owners;
+} else {
+   data.owners = [];
+   data.owners.push(req.session.userAccountId)
+ }
+if (data.owners) {
+    data.owners.forEach(async owner => {
+      try {
+        await client.users.get(owner);
+      } catch (e) {
+        return res.status(409).json({ message: "One of your owners is not a real user, or isn't in our server." });
+      }
+    });
+}
+
+bot.prefix = data.prefix;
+bot.website = data.website;
+bot.github = data.github;
+bot.description = data.desc;
+bot.shortDesc = data.shortDesc;
+bot.support = data.support || null;
+bot.libary = data.libary;
+bot.tags = data.tags;
+bot.owners = data.owners;
+await bot.save().then(async () => {
+    res.status(201).json({ message: "Successfully Edited", code: "OK" });
+    let logs = client.channels.get(config.channels.weblogs);
+    logs.sendMessage(
+      `<@${req.session.userAccountId}> edited **${BotRaw.username}**.\nhttps://revoltbots.org/bots/${req.params.id}`
+    );
+  });
+})
+
 router.get("/:id/vote", async (req, res) => {
-  let model = require("../../database/models/bot")
-  let bot = await model.findOne({ id: req.params.id});
+  let bot = await botModel.findOne({ id: req.params.id});
   if (!bot) return res.status(404).json({ message: "This bot could not be found on our list."})
   let BotRaw = (await client.bots.fetchPublic(bot.id)) || null;
   if (!BotRaw) return res.status(404).json({ message: "This bot could not be found on Revolt."})
   bot.name = BotRaw.username;
   bot.avatar = BotRaw.avatar;
-  let userModel = require("../../database/models/user.js")
   let user = await userModel.findOne({ revoltId: req.session.userAccountId });
   if(user) {
     let userRaw = await client.users.fetch(user.revoltId);
@@ -189,8 +253,7 @@ router.post("/:id/vote", async (req, res) => {
 
 function checkAuth(req, res, next) {
     if (req.session.userAccountId) {
-        let model = require("../../database/models/user.js")
-        model.findOne({ revoltId: req.session.userAccountId }, (error, userAccount) => {
+      userModel.findOne({ revoltId: req.session.userAccountId }, (error, userAccount) => {
         if (error) {
           res.status(500).send(error);
         } else if (userAccount) {

@@ -1,0 +1,49 @@
+<head>
+    <title>Editing <%= bot.name %> - Revolt Bots</title>
+    <%- include("../parts/head.ejs") %>
+  </head>
+  <%- include("../parts/nav.ejs") %>
+  
+  
+                  <div class="text-center" style="margin-top: 150px;">
+                    <img src="https://revolt.chat/_next/static/media/revolt-logo.24213514.svg"
+                      style="width: 185px;" alt="logo">
+                    <h2 style="color: white"><b>BOTS</b></h2><br>
+                  <form action="../../../bots/<%= bot.id %>/edit" method="POST">
+                    <h5 style="color:white"><b>Please fill out this form below to edit your bot.</b></h5><br><br>
+                    <h3 style="color:white"><B>Bot Id</B></h3>
+                    <input type="text" class="inputField" placeholder="&nbsp;Ex. 01GQ15T55EJHGSS91FBT1YFHZW" value="<%= bot.id %>" name="botid" readonly required/><br>
+                    <h3 style="color:white;margin-top:25px;"><B>Bot Prefix</B></h3>
+                    <input type="text" class="inputField" placeholder="&nbsp;Ex. !" name="prefix" value="<%= bot.prefix %>" required/><br>
+                    <h3 style="color:white;margin-top:25px"><b>Short Description</b></h3>
+                    <input type="text" class="inputField" placeholder="&nbsp;The best new revolt bot ever fr fr.." name="shortDesc" value="<%= bot.shortDesc %>" autocomplete="off" required><br>
+                    <h3 style="color:white;margin-top:25px"><b>Long Description</b></h3>
+                    <textarea type="text" class="inputTextarea" autocomplete="off" name="desc" placeholder="More about the best revolt bot ever fr fr.. (Supports Markdown and HTML)" value="<%= bot.description %>" spellcheck="true" required><%= bot.description %></textarea><br>
+                    <h3 style="color:white;margin-top:25px"><b>Bot Website</b></h3>
+                    <input type="url" class="inputField" placeholder="&nbsp;Ex. https://remod.gg" value="<%= bot.website %>" name="website" autocomplete="off"><br>
+                    <h3 style="color:white;margin-top:25px"><b>Bot Github</b></h3>
+                    <input type="url" class="inputField" placeholder="&nbsp;Ex. https://github.com/BrydenIsNotSmart/Revolt-Bot-List" value="<%= bot.github %>" name="github" autocomplete="off"><br>
+                    <h3 style="color:white;margin-top:25px"><b>Bot Support</b></h3>
+                    <input type="url" class="inputField" placeholder="&nbsp;Ex. https://rvlt.gg/kmZBZ6h1" value="<%= bot.support %>" name="support" autocomplete="off"><br>
+                    <h3 style="color:white;margin-top:25px"><b>Bot Library</b></h3>
+                    <input type="text" class="inputField" placeholder="&nbsp;Ex. revolt.js" name="library" value="<%= bot.library %>" autocomplete="off" required><br>
+                     <% if (user.revoltId === bot.owners[0]) { %>
+                    <h3 style="color:white;margin-top:25px"><b>Other Owners</b></h3>
+                    <input type="text" class="inputField" placeholder="&nbsp;Ids sepreated by space (must be in our server)" value="<%= bot.owners.slice(1).join(" ") %>" name="owners" autocomplete="off"><br>
+                     <% } %>
+                    <h3 style="color:white;margin-top:25px"><b>Bot Tags</b></h3>
+                    <select class="inputSelect" name="tags" size="4" multiple required>
+                        <% tags.map(tag => {%>
+                            <% if(bot.tags.includes(tag)) {%>
+                            <option value="<%= tag %>" selected><%= tag %></option>
+                            <% } else { %>
+                            <option value="<%= tag %>"><%= tag %></option>
+                            <% } %>
+                            <% }); %>
+                    </select><br>
+                    <br>
+                    <button style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655" class="btn btn-primary pl-3 pr-3 mr-3" type="submit"><i class="fa-solid fa-paper-plane"></i> Submit</button>
+                  </div>
+  </form>
+  </section>
+  

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const cron = require("node-cron");
 
 try {
     mongoose.set('strictQuery', false);
@@ -10,3 +11,16 @@ try {
     console.error(err)
 }
 
+//-DB-Caching-//
+   global.voteModel = require("./models/vote");
+   global.botModel = require("./models/bot");
+   global.userModel = require("./models/user");
+   global.loginModel = require("./models/loginRequest");
+
+//-Updater-//
+cron.schedule("*/30 * * * *", () => {
+    global.voteModel = require("./models/vote");
+    global.botModel = require("./models/bot");
+    global.userModel = require("./models/user");
+    global.loginModel = require("./models/loginRequest");
+});
