@@ -177,7 +177,7 @@ bot.shortDesc = data.shortDesc;
 bot.support = data.support || null;
 bot.libary = data.libary;
 bot.tags = data.tags;
-bot.owners = data.owners;
+if (data.owners) bot.owners = data.owners;
 await bot.save().then(async () => {
     res.status(201).json({ message: "Successfully Edited", code: "OK" });
     let logs = client.channels.get(config.channels.weblogs);
