@@ -59,7 +59,7 @@ module.exports = {
             if (!client.remind.get(msg._id)) return;
             client.remind.delete(msg._id)
             msg.edit({ content: `You have successfully voted for <@${BotRaw._id}>. (Reaction timed out)`})
-          }, 10000)
+          }, 30000)
         });
 
       } catch (err) {
