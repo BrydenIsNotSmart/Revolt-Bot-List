@@ -6,6 +6,7 @@ const client = new Client();
 const selfBot = new Client()
 const fs = require('node:fs');
 const path = require('node:path');
+client.remind = new Map();
 global.client = client;
 
 //-Events-//

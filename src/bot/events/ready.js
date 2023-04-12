@@ -1,5 +1,5 @@
 const model = require('../../database/models/loginRequest');
-const Revolt = require('revolt.js');
+const Reminders = require('../../database/models/reminds');
 
 module.exports = {
 	name: "ready",
@@ -18,5 +18,21 @@ module.exports = {
            r.delete();
 		})
 		}, 1800000)
+
+		setInterval(async () => {
+			let reminds = await Reminders.find();
+			reminds.map(async db => {
+				let set = db.now;
+				let timeout = db.time;
+				if (set - (Date.now() - timeout) <= 0) {
+					await client.api.post(`/channels/${db.channel}/messages`, {
+						content: `<@${db.owner}>, reminder to vote for <@${db.message}>`,
+						replies: [{ id: db.msgId, mention: false }]
+					}).catch(() => { });
+					
+					return await db.delete();
+				}
+			});
+		}, 3000)
 	},
 };

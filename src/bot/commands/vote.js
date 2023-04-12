@@ -1,5 +1,5 @@
 const ms = require("ms")
-
+const reactions = ['🔔']
 module.exports = {
     name: "vote",
     aliases: ["votebot", "v"],
@@ -52,7 +52,15 @@ module.exports = {
 
         logs.sendMessage(`<@${message.author._id}> voted for **${BotRaw.username}**.\nhttps://revoltbots.org/bots/${BotRaw._id}`).catch(() => null);
 
-        await message.reply(`You have successfully voted for <@${BotRaw._id}>.`)
+        await message.reply({ content: `You have successfully voted for <@${BotRaw._id}>.`, interactions: [reactions] }).then((msg) => {
+          client.remind.set(msg._id, { owner: message.author._id })
+          
+          setTimeout(() => {
+            if (!client.remind.get(msg._id)) return;
+            client.remind.delete(msg._id)
+            msg.edit({ content: `You have successfully voted for <@${BotRaw._id}>. (Reaction timed out)`})
+          }, 10000)
+        });
 
       } catch (err) {
         console.error(err);
@@ -64,6 +72,8 @@ module.exports = {
           }
         ] });
       }
+      
+
     },
   };
 

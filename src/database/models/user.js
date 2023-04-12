@@ -1,6 +1,4 @@
 const mongoose = require("mongoose");
-const bcrypt = require('bcrypt');
-
 
 let app = mongoose.Schema({
   revoltId: {
