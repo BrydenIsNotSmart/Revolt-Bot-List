@@ -17,5 +17,13 @@ module.exports = {
                  channels: {
                  weblogs: "01GQ1AKANW8TVTH6R2P79069K8",
                  votelogs: "01GXCM24QX3WZP1GBNFQEHSHME"
-              }
+              }, 
+                  servers: {
+                    main: "01GQ14WC58C8AXCWNJQBFDZNT3",
+                    testing: "01GX1QRSHEA8NE8WCGHEPN3S19",
+                  },  
+                     roles: {
+                      bots: "01GX2QPE8SWZWPVN3DFQGJCMHC",
+                      members: "01GVC849ZNZYCC9BFYHNJSNNBB"
+                     }
 }
