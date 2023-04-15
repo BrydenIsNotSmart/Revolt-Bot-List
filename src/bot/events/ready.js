@@ -1,5 +1,4 @@
 const model = require('../../database/models/loginRequest');
-const Reminders = require('../../database/models/reminds');
 
 module.exports = {
 	name: "ready",

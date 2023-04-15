@@ -2,6 +2,7 @@ const { Client } = require('revolt.js');
 const { Collection } = require('discord.js')
 const { readdirSync } = require("node:fs");
 const { join } = require("node:path");
+const Reminders = require('../database/models/reminds');
 const client = new Client();
 const selfBot = new Client()
 const fs = require('node:fs');
