@@ -11,7 +11,6 @@ module.exports = {
                 time: 43200000,
                 now: Date.now(),
                 message: mention[1],
-                msgId: message._id,
                 channel: nmsg.channel_id,
             }).save());
 
