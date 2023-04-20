@@ -2,6 +2,7 @@ const { Client } = require('revolt.js');
 const { Collection } = require('discord.js')
 const { readdirSync } = require("node:fs");
 const { join } = require("node:path");
+const Reminders = require('../database/models/reminds');
 const client = new Client();
 const selfBot = new Client()
 const fs = require('node:fs');
@@ -37,6 +38,23 @@ selfBot.on("ready", () => {
 	}
  })
 })
+
+client.once("ready", () => {
+	setInterval(async () => {
+		let reminds = await Reminders.find();
+		reminds.map(async db => {
+			let set = db.now;
+			let timeout = db.time;
+			if (set - (Date.now() - timeout) <= 0) {
+				await client.api.post(`/channels/${db.channel}/messages`, {
+					content: `<@${db.owner}>, reminder to vote for <@${db.message}>`
+				}).catch(() => { });
+
+				return await db.delete();
+			}
+		});
+	}, 6000)
+});
 
 client.loginBot(config.bot.token)
 selfBot.login({ email: config.selfbot.email, password: config.selfbot.password })

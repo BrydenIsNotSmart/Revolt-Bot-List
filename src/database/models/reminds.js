@@ -5,7 +5,6 @@ let app = mongoose.Schema({
     time: { type: Number },
     now: { type: Number },
     message: { type: String },
-    msgId: { type: String },
     channel: { type: String },
 });
 

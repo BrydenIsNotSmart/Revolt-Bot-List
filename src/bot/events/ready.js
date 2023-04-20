@@ -1,5 +1,4 @@
 const model = require('../../database/models/loginRequest');
-const Reminders = require('../../database/models/reminds');
 
 module.exports = {
 	name: "ready",
@@ -19,22 +18,6 @@ module.exports = {
 		})
 		}, 1800000)
 
-		setInterval(async () => {
-			let reminds = await Reminders.find();
-			reminds.map(async db => {
-				let set = db.now;
-				let timeout = db.time;
-				if (set - (Date.now() - timeout) <= 0) {
-					await client.api.post(`/channels/${db.channel}/messages`, {
-						content: `<@${db.owner}>, reminder to vote for <@${db.message}>`,
-						replies: [{ id: db.msgId, mention: false }]
-					}).catch(() => { });
-					
-					return await db.delete();
-				}
-			});
-		}, 3000)
-
 		//-Updating Bot Info-//
 		setInterval(async () => {
 		let bots = await botModel.find();
@@ -48,5 +31,6 @@ module.exports = {
 			}, 10000)
 		  })
 	    }, 86400000)
+
 	},
 };
