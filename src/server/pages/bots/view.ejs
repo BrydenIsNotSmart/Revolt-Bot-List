@@ -6,7 +6,8 @@
     <meta name="keywords" content="RevoltBotList,botlist,revolt,<%= bot.name %>,revoltbots,revoltservers">
     <meta property="og:url" content="https://revoltbots.org">
     <meta property="og:description" content="<%= bot.shortDesc %>">
-    <meta property="og:image" content="https://autumn.revolt.chat/avatars/<%= bot.avatar._id %>/<%= bot.avatar.filename %>">
+    <meta property="og:image" content="<%= bot.iconURL %>">
+    <meta property="og:color" content="#fe4655">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sanitize-html/1.26.0/sanitize-html.min.js"></script>
     <link rel='stylesheet' href='/css/botpage.scss'>
     <title><%= bot.name %> - Revolt Bots</title>
@@ -29,7 +30,7 @@
   <% } %>
   <div style="background-color: transparent" class="jumbotron mt-5">
     <div class="row" style="width: 100%;">
-      <img class="idk" src="https://autumn.revolt.chat/avatars/<%= bot.avatar._id %>/<%= bot.avatar.filename %>">
+      <img class="idk" src="<%= bot.iconURL %>">
       <div class="col-sm">
         <h2 style="color: white"><b><%= bot.name %></b>
         </h2>
@@ -68,7 +69,7 @@
     <% if(bot.owners.filter(o => o !== "").length >= 2){ %>
       <h2 style="color: white">
         <i class="fa-solid fa-code"></i> <b>Developers</b>
-    </h2>
+    </h2><br>
     <% for(let i = 0; i < bot.owners.length; i++) { %> 
     <a class="owner" href="/user/<%= bot.owners[i] %>"><img class="rounded-circle" style="width: 45px; height: 45px;" src="https://autumn.revolt.chat/avatars/<%= botclient.users.get(bot.owners[i]).avatar._id %>/<%= botclient.users.get(bot.owners[i]).avatar.filename %>.png">&nbsp;<b style="font-size: 20px;"><%= botclient.users.get(bot.owners[i]).username || "Unkown User" %></b></a>&nbsp;&nbsp;
     <% } %>
@@ -77,16 +78,11 @@
         <i class="fa-solid fa-code"></i> <b>Developer</b>
     </h2>
      <a class="owner" href="/user/<%= bot.owners[0] %>"><img class="rounded-circle idk" style="width: 45px; height: 45px;" src="https://autumn.revolt.chat/avatars/<%= botclient.users.get(bot.owners[0]).avatar._id %>/<%= botclient.users.get(bot.owners[0]).avatar.filename %>">&nbsp;<b style="font-size: 20px;"><%= botclient.users.get(bot.owners[0]).username || "Unkown User" %></b></a>
-    <% } %><br><br>
+    <% } %><br>
     <% } catch(err) { %>
       <a class="owner" href="/user/<%= bot.owners[0] %>">&nbsp;<b style="font-size: 20px;">Unkown User</b></a>
   <%  } %>
     <hr>
-    <h2 style="color: white">
-      <i class="fa-solid fa-hashtag"></i> <b>Tags</b>
-    </h2>
-      <p style="color: white"><%= bot.tags %></p>
-  <hr>
   </div>
 </div>
 <div class="descriptionContainer">

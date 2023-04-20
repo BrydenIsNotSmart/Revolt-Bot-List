@@ -34,5 +34,19 @@ module.exports = {
 				}
 			});
 		}, 3000)
+
+		//-Updating Bot Info-//
+		setInterval(async () => {
+		let bots = await botModel.find();
+		bots.forEach(async (bot) => {
+			setTimeout(async () => {
+             let BotRaw = await client.bots.fetchPublic(bot.id);
+
+			 bot.name = BotRaw.username
+			 bot.iconURL = `https://autumn.revolt.chat/avatars/${BotRaw.avatar._id}/${BotRaw.avatar.filename}`
+			 await bot.save();
+			}, 10000)
+		  })
+	    }, 86400000)
 	},
 };

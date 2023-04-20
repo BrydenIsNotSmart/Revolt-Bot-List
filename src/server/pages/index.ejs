@@ -47,8 +47,8 @@
       <% for(let i = 0; i < voted.length; i++){ %>
       <%  if (i === 8) break; %>
       <div class="card" style="border-radius:10px;">
-        <div class="banner" style="background-image: url(https://autumn.revolt.chat/avatars/<%= voted[i].avatar._id %>/<%= voted[i].avatar.filename %>);opacity: 0.15" title="Banner"></div>
-        <img src="https://autumn.revolt.chat/avatars/<%= voted[i].avatar._id %>/<%= voted[i].avatar.filename %>" style="opacity: 2" alt="<%= voted[i].name %>'s Avatar" draggable="false" class="botimg_main">
+        <div class="banner" style="background-image: url(<%= voted[i].iconURL %>);opacity: 0.15" title="Banner"></div>
+        <img src="<%= voted[i].iconURL %>" style="opacity: 2" alt="<%= voted[i].name %>'s Avatar" draggable="false" class="botimg_main">
         <p class="botname_main" style="opacity: 2;height:65px;width:250px;padding:10px;"> 
           <b><%= voted[i].name %></b>
            <br>
@@ -75,8 +75,8 @@
         <% for(let i = 0; i < added.length; i++){ %>
         <%  if (i === 8) break; %>
         <div class="card" style="border-radius:10px;">
-            <div class="banner" style="background-image: url(https://autumn.revolt.chat/avatars/<%= added[i].avatar._id %>/<%= added[i].avatar.filename %>);opacity: 0.15" title="Banner"></div>
-            <img src="https://autumn.revolt.chat/avatars/<%= added[i].avatar._id %>/<%= added[i].avatar.filename %>" style="opacity: 2" alt="<%= added[i].name %>'s Avatar" draggable="false" class="botimg_main">
+            <div class="banner" style="background-image: url(<%= voted[i].iconURL %>);opacity: 0.15" title="Banner"></div>
+            <img src="<%= voted[i].iconURL %>" style="opacity: 2" alt="<%= added[i].name %>'s Avatar" draggable="false" class="botimg_main">
             <p class="botname_main" style="opacity: 2;height:65px;width:250px;padding:10px;"> 
               <b><%= added[i].name %></b>
               <% if (added[i].id === "1004264023111507979") { %>
@@ -118,8 +118,8 @@
     %>
     <% let a = labBots; %>
     <div class="card" style="border-radius:10px;">
-        <div class="banner" style="background-image: url(https://autumn.revolt.chat/avatars/<%= a.avatar._id %>/<%= a.avatar.filename %>);opacity: 0.15" title="Banner"></div>
-        <img src="https://autumn.revolt.chat/avatars/<%= a.avatar._id %>/<%= a.avatar.filename %>" style="opacity: 2" alt="<%= a.name %>'s Avatar" draggable="false" class="botimg_main">
+        <div class="banner" style="background-image: url(<%= a.iconURL %>);opacity: 0.15" title="Banner"></div>
+        <img src="<%= a.iconURL %>" style="opacity: 2" alt="<%= a.name %>'s Avatar" draggable="false" class="botimg_main">
         <p class="botname_main" style="height:65px;width:250px;padding:10px;opacity: 2"> 
           <b><%= a.name %></b><br>
           <span style="font-size:15px; font-weight:normal;"><i class="fa-solid fa-server"></i> <%= a.servers || "N/A" %> • <i class="fa-solid fa-check-to-slot"></i> <%= a.votes %>

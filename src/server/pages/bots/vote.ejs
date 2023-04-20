@@ -6,7 +6,8 @@
     <meta name="keywords" content="RevoltBotList,botlist,revolt,<%= bot.name %>,revoltbots,revoltservers">
     <meta property="og:url" content="https://revoltbots.org">
     <meta property="og:description" content="<%= bot.shortDesc %>">
-    <meta property="og:image" content="https://autumn.revolt.chat/avatars/<%= bot.avatar._id %>/<%= bot.avatar.filename %>">
+    <meta property="og:image" content="<%= bot.iconURL %>">
+    <meta property="og:color" content="#fe4655">
     <link rel='stylesheet' href='/css/botpage.scss'>
     <title>Vote for <%= bot.name %> - Revolt Bots</title>
     <%- include("../parts/head.ejs") %>
@@ -16,7 +17,7 @@
 <div class="botpagecontainer">
   <div style="background-color: transparent" class="jumbotron mt-5">
     <div class="row" style="width: 100%;">
-      <img class="idk" src="https://autumn.revolt.chat/avatars/<%= bot.avatar._id %>/<%= bot.avatar.filename %>">
+      <img class="idk" src="<%= bot.iconURL %>">
       <div class="col-sm">
         <h2 style="color: white"><b><%= bot.name %> <span class="btn btn-info" style="border-radius: 7px;margin-top:-5px;background-color: #fe4655;border-color: #fe4655; color: white;height: 35px;"><i class="fa-solid fa-check-to-slot"></i> <span style="margin-top:-10px;">Votes: <%= bot.votes %></span></span></b>
         </h2>

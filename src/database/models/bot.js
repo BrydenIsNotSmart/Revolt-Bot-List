@@ -6,6 +6,14 @@ let app = mongoose.Schema({
     type: String,
     required: true
   },
+  name: {
+    type: String,
+    required: true
+  },
+  iconURL: {
+    type: String,
+    required: true
+  },
    prefix: {
     type: String,
     required: true

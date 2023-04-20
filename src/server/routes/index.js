@@ -8,9 +8,6 @@ router.get('/', async (req, res) => {
       });
     
       for (let i = 0; i < bots.length; i++) {
-        const BotRaw = await client.bots.fetchPublic(bots[i].id);
-        bots[i].name = BotRaw.username;
-        bots[i].avatar = BotRaw.avatar;
         bots[i].tags = bots[i].tags.join(", ")
       }
       let userModel = require("../../database/models/user.js")
