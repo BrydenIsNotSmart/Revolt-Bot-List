@@ -42,6 +42,13 @@ app.get('/css/botpage.scss', (req, res) => {
   res.set('Content-Type', 'text/css');
   res.send(minifiedCSS.styles);
 })
+app.get('/css/panel.scss', (req, res) => {
+  const originalCSS = fs.readFileSync(path.join(__dirname, '/static/css/panel.scss'), 'utf8');
+  var options = { };
+  const minifiedCSS = new CleanCSS(options).minify(originalCSS);
+  res.set('Content-Type', 'text/css');
+  res.send(minifiedCSS.styles);
+})
   
   app.get("/login", async function (req, res) { 
     let userModel = require("../database/models/user")
@@ -134,12 +141,15 @@ app.get('/css/botpage.scss', (req, res) => {
 const indexRouter = require("./routes/index.js")
 app.use("/", indexRouter)
 const panelRouter = require("./routes/panel.js")
-app.use("/panel", panelRouter)
+app.use("/panel", checkAuth, checkStaff, panelRouter)
 const apiRouter = require("./routes/api.js")
 app.use("/api", apiRouter)
 const botsRouter = require("./routes/bots.js");
 app.use("/bots", botsRouter)
 app.use("/bot", botsRouter)
+const usersRouter = require("./routes/users.js");
+app.use("/users", usersRouter)
+app.use("/user", usersRouter)
 
 app.listen(config.port, () => {
     console.info(`[INFO] Running on port `+config.port)
@@ -161,6 +171,28 @@ function checkAuth(req, res, next) {
       res.redirect("/login")
     }
   }
+
+  function checkStaff(req, res, next) {
+    if (req.session.userAccountId) {
+        let model = require("../database/models/user.js")
+        model.findOne({ revoltId: req.session.userAccountId }, (error, userAccount) => {
+        if (error) {
+          res.status(500).send(error);
+        } else if (userAccount) {
+          if (userAccount.isStaff) {
+            next();
+          } else { 
+            res.status(403).send("Forbidden")
+          }
+        } else {
+          res.redirect("/login")
+        }
+      });
+    } else {
+      res.redirect("/login")
+    }
+  }
+
   function generateLoginCode() {
     const letters = "abcdefghijklmnopqrstuvwxyz";
     let code = "";

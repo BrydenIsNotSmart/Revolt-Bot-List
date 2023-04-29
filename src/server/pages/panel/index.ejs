@@ -1,0 +1,64 @@
+<html lang="en" class="dark-mode">
+<head>
+    <%- include('./parts/head.ejs') %>
+</head>
+<body>
+  <%- include('./parts/aside.ejs') %>
+
+  <!-- Page container -->
+  <main class="docs-container pt-5 pb-3 pb-lg-4" style="padding-right: 0px;">
+    <div class="container-fluid px-xxl-5 px-lg-4 pt-4 pt-lg-5 pb-4">
+
+      <!-- Page title -->
+      <h1 class="ps-lg-2 ps-xxl-0 mt-2 mt-lg-0 pt-4 pb-2 mb-3 mb-xl-4">General Statistics</h1>
+      <div class="border-0 shadow-sm position-relative overflow-hidden">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Documents</th>
+                <th>Document Length</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Total Bots</td>
+                <td><%= botsdata.length ? botsdata.length : 0 %></td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Bot Owners</td>
+                <% const owners = botsdata.map(b => b.owners.length); %>
+                <% let ownersLength = 0;
+                for (let i = 0; i < owners.length; i++) {
+                    ownersLength += owners[i];
+                } %>
+                <td><%= ownersLength %></td>
+              </tr>
+                <th scope="row">3</th>
+                <td>Server Members</td>
+                <td><%= members.members?.length %></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <h2 class="h3 pt-3">ToDo</h2>
+      <ol>
+<li>Search & Tags/Explore page</li>
+<li>Profile Pages</li>
+<li>Approval Queue</li>
+<li>Staff Dashboard</li>
+<li>Sever count API</li>
+<li>Bot Reviews</li>
+<li>Vanity URLS</li>
+      </ol>
+    </div>
+  </main>
+
+</body>
+
+</html>

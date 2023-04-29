@@ -13,7 +13,7 @@ module.exports = {
               email: process.env.selfBotEmail,
               password: process.env.selfBotPassword
              },
-                tags: ["Bridge", "Multipurpose", "Moderation", "Giveaways", "Music", "Fun", "Chatbot", "Polls", "Counting"],
+                tags: ["Bridge", "Multipurpose", "Moderation", "Giveaways", "Music", "Fun", "Chatbot", "Polls", "Counting", "Logging"],
                  channels: {
                  weblogs: "01GQ1AKANW8TVTH6R2P79069K8",
                  votelogs: "01GXCM24QX3WZP1GBNFQEHSHME"

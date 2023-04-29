@@ -177,7 +177,7 @@ await bot.save().then(async () => {
     res.status(201).json({ message: "Successfully Edited", code: "OK" });
     let logs = client.channels.get(config.channels.weblogs);
     logs.sendMessage(
-      `<@${req.session.userAccountId}> edited **${BotRaw.username}**.\nhttps://revoltbots.org/bots/${req.params.id}`
+      `<\@${req.session.userAccountId}> edited **${BotRaw.username}**.\nhttps://revoltbots.org/bots/${req.params.id}`
     );
   });
 })
