@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 
 let app = mongoose.Schema({
-
   revoltId: {
     type: String,
     required: true
