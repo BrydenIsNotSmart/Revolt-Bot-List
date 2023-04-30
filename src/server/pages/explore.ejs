@@ -1,61 +1,61 @@
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/typeit@7.0.4/dist/typeit.min.js"></script>
-    <title>Revolt Bots - Find the Revolt bots that are right for you.</title>
-    <%- include("./parts/head.ejs") %>
-  </head>
-  <%- include("./parts/nav.ejs") %>
-  <div class="container" style="padding-top: 175px;">
-      <p class="talign;" style="color:white;text-align: left;"><br>
-        <span style="padding-top:-5px;font-size:50px;padding-bottom:-5px;color:white"><b><span class="vitalText">Revolt</span>Bots</b></span><br>
-        <span class="typing_desc" style="color:white"></span>
-        <script>
-          new TypeIt(".typing_desc", {
+  <script src="https://cdn.jsdelivr.net/npm/typeit@7.0.4/dist/typeit.min.js"></script>
+  <title>Revolt Bots - Find the Revolt bots that are right for you.</title>
+  <%- include("./parts/head.ejs") %>
+</head>
+<%- include("./parts/nav.ejs") %>
+<div class="container" style="padding-top: 175px;">
+    <p class="talign;" style="color:white;text-align: left;"><br>
+      <span style="padding-top:-5px;font-size:50px;padding-bottom:-5px;color:white"><b><span class="vitalText">Revolt</span>Bots</b></span><br>
+      <span class="typing_desc" style="color:white"></span>
+      <script>
+        new TypeIt(".typing_desc", {
+          speed: 90,
+          waitUntilVisible: true,
+          startDelay: 1000,
+        })
+        new TypeIt(".typing_desc", {
             speed: 90,
             waitUntilVisible: true,
             startDelay: 1000,
           })
-          new TypeIt(".typing_desc", {
-              speed: 90,
-              waitUntilVisible: true,
-              startDelay: 1000,
-            })
-            .type("A place where you can find the best Revolt Bots.")
-            .pause(5000)
-            .delete(48)
-            .type('Revolt Bots, providing you and your community to experience more than just a chat room.')
-            .go()
-        </script>
-             </p>
-             <input type="text" class="form-control" style="height: 45px" name="prefix" placeholder="Searching for bots...">
-           <button id="search-btn" class="btn btn-light my-2 my-sm-0" style="visibility: hidden;" type="button">
-                 Search
-               </button>
-        <br>
-          <% for(let i = 0; i < config.tags.length; i++){ %>
-            <a href="/bots/tags/<%= config.tags[i].toLowerCase() %>">
-               <button style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655" class="btn btn-primary pl-3 pr-3 mr-3"><i class="fa-brands fa-hashtag"></i>&nbsp;&nbsp;<span style="text-align: right;"><b><%= config.tags[i] %></b></span></button>
-           </a>
-               <% } %>
-      </div>
-  
-    <style>
-      .centerText {
-      text-align: center;
-      padding-right: 10px;
-      padding-left: 15px;
-  }
-    </style>
-  <script>
-    $(function(params) {
-      const searchBtn = $("#search-btn");
-      searchBtn.click(function(event) {
-        event.preventDefault();
-        const searchBox = $("#search-box");
-        const searchTerm = searchBox.val();
-        if (searchTerm) {
-          searchBtn.addClass("disabled");
-          location.replace(`/search?q=${searchTerm}`);
-        }
-      });
+          .type("A place where you can find the best Revolt Bots.")
+          .pause(5000)
+          .delete(48)
+          .type('Revolt Bots, providing you and your community to experience more than just a chat room.')
+          .go()
+      </script>
+           </p>
+           <input type="text" class="form-control" style="height: 45px" name="prefix" placeholder="Searching for bots...">
+         <button id="search-btn" class="btn btn-light my-2 my-sm-0" style="visibility: hidden;" type="button">
+               Search
+             </button>
+      <br>
+        <% for(let i = 0; i < config.tags.length; i++){ %>
+          <a href="/bots/tags/<%= config.tags[i].toLowerCase() %>">
+             <button style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655" class="btn btn-primary pl-3 pr-3 mr-3"><i class="fa-brands fa-hashtag"></i>&nbsp;&nbsp;<span style="text-align: right;"><b><%= config.tags[i] %></b></span></button>
+         </a>
+             <% } %>
+    </div>
+
+  <style>
+    .centerText {
+    text-align: center;
+    padding-right: 10px;
+    padding-left: 15px;
+}
+  </style>
+<script>
+  $(function(params) {
+    const searchBtn = $("#search-btn");
+    searchBtn.click(function(event) {
+      event.preventDefault();
+      const searchBox = $("#search-box");
+      const searchTerm = searchBox.val();
+      if (searchTerm) {
+        searchBtn.addClass("disabled");
+        location.replace(`/search?q=${searchTerm}`);
+      }
     });
-  </script>
+  });
+</script>
