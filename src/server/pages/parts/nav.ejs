@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark dark">
-  <a class="navbar-brand" href="/"><img draggable="false" src="https://autumn.revolt.chat/attachments/EStmqLLcWe2w_I_m5a7HG2PE5N4MHMY07TsvuqeUmO/botlist.png" style="height: 50px; width: 50px;border-radius: 50%;margin-left: 150px"></a>
+  <a class="navbar-brand" href="/"><img draggable="false" src="/img/icon.png" style="height: 50px; width: 50px;border-radius: 50%;margin-left: 150px"></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -36,7 +36,7 @@
           <a class="dropdown-item" style="color: white;" href="/bots/submit"><i class="fa-solid fa-robot"></i>&nbsp;&nbsp;Add Bot</a>
           <a class="dropdown-item" style="color: white;" href="/servers/submit"><i class="fa-solid fa-comments"></i>&nbsp;&nbsp;Add Server</a>
           <a class="dropdown-item" style="color: white;" href="/logout"><i class="fa-solid fa-right-from-bracket"></i>&nbsp;&nbsp;Logout</a>
-          <% if(config.ownerids.includes(user.revoltId)) { %>
+          <% if(user.isStaff) { %>
           <div class="dropdown-divider"></div>
           <a style="color: white;" class="dropdown-item" href="/panel"><i class="fa fa-bars mr-1"></i>Staff Panel</a>
           <% } %>

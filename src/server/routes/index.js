@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
       for (let i = 0; i < bots.length; i++) {
         bots[i].tags = bots[i].tags.join(", ")
       }
-      let userModel = require("../../database/models/user.js")
+
       let user = await userModel.findOne({ revoltId: req.session.userAccountId });
       if(user) {
         let userRaw = await client.users.fetch(user.revoltId);

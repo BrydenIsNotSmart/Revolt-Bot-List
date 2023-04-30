@@ -32,5 +32,34 @@ module.exports = {
 		  })
 	    }, 86400000)
 
+		//-Vote Reset-//
+		let CronJob = require('cron').CronJob;
+        let voteReset = new CronJob(
+        '0 0 1 * *',
+         async function() {
+            let bots = await botModel.find();
+			let month = { 0: "December", 1: "January", 2: "February", 3: "March", 4: "April", 5: "May", 6: "June", 7: "July", 8: "August" };
+			await client.api.post(`/channels/01GQ15314DTQ68KXXG942648WG/messages`, {
+			content:
+				`# Vote Reset\nThe monthly vote count has been reset!\n\n Congratulations to the following bots for being the **Most Voted Bots of __${month[new Date().getMonth()]}__**`
+		   }).catch(() => { });
+		     	  await bots.forEach(async (a) => {
+			      await botModel.findOneAndUpdate(
+				    {
+					  id: a.id,
+				    },
+				    {
+					  $set: {
+						monthlyVotes: 0,
+					  },
+				    }
+				  );
+			    });
+             },
+           null,
+           true,
+          'America/Los_Angeles'
+        );
+		voteReset.start()
 	},
 };
