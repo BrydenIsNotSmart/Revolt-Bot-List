@@ -228,7 +228,7 @@ router.post("/:id/vote", async (req, res) => {
   });
   await botModel.findOneAndUpdate(
     { id: req.params.id },
-    { $inc: { votes: 1 } }
+    { $inc: { votes: 1, monthlyVotes: 1 } }
   );
   const BotRaw = await client.users.fetch(bot.id)
 

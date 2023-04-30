@@ -45,7 +45,7 @@ module.exports = {
         });
         await botModel.findOneAndUpdate(
           { id: BotRaw._id },
-          { $inc: { votes: 1 } }
+          { $inc: { votes: 1, monthlyVotes: 1 } }
         );
 
         const logs = client.channels.get(config.channels.votelogs);
