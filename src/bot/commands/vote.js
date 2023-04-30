@@ -50,7 +50,7 @@ module.exports = {
 
         const logs = client.channels.get(config.channels.votelogs);
 
-        logs.sendMessage(`<\@${message.author._id}> voted for **${BotRaw.username}**.\nhttps://revoltbots.org/bots/${BotRaw._id}`).catch(() => null);
+        logs.sendMessage(`<\@${message.author._id}> voted for **${BotRaw.username}**.\n<https://revoltbots.org/bots/${BotRaw._id}>`).catch(() => null);
 
         await message.reply({ content: `You have successfully voted for <@${BotRaw._id}>.`, interactions: [reactions] }).then((msg) => {
           client.remind.set(msg._id, { owner: message.author._id })

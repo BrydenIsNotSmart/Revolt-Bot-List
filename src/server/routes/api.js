@@ -22,8 +22,8 @@ async function getBotData(data, fetchReviews = false, req) {
     const info = {
       // This doesn't need to be in another object (i.e: 'final_data')
       id: data.id,
-      username: `Unknown Bot`,
-      avatar: "",
+      username: data.name,
+      avatar: data.iconURL,
       prefix: data.prefix,
       owners: data.owners,
       tags: data.tags,
@@ -34,10 +34,11 @@ async function getBotData(data, fetchReviews = false, req) {
   
       // Counts
       servers: +data.servers || "N/A",
-      votes: data.votes,
+      totalVotes: data.votes,
+      monthlyVotes: data.monthlyVotes,
   
       // Links
-      invite: data.invite,
+      invite: `https://app.revolt.chat/bot/${data.id}`,
       website: data.website,
       github: data.github,
       support: data.support,
