@@ -1,21 +1,68 @@
 <head>
     <title>Login - Revolt Bots</title>
     <%- include("../parts/head.ejs") %>
+    <style>
+      .tooltip-container .tooltip {
+        visibility: hidden;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 10px;
+        position: absolute;
+        bottom: 55%;
+        left: 50%;
+        right: 50%;
+        transform: translateX(-50%);
+        z-index: 1;
+      }
+    
+      .tooltip-container:hover .tooltip {
+        visibility: visible;
+      }
+    
+      code {
+        font-family: monospace;
+        border: 1px solid #ddd;
+        background-color: #ddd;
+        padding: 2px;
+        border-radius: 3px;
+        color: #1d3ceb;
+        cursor: pointer;
+      }
+    </style>
 </head>
 <%- include("../parts/nav.ejs") %>
 
-
-                  <div class="text-center" style="margin-top: 150px;">
-                    <img src="https://revolt.chat/_next/static/media/revolt-logo.24213514.svg"
-                      style="width: 185px;" alt="logo">
-                    <h2 style="color: white"><b>BOTS</b></h2><br>
+<div class="text-center" style="margin-top: 150px;">
+  <img src="https://revolt.chat/_next/static/media/revolt-logo.24213514.svg" style="width: 185px;" alt="logo">
+  <h2 style="color: white"><b>BOTS</b></h2><br>
   
-                  <form action="../../../login/confirm" method="POST">
-                    <p style="color:white">Please join our Revolt server and run "rbl!login <%= code %>" in either the commands channel or the bot's DMS to verify you are the owner of this account.<br>Click the "Check" button below once you have ran the command successfully.
-                    </p>
-                    <input type="hidden" name="revoltId" value="<%= revoltId %>">
-                    <a href="/server"><button style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655" class="btn btn-primary pl-3 pr-3 mr-3" type="button"><i class="fa-solid fa-right-to-bracket"></i> Join Our Server</button></a>
-                    <button style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655" class="btn btn-primary pl-3 pr-3 mr-3" type="submit"><i class="fa-solid fa-magnifying-glass"></i> Check</button>
-                  </div>
+<form action="../../../login/confirm" method="POST">
+<p style="color:white; ">Please join our Revolt server and run "
+  <span class="tooltip-container">
+    <span class="tooltip">Click to copy</span>
+    <code id="command">rbl!login <%= code %></code>
+  </span>
+  " in either the commands channel or the bot's DMS to verify you are the owner of this account.<br>Click the "Check"
+  button below once you have ran the command successfully.
+</p>
+<input type="hidden" name="revoltId" value="<%= revoltId %>">
+<a href="/server"><button style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655"
+    class="btn btn-primary pl-3 pr-3 mr-3" type="button"><i class="fa-solid fa-right-to-bracket"></i> Join Our
+    Server</button></a>
+<button style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655"
+  class="btn btn-primary pl-3 pr-3 mr-3" type="submit"><i class="fa-solid fa-magnifying-glass"></i> Check</button>
 </form>
-  </section>
+</div>
+
+<script>
+  const tooltip = document.querySelector(".tooltip");
+  tooltip.parentElement.addEventListener("mouseleave", () => {
+    tooltip.innerText = "Click to copy"
+  });
+  document.getElementById("command").addEventListener("click", (e) => {
+    navigator.clipboard.writeText(e.target.innerText).then(() => {
+      tooltip.innerText = "Copied!";
+    });
+  });
+</script>

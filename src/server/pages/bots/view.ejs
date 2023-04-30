@@ -18,14 +18,14 @@
 <div class="botpagecontainer">
   <% if (bot.status === "awaiting" || bot.status === "inprogress") { %>
   <div style="border-radius: 10px;margin-top: 25px;text-align: center;background-color: transparent;border-color: #ECE81A;color: white" class="alert alert-warning" role="alert">
-    <h3><i class="fa-solid fa-triangle-exclamation"></i> Warning!</h3>
+    <h3><i class="fa-solid fa-triangle-exclamation"></i> Warning!</h3>45r
     <p>This bot is still going through the approval process and thus has not yet been approved, therefore we cannot be certain that all functions work as expected.</p>
   </div>
   <% } %>
   <% if (bot.status === "denied") { %>
   <div style="border-radius: 10px;margin-top: 25px;text-align: center;background-color: transparent;border-color: #f32013;color: white" class="alert alert-danger" role="alert">
     <h3><i class="fa-solid fa-triangle-exclamation"></i> Danger!</h3>
-    <p>This bot has been denied, be care if you invite it.</p>
+    <p>This bot has been denied, be careful if you invite it.</p>
   </div>
   <% } %>
   <div style="background-color: transparent" class="jumbotron mt-5">
@@ -56,12 +56,10 @@
         <a href="<%= bot.github %>" type="button" style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-brands fa-github"></i> GitHub</a>
         <% } %>
         <% if (bot.support) { %>
-        <a href="<%= bot.support %>" type="button" style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-brands fa-discord"></i> Support</a>
-        <% } %>
-        <% if (user) { %>
-        <% if (bot.owners.includes(user.revoltId)) { %>
+          <a href="<%= bot.support %>" type="button" style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655" class="btn btn-info pr-3 pl-3 mr-1"><img src="/img/revolt.svg" alt="Revolt Icon" height="18px" width="18px">Support</a>
+          <% } %>
+        <% if (user && bot.owners.includes(user.revoltId)) { %>
         <a href="/bots/<%= bot.id %>/edit" type="button" style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655; color: white" class="btn btn-warning pr-3 pl-3 mr-1"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
-        <% } %>
         <% } %>
       </div>
     </div><br><br>
@@ -71,16 +69,24 @@
         <i class="fa-solid fa-code"></i> <b>Developers</b>
     </h2><br>
     <% for(let i = 0; i < bot.owners.length; i++) { %> 
-    <a class="owner" href="/user/<%= bot.owners[i] %>"><img class="rounded-circle" style="width: 45px; height: 45px;" src="https://autumn.revolt.chat/avatars/<%= botclient.users.get(bot.owners[i]).avatar._id %>/<%= botclient.users.get(bot.owners[i]).avatar.filename %>.png">&nbsp;<b style="font-size: 20px;"><%= botclient.users.get(bot.owners[i]).username || "Unkown User" %></b></a>&nbsp;&nbsp;
+    <a class="owner" href="/user/<%= bot.owners[i] %>"><img class="rounded-circle" style="width: 45px; height: 45px;"
+        src="https://autumn.revolt.chat/avatars/<%= botclient.users.get(bot.owners[i]).avatar._id %>/<%= botclient.users.get(bot.owners[i]).avatar.filename %>.png">&nbsp;<b
+        style="font-size: 20px;">
+        <%= botclient.users.get(bot.owners[i]).username || "Unknown User" %>
+      </b></a>&nbsp;&nbsp;
     <% } %>
    <% }else{ %>
       <h2 style="color: white">
         <i class="fa-solid fa-code"></i> <b>Developer</b>
     </h2>
-     <a class="owner" href="/user/<%= bot.owners[0] %>"><img class="rounded-circle idk" style="width: 45px; height: 45px;" src="https://autumn.revolt.chat/avatars/<%= botclient.users.get(bot.owners[0]).avatar._id %>/<%= botclient.users.get(bot.owners[0]).avatar.filename %>">&nbsp;<b style="font-size: 20px;"><%= botclient.users.get(bot.owners[0]).username || "Unkown User" %></b></a>
+    <a class="owner" href="/user/<%= bot.owners[0] %>"><img class="rounded-circle idk" style="width: 45px; height: 45px;"
+        src="https://autumn.revolt.chat/avatars/<%= botclient.users.get(bot.owners[0]).avatar._id %>/<%= botclient.users.get(bot.owners[0]).avatar.filename %>">&nbsp;<b
+        style="font-size: 20px;">
+        <%= botclient.users.get(bot.owners[0]).username || "Unknown User" %>
+      </b></a>
     <% } %><br>
     <% } catch(err) { %>
-      <a class="owner" href="/user/<%= bot.owners[0] %>">&nbsp;<b style="font-size: 20px;">Unkown User</b></a>
+      <a class="owner" href="/user/<%= bot.owners[0] %>">&nbsp;<b style="font-size: 20px;">Unknown User</b></a>
   <%  } %>
     <hr>
   </div>
