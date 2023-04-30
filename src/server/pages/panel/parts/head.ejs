@@ -3,13 +3,14 @@
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta1/css/all.css"/>
     <link rel="shortcut icon" href="/img/icon.png" />
     <link rel='stylesheet' href='/css/panel.scss'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
   </head>
   
   <header class="header navbar navbar-expand bg-light border-bottom border-light shadow fixed-top" data-scroll-header="">
     <div class="container-fluid pe-lg-4">
       <div class="d-flex align-items-center">
         <a href="/panel" class="navbar-brand flex-shrink-0 py-1 py-lg-2">
-          <img src="https://autumn.revolt.chat/attachments/EStmqLLcWe2w_I_m5a7HG2PE5N4MHMY07TsvuqeUmO/botlist.png" width="47" alt="logo">
+          <img src="/img/icon.png" width="47" alt="logo">
           
         </a>
       </div>
@@ -29,16 +30,16 @@
           <a href="#" class="d-flex nav-link p-0" data-bs-toggle="dropdown">
             <img src="https://autumn.revolt.chat/avatars/<%= user.avatar._id %>/<%= user.avatar.filename %>" class="rounded-circle" width="40" alt="User">&nbsp;&nbsp;<i class="fa-sharp fa-solid fa-caret-down"></i>
           </a>
-          <ul class="dropdown-menu dropdown-menu-end my-1" style="width: 14rem;">
+          <ul class="dropdown-menu dropdown-menu-end" style="width: 14rem;">
+            <li style="font-size: 16px" class="dropdown-item align-items-center"><img src="https://autumn.revolt.chat/avatars/<%= user.avatar._id %>/<%= user.avatar.filename %>" class="rounded-circle" width="27" alt="User">&nbsp;<%= user.username %></li>
+            <li class="dropdown-divider"></li>
             <li>
               <a href="/profile" class="dropdown-item d-flex align-items-center">
-                <i class="bx bx-user-circle fs-base opacity-60 me-2"></i>
                 <i class="fa-solid fa-address-card"></i>&nbsp;Profile
               </a>
             </li>
             <li>
                 <a href="/" class="dropdown-item d-flex align-items-center">
-                  <i class="bx bx-user-circle fs-base opacity-60 me-2"></i>
                   <i class="fa-solid fa-house-chimney"></i>&nbsp;Home
                 </a>
               </li>

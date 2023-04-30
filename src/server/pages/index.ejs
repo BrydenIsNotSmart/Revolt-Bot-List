@@ -42,7 +42,7 @@
       <div class="botContainer" style="background-color: #242424;margin-top: 200px;"><br><br><br>
         <div class="centerText">
       <p><span style="padding-left:-550px;font-size:45px;color:white;text-shadow: 1px 1px black;"><i class="fa-solid fa-fire-flame-curved"></i> <b>Top Voted</b></span><br>
-      <span style="padding-left:-250px;color: white;font-size: 17px;">These are the most voted bots on our list.</span></p>
+      <span style="padding-left:-250px;color: white;font-size: 17px;">These are the most voted bots for this month.</span></p>
       <% let voted = bots.sort((a,b) => b.votes - a.votes) %>
       <% for(let i = 0; i < voted.length; i++){ %>
       <%  if (i === 8) break; %>
@@ -52,7 +52,7 @@
         <p class="botname_main" style="opacity: 2;height:65px;width:250px;padding:10px;"> 
           <b><%= voted[i].name %></b>
            <br>
-          <span style="font-size:15px; font-weight:normal;"><i class="fa-solid fa-server"></i> <%= voted[i].servers || "N/A" %> • <i class="fa-solid fa-check-to-slot"></i> <%= voted[i].votes %></span>
+          <span style="font-size:15px; font-weight:normal;"><i class="fa-solid fa-server"></i> <%= voted[i].servers || "N/A" %> • <i class="fa-solid fa-check-to-slot"></i> <%= voted[i].monthlyVotes %></span>
         </p>
         <div class="botdesc_main" style="height:75px;width:auto;flex:auto;padding:10px;">
           <%= voted[i].shortDesc %>
@@ -82,7 +82,7 @@
               <% if (added[i].id === "1004264023111507979") { %>
                 <span title="Official Bot"><i class="fa fa-circle-check"></i></span>
                 <%  } %> <br>
-              <span style="font-size:15px; font-weight:normal;"><i class="fa-solid fa-server"></i> <%= added[i].servers || "N/A" %> • <i class="fa-solid fa-check-to-slot"></i> <%= added[i].votes %>
+              <span style="font-size:15px; font-weight:normal;"><i class="fa-solid fa-server"></i> <%= added[i].servers || "N/A" %> • <i class="fa-solid fa-check-to-slot"></i> <%= added[i].monthlyVotes %>
             </p>
             <div class="botdesc_main" style="height:75px;width:auto;flex:auto;padding:10px;">
                <%= added[i].shortDesc %>
@@ -122,7 +122,7 @@
         <img src="<%= a.iconURL %>" style="opacity: 2" alt="<%= a.name %>'s Avatar" draggable="false" class="botimg_main">
         <p class="botname_main" style="height:65px;width:250px;padding:10px;opacity: 2"> 
           <b><%= a.name %></b><br>
-          <span style="font-size:15px; font-weight:normal;"><i class="fa-solid fa-server"></i> <%= a.servers || "N/A" %> • <i class="fa-solid fa-check-to-slot"></i> <%= a.votes %>
+          <span style="font-size:15px; font-weight:normal;"><i class="fa-solid fa-server"></i> <%= a.servers || "N/A" %> • <i class="fa-solid fa-check-to-slot"></i> <%= a.monthlyVotes %>
         </p>
         <div class="botdesc_main" style="height:75px;width:auto;flex:auto;padding:10px;">
          <%= a.shortDesc %>
@@ -140,10 +140,10 @@
     </div>
     <% }} %>
     <br><br>
-      </div>
+      </div><br>
   </div>
 </div>
-
+<%- include("./parts/footer.ejs") %>
   <style>
     .centerText {
     text-align: center;

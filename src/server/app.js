@@ -137,6 +137,22 @@ app.get('/css/panel.scss', (req, res) => {
 
   app.get("/server", (req, res) => res.redirect("https://rvlt.gg/kmZBZ6h1"))
 
+  app.get('/downloads/windows', function(req, res) {
+    const file = path.join(__dirname, '/static/downloads/rblwindows.exe');
+    res.download(file);
+  });
+  
+  app.get('/downloads', async (req, res) => {
+  
+    let user = await userModel.findOne({ revoltId: req.session.userAccountId });
+    if(user) {
+      let userRaw = await client.users.fetch(user.revoltId);
+      user.username = userRaw.username;
+      user.avatar = userRaw.avatar;
+    }
+    res.render("downloads", { user})
+  })
+
 //-Routers-//
 const indexRouter = require("./routes/index.js")
 app.use("/", indexRouter)

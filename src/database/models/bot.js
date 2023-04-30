@@ -42,6 +42,10 @@ let app = mongoose.Schema({
     type: Number,
     default: 0,
   },
+  monthlyVotes: {
+    type: Number,
+    default: 0,
+  },
   servers: {
     type: Number,
     required: false
@@ -63,6 +67,10 @@ let app = mongoose.Schema({
     required: false
   },
   github: {
+    type: String,
+    required: false
+  },
+  vanity: {
     type: String,
     required: false
   }

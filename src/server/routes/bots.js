@@ -66,7 +66,7 @@ router.post('/submit', checkAuth, async (req, res) => {
       });
   }
 
-    const bot = await botModel.create({
+    await botModel.create({
       id: data.botid,
       name: BotRaw.username,
       iconURL: `https://autumn.revolt.chat/avatars/${BotRaw.avatar._id}/${BotRaw.avatar.filename}`, 
@@ -85,7 +85,7 @@ router.post('/submit', checkAuth, async (req, res) => {
       res.status(201).json({ message: "Added to queue", code: "OK" });
       let logs = client.channels.get(config.channels.weblogs);
       logs.sendMessage(
-        `<@${req.session.userAccountId}> has submitted **${BotRaw.username}** to the list.\nhttps://revoltbots.org/bot/${data.botid}`
+        `<@${req.session.userAccountId}> has submitted **${BotRaw.username}** to the list.\n<https://revoltbots.org/bot/${data.botid}>`
       );
     });
 })
@@ -177,7 +177,7 @@ await bot.save().then(async () => {
     res.status(201).json({ message: "Successfully Edited", code: "OK" });
     let logs = client.channels.get(config.channels.weblogs);
     logs.sendMessage(
-      `<\@${req.session.userAccountId}> edited **${BotRaw.username}**.\nhttps://revoltbots.org/bots/${req.params.id}`
+      `<\@${req.session.userAccountId}> edited **${BotRaw.username}**.\n<https://revoltbots.org/bots/${req.params.id}>`
     );
   });
 })
@@ -228,12 +228,12 @@ router.post("/:id/vote", async (req, res) => {
   });
   await botModel.findOneAndUpdate(
     { id: req.params.id },
-    { $inc: { votes: 1 } }
+    { $inc: { votes: 1, monthlyVotes: 1 } }
   );
   const BotRaw = await client.users.fetch(bot.id)
 
   const logs = client.channels.get(config.channels.votelogs);
-  if (logs) logs.sendMessage(`<\@${req.session.userAccountId}> voted for **${BotRaw.username}**.\nhttps://revoltbots.org/bots/${BotRaw._id}`).catch(() => null);
+  if (logs) logs.sendMessage(`<\@${req.session.userAccountId}> voted for **${BotRaw.username}**.\n<https://revoltbots.org/bots/${BotRaw._id}>`).catch(() => null);
 
   return res.redirect(
     `/bots/${req.params.id}?success=true&body=You voted successfully. You can vote again after 12 hours.`
