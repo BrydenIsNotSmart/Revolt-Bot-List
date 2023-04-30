@@ -66,7 +66,7 @@ router.post('/submit', checkAuth, async (req, res) => {
       });
   }
 
-    const bot = await botModel.create({
+    await botModel.create({
       id: data.botid,
       name: BotRaw.username,
       iconURL: `https://autumn.revolt.chat/avatars/${BotRaw.avatar._id}/${BotRaw.avatar.filename}`, 
