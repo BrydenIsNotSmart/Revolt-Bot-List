@@ -43,7 +43,7 @@
         <div class="centerText">
       <p><span style="padding-left:-550px;font-size:45px;color:white;text-shadow: 1px 1px black;"><i class="fa-solid fa-fire-flame-curved"></i> <b>Top Voted</b></span><br>
       <span style="padding-left:-250px;color: white;font-size: 17px;">These are the most voted bots for this month.</span></p>
-      <% let voted = bots.sort((a,b) => b.votes - a.votes) %>
+      <% let voted = bots.sort((a,b) => b.monthlyVotes - a.monthlyVotes) %>
       <% for(let i = 0; i < voted.length; i++){ %>
       <%  if (i === 8) break; %>
       <div class="card" style="border-radius:10px;">
