@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { MongooseBackup } = require("mongoose-backup");
 const cron = require("node-cron");
 
 try {
@@ -10,7 +11,13 @@ try {
     console.log(`[ERROR] Connecting to MongoDB...`)
     console.error(err)
 }
-
+try {
+    const Backup = new MongooseBackup({url: config.mongoURI });
+    Backup.on('connected', () => {
+        Backup.Localize({ per: 'hours' });
+        Backup.on("localizeBackup", (data) => { console.log(`Total ${data.total} documents with ${data.items} items backed up.`); })
+    });
+} catch (e) {}
 //-DB-Caching-//
    global.voteModel = require("./models/vote");
    global.botModel = require("./models/bot");

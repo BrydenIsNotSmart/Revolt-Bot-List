@@ -69,6 +69,10 @@ let app = mongoose.Schema({
   github: {
     type: String,
     required: false
+  },
+  vanity: {
+    type: String,
+    required: false
   }
 });
 module.exports = mongoose.model("bots", app);
