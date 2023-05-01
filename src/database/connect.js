@@ -17,6 +17,7 @@ try {
         Backup.Localize({ per: 'hours' });
         Backup.on("localizeBackup", (data) => { console.log(`Total ${data.total} documents with ${data.items} items backed up.`); })
     });
+    
 } catch (e) {}
 //-DB-Caching-//
    global.voteModel = require("./models/vote");
