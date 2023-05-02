@@ -14,6 +14,10 @@ let app = mongoose.Schema({
     type: String,
     required: true
   },
+  bannerURL: {
+    type: String,
+    required: false
+  },
    prefix: {
     type: String,
     required: true
