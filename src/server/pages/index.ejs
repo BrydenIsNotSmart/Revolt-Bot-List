@@ -118,7 +118,7 @@
     %>
     <% let a = labBots; %>
     <div class="card" style="border-radius:10px;">
-        <div class="banner" style="background-image: url(<%= a[i].bannerURL || a[i].iconURL %>);opacity: 0.15" title="Banner"></div>
+        <div class="banner" style="background-image: url(<%= a.bannerURL || a.iconURL %>);opacity: 0.15" title="Banner"></div>
         <img src="<%= a.iconURL %>" style="opacity: 2" alt="<%= a.name %>'s Avatar" draggable="false" class="botimg_main">
         <p class="botname_main" style="height:65px;width:250px;padding:10px;opacity: 2"> 
           <b><%= a.name %></b><br>
