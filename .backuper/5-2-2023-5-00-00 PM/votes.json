@@ -1,0 +1,114 @@
+[
+    {
+        "_id": "644f1c04fc207ce1d9a628a8",
+        "bot": "01GXE5E6GREMFK2TSEZK4Y33HG",
+        "user": "01FHZCM5J1T2DP08N9MCTYP4DT",
+        "time": 43200000,
+        "date": 1682906116965,
+        "__v": 0
+    },
+    {
+        "_id": "644fe7ae0959e107859fe5be",
+        "bot": "01GVYB8DXM8308CTAVFQ9KP3G9",
+        "user": "01GPZ5PTPQ2RNMZEF02NKD7TQE",
+        "time": 43200000,
+        "date": 1682958254903,
+        "__v": 0
+    },
+    {
+        "_id": "6450563cf75d73552f7279cb",
+        "bot": "01FEYFMPWJSJZ0671REAQMP6TY",
+        "user": "01FEYFD1WH6YXSD0EHVNFW6VSB",
+        "time": 43200000,
+        "date": 1682986556571,
+        "__v": 0
+    },
+    {
+        "_id": "64506794f75d73552f727cf5",
+        "bot": "01GX2128H92QS1W33TWKR2Y1Y8",
+        "user": "01FHZCM5J1T2DP08N9MCTYP4DT",
+        "time": 43200000,
+        "date": 1682990996868,
+        "__v": 0
+    },
+    {
+        "_id": "64508d64f75d73552f72838e",
+        "bot": "01FVB28WQ9JHMWK8K7RD0F0VCW",
+        "user": "01G9MCW5KZFKT2CRAD3G3B9JN5",
+        "time": 43200000,
+        "date": 1683000676298,
+        "__v": 0
+    },
+    {
+        "_id": "6450e1d4f75d73552f729213",
+        "bot": "01FVB28WQ9JHMWK8K7RD0F0VCW",
+        "user": "01FVB1ZGCPS8TJ4PD4P7NAFDZA",
+        "time": 43200000,
+        "date": 1683022292148,
+        "__v": 0
+    },
+    {
+        "_id": "6450e206f75d73552f729227",
+        "bot": "01FHGJ3NPP7XANQQH8C2BE44ZY",
+        "user": "01FVB1ZGCPS8TJ4PD4P7NAFDZA",
+        "time": 43200000,
+        "date": 1683022342376,
+        "__v": 0
+    },
+    {
+        "_id": "6450eb01f75d73552f7293c0",
+        "bot": "01FVB28WQ9JHMWK8K7RD0F0VCW",
+        "user": "01FZ5P08W36B05M18FP3HF4PT1",
+        "time": 43200000,
+        "date": 1683024641669,
+        "__v": 0
+    },
+    {
+        "_id": "64510b21f75d73552f729954",
+        "bot": "01FHGJ3NPP7XANQQH8C2BE44ZY",
+        "user": "01GPZ5PTPQ2RNMZEF02NKD7TQE",
+        "time": 43200000,
+        "date": 1683032865343,
+        "__v": 0
+    },
+    {
+        "_id": "64510b28f75d73552f729961",
+        "bot": "01GZ9KCXEG4SV0BPEJN41NVDKT",
+        "user": "01GPZ5PTPQ2RNMZEF02NKD7TQE",
+        "time": 43200000,
+        "date": 1683032872999,
+        "__v": 0
+    },
+    {
+        "_id": "64516434f75d73552f72a8da",
+        "bot": "01GSK9YZAM47EP85GQ4NGZCPEK",
+        "user": "01GQ3NS0EB3FF8V2Q6KHX887DS",
+        "time": 43200000,
+        "date": 1683055668368,
+        "__v": 0
+    },
+    {
+        "_id": "64516599f75d73552f72a91d",
+        "bot": "01GEJRAVCNV8VZNESKYKZG7ZNK",
+        "user": "01FESEWQKT7RESCNX5YF3JR29H",
+        "time": 43200000,
+        "date": 1683056025106,
+        "__v": 0
+    },
+    {
+        "_id": "64517142f75d73552f72ab1d",
+        "bot": "01G6BWQZJM70RC0R9MCEYXVEBW",
+        "user": "01G7W3TE8D134YFACAT31CEH02",
+        "time": 43200000,
+        "date": 1683059010408,
+        "__v": 0
+    },
+    {
+        "_id": "645187adf75d73552f72af15",
+        "bot": "01GZ9KCXEG4SV0BPEJN41NVDKT",
+        "user": "01GYNJAYR4CGE11P7M0M2TBT15",
+        "time": 43200000,
+        "date": 1683064749049,
+        "__v": 0
+    }
+]

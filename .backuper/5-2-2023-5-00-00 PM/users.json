@@ -1,0 +1,138 @@
+[
+    {
+        "_id": "642250607352bbb3efeec53a",
+        "revoltId": "01GPZ5PTPQ2RNMZEF02NKD7TQE",
+        "verified": "true",
+        "createdAt": "2023-03-28T02:26:40.498Z",
+        "__v": 0,
+        "isStaff": true
+    },
+    {
+        "_id": "6429e5d7ced426b3c06715a7",
+        "revoltId": "01GQ3NS0EB3FF8V2Q6KHX887DS",
+        "verified": "true",
+        "createdAt": "2023-04-02T20:30:15.365Z",
+        "isStaff": true,
+        "__v": 0
+    },
+    {
+        "_id": "6429f77e07e691b21c384829",
+        "revoltId": "01GQ6QGE69CCXZ22GKXGBMKDRB",
+        "verified": "true",
+        "createdAt": "2023-04-02T21:45:34.966Z",
+        "isStaff": false,
+        "__v": 0
+    },
+    {
+        "_id": "642a0134c437d900a2f59dec",
+        "revoltId": "01FHZCM5J1T2DP08N9MCTYP4DT",
+        "verified": "true",
+        "createdAt": "2023-04-02T22:27:00.793Z",
+        "isStaff": false,
+        "__v": 0
+    },
+    {
+        "_id": "642a457ca0e779b34597fd78",
+        "revoltId": "01FZ5P08W36B05M18FP3HF4PT1",
+        "verified": "true",
+        "createdAt": "2023-04-03T03:18:20.240Z",
+        "isStaff": false,
+        "__v": 0
+    },
+    {
+        "_id": "642b540041fa85c78108a84f",
+        "revoltId": "01FVB1ZGCPS8TJ4PD4P7NAFDZA",
+        "verified": "true",
+        "createdAt": "2023-04-03T22:32:32.651Z",
+        "isStaff": false,
+        "__v": 0
+    },
+    {
+        "_id": "642b75ee41fa85c78108a886",
+        "revoltId": "01FXEADJ0WWMWSKFZ515XJYVJE",
+        "verified": "true",
+        "createdAt": "2023-04-04T00:57:18.812Z",
+        "isStaff": false,
+        "__v": 0
+    },
+    {
+        "_id": "642bd2e741fa85c78108a933",
+        "revoltId": "01G9MCW5KZFKT2CRAD3G3B9JN5",
+        "verified": "true",
+        "createdAt": "2023-04-04T07:33:59.193Z",
+        "isStaff": false,
+        "__v": 0
+    },
+    {
+        "_id": "642c1c1041fa85c78108a9a9",
+        "revoltId": "01GVKXN2XQWCP61CVYACNSN6CW",
+        "verified": "true",
+        "createdAt": "2023-04-04T12:46:08.469Z",
+        "isStaff": false,
+        "__v": 0
+    },
+    {
+        "_id": "642c78a241fa85c78108aa2f",
+        "revoltId": "01FESEWQKT7RESCNX5YF3JR29H",
+        "verified": "true",
+        "createdAt": "2023-04-04T19:21:06.982Z",
+        "isStaff": false,
+        "__v": 0
+    },
+    {
+        "_id": "64308bc7d75aaa91c5ce61f4",
+        "revoltId": "01FFGZYMMAW7T0ZJNRX4KY6FRY",
+        "verified": "true",
+        "createdAt": "2023-04-07T21:31:51.464Z",
+        "isStaff": false,
+        "__v": 0
+    },
+    {
+        "_id": "643bc584174ac55152e3ea2d",
+        "revoltId": "01GVJTMKH1VJ3D6KTG1XY08AE7",
+        "verified": "true",
+        "createdAt": "2023-04-16T09:53:08.529Z",
+        "isStaff": false,
+        "__v": 0
+    },
+    {
+        "_id": "64455afcc3a1b0055df708d8",
+        "revoltId": "01G4NHXWPHD1NWDDTHN3KSRW4Q",
+        "verified": "true",
+        "createdAt": "2023-04-23T16:21:16.771Z",
+        "isStaff": false,
+        "__v": 0
+    },
+    {
+        "_id": "644cccdac4f8531caa30c69d",
+        "revoltId": "01GVWD66C8ENF2HJRWDP2J3HT3",
+        "verified": "true",
+        "createdAt": "2023-04-29T07:52:58.598Z",
+        "isStaff": false,
+        "__v": 0
+    },
+    {
+        "_id": "644ead46bf9c9ef8f3c36316",
+        "revoltId": "01GYNJAYR4CGE11P7M0M2TBT15",
+        "verified": "true",
+        "createdAt": "2023-04-30T18:02:46.428Z",
+        "isStaff": false,
+        "__v": 0
+    },
+    {
+        "_id": "64504b2cf75d73552f72779e",
+        "revoltId": "01FEYFD1WH6YXSD0EHVNFW6VSB",
+        "verified": "true",
+        "createdAt": "2023-05-01T23:28:44.877Z",
+        "isStaff": false,
+        "__v": 0
+    },
+    {
+        "_id": "6450b35ff75d73552f728a1a",
+        "revoltId": "01EXAF3KX65608AJ4NG27YG1HM",
+        "verified": "true",
+        "createdAt": "2023-05-02T06:53:19.149Z",
+        "isStaff": false,
+        "__v": 0
+    }
+]
