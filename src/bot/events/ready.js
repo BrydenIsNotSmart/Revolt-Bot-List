@@ -33,9 +33,9 @@ module.exports = {
 					await bot.save();
 				})
 			  })
-			}, )
+			}, 10000)
 		  })
-	    }, )
+	    }, 86400000)
 
 		//-Vote Reset-//
 		let CronJob = require('cron').CronJob;
