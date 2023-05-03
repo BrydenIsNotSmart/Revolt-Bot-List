@@ -29,13 +29,13 @@ module.exports = {
 					let BotRaw = await client.bots.fetchPublic(bot.id);
 					bot.name = BotRaw.username
 					bot.iconURL = `https://autumn.revolt.chat/avatars/${BotRaw.avatar._id}/${BotRaw.avatar.filename}`
-					bot.bannerURL = `${b.background ? `https://autumn.revolt.chat/backgrounds/${b.background}` : null}`
+					bot.bannerURL = `${b.background ? `https://autumn.revolt.chat/backgrounds/${b.background._id}` : null}`
 					await bot.save();
 				})
 			  })
-			}, 10000)
+			}, )
 		  })
-	    }, 86400000)
+	    }, )
 
 		//-Vote Reset-//
 		let CronJob = require('cron').CronJob;
