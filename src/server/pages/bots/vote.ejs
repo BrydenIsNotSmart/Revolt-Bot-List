@@ -1,16 +1,16 @@
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:site_name" content="Revolt Bot List">
-    <meta property="og:title" content="Vote For <%= bot.name %>">
-    <meta name="keywords" content="RevoltBotList,botlist,revolt,<%= bot.name %>,revoltbots,revoltservers">
-    <meta property="og:url" content="https://revoltbots.org">
-    <meta property="og:description" content="<%= bot.shortDesc %>">
-    <meta property="og:image" content="<%= bot.iconURL %>">
-    <meta property="og:color" content="#fe4655">
-    <link rel='stylesheet' href='/css/botpage.scss'>
-    <title>Vote for <%= bot.name %> - Revolt Bots</title>
-    <%- include("../parts/head.ejs") %>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:site_name" content="Revolt Bot List">
+  <meta property="og:title" content="Vote For <%= bot.name %>">
+  <meta name="keywords" content="RevoltBotList,botlist,revolt,<%= bot.name %>,revoltbots,revoltservers">
+  <meta property="og:url" content="https://revoltbots.org">
+  <meta property="og:description" content="<%= bot.shortDesc %>">
+  <meta property="og:image" content="<%= bot.iconURL %>">
+  <meta property="og:color" content="#fe4655">
+  <link rel='stylesheet' href='/css/botpage.scss'>
+  <title>Vote for <%= bot.name %> - Revolt Bots</title>
+  <%- include("../parts/head.ejs") %>
 </head>
 <%- include("../parts/nav.ejs") %>
 
@@ -29,9 +29,9 @@
           <button type="submit" style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655; color: white" class="btn btn-primary btn-lg btn-block" id="upvote"><b> Click to vote</b></button>
         </form>
         <% } else { %>
-          <a style="text-decoration: none;" href="/login"><button type="button" style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655; color: white" class="btn btn-primary btn-lg btn-block" id="upvote"><b><i class="fa-solid fa-sign-in-alt"></i> Login to vote</b></button></a>
-          <% } %>
+        <a style="text-decoration: none;" href="/login"><button type="button" style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655; color: white" class="btn btn-primary btn-lg btn-block" id="upvote"><b><i class="fa-solid fa-sign-in-alt"></i> Login to vote</b></button></a>
+        <% } %>
       </div>
     </div>
-</div>
+  </div>
 </div>

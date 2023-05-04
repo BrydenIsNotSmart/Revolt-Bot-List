@@ -1,86 +1,85 @@
 <head>
-    <title>Revolt Bots - Staff Panel</title>
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta1/css/all.css"/>
-    <link rel="shortcut icon" href="/img/icon.png" />
-    <link rel='stylesheet' href='/css/panel.scss'>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-  </head>
-  
-  <header class="header navbar navbar-expand bg-light border-bottom border-light shadow fixed-top" data-scroll-header="">
-    <div class="container-fluid pe-lg-4">
-      <div class="d-flex align-items-center">
-        <a href="/panel" class="navbar-brand flex-shrink-0 py-1 py-lg-2">
-          <img src="/img/icon.png" width="47" alt="logo">
-          
+  <title>Revolt Bots - Staff Panel</title>
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta1/css/all.css" />
+  <link rel="shortcut icon" href="/img/icon.png" />
+  <link rel='stylesheet' href='/css/panel.scss'>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<header class="header navbar navbar-expand bg-light border-bottom border-light shadow fixed-top" data-scroll-header="">
+  <div class="container-fluid pe-lg-4">
+    <div class="d-flex align-items-center">
+      <a href="/panel" class="navbar-brand flex-shrink-0 py-1 py-lg-2">
+        <img src="/img/icon.png" width="47" alt="logo">
+
+      </a>
+    </div>
+    <div class="d-flex align-items-center w-100">
+      <ul class="navbar-nav d-none d-lg-flex" style="padding-left: 16.75rem;">
+        <li class="nav-item">
+          <a href="/" class="nav-link">
+            <i class="fa-solid fa-house-chimney"></i>&nbsp;Home
+          </a>
+        </li>
+      </ul>
+      <button type="button" class="navbar-toggler d-block d-lg-none ms-auto me-4" data-bs-toggle="offcanvas" data-bs-target="#docsNav" aria-controls="docsNav" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <% if (user) { %>
+      <div class="nav dropdown pe-lg-1 ms-lg-auto">
+        <a href="#" class="d-flex nav-link p-0" data-bs-toggle="dropdown">
+          <img src="https://autumn.revolt.chat/avatars/<%= user.avatar._id %>/<%= user.avatar.filename %>" class="rounded-circle" width="40" alt="User">&nbsp;&nbsp;<i class="fa-sharp fa-solid fa-caret-down"></i>
         </a>
-      </div>
-      <div class="d-flex align-items-center w-100">
-        <ul class="navbar-nav d-none d-lg-flex" style="padding-left: 16.75rem;">
-          <li class="nav-item">
-            <a href="/" class="nav-link">
-                <i class="fa-solid fa-house-chimney"></i>&nbsp;Home
+        <ul class="dropdown-menu dropdown-menu-end" style="width: 14rem;">
+          <li style="font-size: 16px" class="dropdown-item align-items-center"><img src="https://autumn.revolt.chat/avatars/<%= user.avatar._id %>/<%= user.avatar.filename %>" class="rounded-circle" width="27" alt="User">&nbsp;<%= user.username %></li>
+          <li class="dropdown-divider"></li>
+          <li>
+            <a href="/profile" class="dropdown-item d-flex align-items-center">
+              <i class="fa-solid fa-address-card"></i>&nbsp;Profile
+            </a>
+          </li>
+          <li>
+            <a href="/" class="dropdown-item d-flex align-items-center">
+              <i class="fa-solid fa-house-chimney"></i>&nbsp;Home
+            </a>
+          </li>
+          <li class="dropdown-divider"></li>
+          <li>
+            <a class="dropdown-item d-flex align-items-center" href="/logout">
+              <i class="fa-solid fa-right-from-bracket"></i>&nbsp;Logout
             </a>
           </li>
         </ul>
-        <button type="button" class="navbar-toggler d-block d-lg-none ms-auto me-4" data-bs-toggle="offcanvas" data-bs-target="#docsNav" aria-controls="docsNav" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-        <% if (user) { %>
-        <div class="nav dropdown pe-lg-1 ms-lg-auto">
-          <a href="#" class="d-flex nav-link p-0" data-bs-toggle="dropdown">
-            <img src="https://autumn.revolt.chat/avatars/<%= user.avatar._id %>/<%= user.avatar.filename %>" class="rounded-circle" width="40" alt="User">&nbsp;&nbsp;<i class="fa-sharp fa-solid fa-caret-down"></i>
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end" style="width: 14rem;">
-            <li style="font-size: 16px" class="dropdown-item align-items-center"><img src="https://autumn.revolt.chat/avatars/<%= user.avatar._id %>/<%= user.avatar.filename %>" class="rounded-circle" width="27" alt="User">&nbsp;<%= user.username %></li>
-            <li class="dropdown-divider"></li>
-            <li>
-              <a href="/profile" class="dropdown-item d-flex align-items-center">
-                <i class="fa-solid fa-address-card"></i>&nbsp;Profile
-              </a>
-            </li>
-            <li>
-                <a href="/" class="dropdown-item d-flex align-items-center">
-                  <i class="fa-solid fa-house-chimney"></i>&nbsp;Home
-                </a>
-              </li>
-            <li class="dropdown-divider"></li>
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="/logout">
-                <i class="fa-solid fa-right-from-bracket"></i>&nbsp;Logout
-              </a>
-            </li>
-          </ul>
-        </div>
-        <% } else { %>
-        <a href="/login" class="btn btn-secondary btn-sm fs-sm rounded d-none order-lg-3 d-lg-inline-flex">
-          <i class="bx bx-log-in fs-lg me-2"></i>
-          Login
-        </a>
-        <% } %>
       </div>
+      <% } else { %>
+      <a href="/login" class="btn btn-secondary btn-sm fs-sm rounded d-none order-lg-3 d-lg-inline-flex">
+        <i class="bx bx-log-in fs-lg me-2"></i>
+        Login
+      </a>
+      <% } %>
     </div>
-  </header>
-  
-  <a href="#top" class="btn-scroll-top" data-scroll>
-    <span class="btn-scroll-top-tooltip text-muted fs-sm me-2">Top</span>
-    <i class="btn-scroll-top-icon bx bx-chevron-up"></i>
-  </a>
-  
-  <script src="/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="/assets/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
-  <script src="/assets/vendor/rellax/rellax.min.js"></script>
-  <script src="/assets/vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="/assets/vendor/parallax-js/dist/parallax.min.js"></script>
-  <script src="/assets/vendor/prismjs/components/prism-core.min.js"></script>
-  <script src="/assets/vendor/prismjs/components/prism-markup.min.js"></script>
-  <script src="/assets/vendor/prismjs/components/prism-clike.min.js"></script>
-  <script src="/assets/vendor/prismjs/plugins/toolbar/prism-toolbar.min.js"></script>
-  <script src="/assets/vendor/prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
-  <script src="/assets/vendor/prismjs/plugins/line-numbers/prism-line-numbers.min.js"></script>
-  
-  <link rel="stylesheet" media="screen" href="/assets/vendor/boxicons/css/boxicons.min.css" />
-  <link rel="stylesheet" media="screen" href="/assets/vendor/swiper/swiper-bundle.min.css" />
-  <link rel="stylesheet" media="screen" href="/assets/css/theme.min.css">
-  
-  <script src="/assets/js/theme.min.js"></script>
-  
+  </div>
+</header>
+
+<a href="#top" class="btn-scroll-top" data-scroll>
+  <span class="btn-scroll-top-tooltip text-muted fs-sm me-2">Top</span>
+  <i class="btn-scroll-top-icon bx bx-chevron-up"></i>
+</a>
+
+<script src="/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
+<script src="/assets/vendor/rellax/rellax.min.js"></script>
+<script src="/assets/vendor/swiper/swiper-bundle.min.js"></script>
+<script src="/assets/vendor/parallax-js/dist/parallax.min.js"></script>
+<script src="/assets/vendor/prismjs/components/prism-core.min.js"></script>
+<script src="/assets/vendor/prismjs/components/prism-markup.min.js"></script>
+<script src="/assets/vendor/prismjs/components/prism-clike.min.js"></script>
+<script src="/assets/vendor/prismjs/plugins/toolbar/prism-toolbar.min.js"></script>
+<script src="/assets/vendor/prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+<script src="/assets/vendor/prismjs/plugins/line-numbers/prism-line-numbers.min.js"></script>
+
+<link rel="stylesheet" media="screen" href="/assets/vendor/boxicons/css/boxicons.min.css" />
+<link rel="stylesheet" media="screen" href="/assets/vendor/swiper/swiper-bundle.min.css" />
+<link rel="stylesheet" media="screen" href="/assets/css/theme.min.css">
+
+<script src="/assets/js/theme.min.js"></script>

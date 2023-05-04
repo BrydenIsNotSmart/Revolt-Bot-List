@@ -1,16 +1,16 @@
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:site_name" content="Revolt Bot List">
-    <meta property="og:title" content="Viewing <%= fetched_user.name %>'s Profile">
-    <meta name="keywords" content="RevoltBotList,botlist,revolt,<%= fetched_user.name %>,revoltbots,revoltservers">
-    <meta property="og:url" content="https://revoltbots.org">
-    <meta property="og:description" content="<%= fetched_user.bio || "This user doesn't have a bio set." %>">
-    <meta property="og:image" content="<%= fetched_user.avatar %>">
-    <meta property="og:color" content="#fe4655">
-    <link rel='stylesheet' href='/css/botpage.scss'>
-    <title><%= fetched_user.name %> - Revolt Bots</title>
-    <%- include("./parts/head.ejs") %>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:site_name" content="Revolt Bot List">
+  <meta property="og:title" content="Viewing <%= fetched_user.name %>'s Profile">
+  <meta name="keywords" content="RevoltBotList,botlist,revolt,<%= fetched_user.name %>,revoltbots,revoltservers">
+  <meta property="og:url" content="https://revoltbots.org">
+  <meta property="og:description" content="<%= fetched_user.bio || "This user doesn't have a bio set." %>">
+  <meta property="og:image" content="<%= fetched_user.avatar %>">
+  <meta property="og:color" content="#fe4655">
+  <link rel='stylesheet' href='/css/botpage.scss'>
+  <title><%= fetched_user.name %> - Revolt Bots</title>
+  <%- include("./parts/head.ejs") %>
 </head>
 <%- include("./parts/nav.ejs") %>
 
@@ -24,5 +24,5 @@
         <p style="color: white"><%- fetched_user.bio || "This user does not have a bio." %></p>
       </div>
     </div>
-</div>
+  </div>
 </div>

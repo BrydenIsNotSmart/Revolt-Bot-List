@@ -10,29 +10,29 @@
         <a class="nav-link" href="/"><i class="fa-solid fa-house-chimney"></i>&nbsp;Home<span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-          <a class="nav-link" href="/explore"><i class="fa-solid fa-compass"></i>&nbsp;Explore</a>
-        </li>
+        <a class="nav-link" href="/explore"><i class="fa-solid fa-compass"></i>&nbsp;Explore</a>
+      </li>
       <li class="nav-item">
         <a class="nav-link" href="https://vitallist.xyz"><i class="fa-brands fa-discord"></i>&nbsp;Discord</a>
       </li>
       <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-ellipsis"></i>&nbsp;More</a>
-          <div class="dropdown-menu" style="background-color: #fe4655;border-radius: 8px">
-            <div class="btn-group-vertical">
-              <a class="dropdown-item" style="color: white;" href="/partners"><i class="fa-solid fa-handshake"></i>&nbsp;&nbsp;Partners</a>
-              <a class="dropdown-item" style="color: white;" href="/docs"><i class="fa-solid fa-book-open"></i>&nbsp;&nbsp;API Docs</a>
-              <a class="dropdown-item" style="color: white;" href="/team"><i class="fa-solid fa-user-group"></i>&nbsp;&nbsp;Our Team</a>
-              <a class="dropdown-item" style="color: white;" href="/server"><img style="margin-left: 3px;" src="/img/revolt.svg" alt="Revolt Icon" height="18px" width="18px">&nbsp;&nbsp;Revolt</a>
-            </div>
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-ellipsis"></i>&nbsp;More</a>
+        <div class="dropdown-menu" style="background-color: #fe4655;border-radius: 8px">
+          <div class="btn-group-vertical">
+            <a class="dropdown-item" style="color: white;" href="/partners"><i class="fa-solid fa-handshake"></i>&nbsp;&nbsp;Partners</a>
+            <a class="dropdown-item" style="color: white;" href="/docs"><i class="fa-solid fa-book-open"></i>&nbsp;&nbsp;API Docs</a>
+            <a class="dropdown-item" style="color: white;" href="/team"><i class="fa-solid fa-user-group"></i>&nbsp;&nbsp;Our Team</a>
+            <a class="dropdown-item" style="color: white;" href="/server"><img style="margin-left: 3px;" src="/img/revolt.svg" alt="Revolt Icon" height="18px" width="18px">&nbsp;&nbsp;Revolt</a>
           </div>
-        </li>
+        </div>
+      </li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <% if (user) { %>
       <li class="nav-item dropdown" style="margin-right: 150px;">
         <a class="nav-link dropdown-toggle pl-3 pr-3 mr-3 btn btn-primary" style="border-radius: 10px;margin-top:4px;background-color: #fe4655;border-color: #fe4655;" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><img class="right" draggable="false" src="https://autumn.revolt.chat/avatars/<%= user.avatar._id %>/<%= user.avatar.filename %>" width="35" height="35" style="border-radius:100%;" />&nbsp;&nbsp;<%= user.username %></a>
         <div class="dropdown-menu" style="background-color: #fe4655;border-radius: 8px">
-          <a class="dropdown-item" style="color: white;" href="/users/<%= user.revoltId %>"><i class="fa-solid fa-address-card"></i>    &nbsp;&nbsp;Profile</a>
+          <a class="dropdown-item" style="color: white;" href="/users/<%= user.revoltId %>"><i class="fa-solid fa-address-card"></i> &nbsp;&nbsp;Profile</a>
           <a class="dropdown-item" style="color: white;" href="/bots/submit"><i class="fa-solid fa-robot"></i>&nbsp;&nbsp;Add Bot</a>
           <a class="dropdown-item" style="color: white;" href="/servers/submit"><i class="fa-solid fa-comments"></i>&nbsp;&nbsp;Add Server</a>
           <a class="dropdown-item" style="color: white;" href="/logout"><i class="fa-solid fa-right-from-bracket"></i>&nbsp;&nbsp;Logout</a>
@@ -44,7 +44,7 @@
       </li>
       <% } else { %>
       <li class="nav-item" style="margin-right: 150px;">
-        <a href="/login" style="border-radius: 10px;margin-top:3px; background-color:#fe4655;border-color:#fe4655;"  class="btn btn-primary pl-3 pr-3 mr-3"><i class="fa-solid fa-sign-in-alt"></i>&nbsp;&nbsp;<b>Login via Revolt</b></a>
+        <a href="/login" style="border-radius: 10px;margin-top:3px; background-color:#fe4655;border-color:#fe4655;" class="btn btn-primary pl-3 pr-3 mr-3"><i class="fa-solid fa-sign-in-alt"></i>&nbsp;&nbsp;<b>Login via Revolt</b></a>
       </li>
       <% } %>
     </ul>
