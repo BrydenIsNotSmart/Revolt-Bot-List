@@ -38,7 +38,7 @@ let app = mongoose.Schema({
     type: String,
     default: "awaiting" //- awaiting: waiting to be reviewed, appproved, denied, inprogress: currently being reviewed.
   },
-  status: {
+  certified: {
     type: Boolean,
     default: false,
   },
