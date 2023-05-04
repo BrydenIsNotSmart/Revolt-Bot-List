@@ -91,8 +91,11 @@ router.post('/submit', checkAuth, async (req, res) => {
 })
 
 router.get("/:id", async (req, res) => {
-    let bot = await botModel.findOne({ id: req.params.id});
-    if (!bot) return res.status(404).json({ message: "This bot could not be found on our list."})
+    let approved = await botModel.findOne({ id: req.params.id, status: "approved" }) || await botModel.findOne({ name: req.params.id, status: "approved", certified: true });
+    let pending = await botModel.findOne({ id: req.params.id, status: "pending" });
+    let isStaff = await userModel.findOne({ revoltId: req.session.userAccountId, isStaff: true });
+    if (!approved && !pending || pending && !isStaff && !pending.owners.includes(req.session.userAccountId)) return res.status(404).json({ message: "This bot could not be found on our list or is not approved."})
+    let bot = pending || approved;
     const marked = require("marked");
     const description = marked.parse(bot.description);
     bot.description = description;
@@ -110,7 +113,7 @@ router.get("/:id", async (req, res) => {
       botclient: client,
       bot
     })
-})
+});
 
 router.get("/:id/edit", checkAuth, async (req, res) => {
   let bot = await botModel.findOne({ id: req.params.id});
