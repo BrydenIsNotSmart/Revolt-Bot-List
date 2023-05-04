@@ -38,6 +38,10 @@ let app = mongoose.Schema({
     type: String,
     default: "awaiting" //- awaiting: waiting to be reviewed, appproved, denied, inprogress: currently being reviewed.
   },
+  certified: {
+    type: Boolean,
+    default: false,
+  },
   owners: {
     type: Array, 
     required: true
