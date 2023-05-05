@@ -1,0 +1,135 @@
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/typeit@7.0.4/dist/typeit.min.js"></script>
+  <title>Revolt Bots - Find the Revolt bots that are right for you.</title>
+  <%- include("./parts/head.ejs") %>
+</head>
+<%- include("./parts/nav.ejs") %>
+<div class="container" style="padding-top: 175px;">
+    <p class="talign;" style="color:white;text-align: left;"><br>
+      <span style="padding-top:-5px;font-size:50px;padding-bottom:-5px;color:white"><b><span class="vitalText">Revolt</span>Bots</b></span><br>
+      <span class="typing_desc" style="color:white"></span>
+      <script>
+        new TypeIt(".typing_desc", {
+          speed: 90,
+          waitUntilVisible: true,
+          startDelay: 1000,
+        })
+        new TypeIt(".typing_desc", {
+            speed: 90,
+            waitUntilVisible: true,
+            startDelay: 1000,
+          })
+          .type("A place where you can find the best Revolt Bots.")
+          .pause(5000)
+          .delete(48)
+          .type('Revolt Bots, providing you and your community to experience more than just a chat room.')
+          .go()
+      </script>
+           </p>
+	<form action="/bots/search" method="POST">
+      <input type="text" class="form-control" style="height: 45px" name="q" placeholder="Searching for bots...">
+	</form>
+         <button id="search-btn" class="btn btn-light my-2 my-sm-0" style="visibility: hidden;" type="button">
+               Search
+             </button>
+      <br>
+        <% for(let i = 0; i < config.tags.length; i++){ %>
+          <a href="/bots/tags/<%= config.tags[i] %>">
+             <button style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655" class="btn btn-primary pl-3 pr-3 mr-3"><i class="fa-brands fa-hashtag"></i>&nbsp;&nbsp;<span style="text-align: right;"><b><%= config.tags[i] %></b></span></button>
+         </a>
+             <% } %>
+    </div>
+    <div style="background-color: #242424;margin-bottom: 15px;">
+      <div class="botContainer" style="background-color: #242424;margin-top: 200px;"><br><br><br>
+        <div class="centerText">
+      <% if (!error){ %> 
+      <p><span style="padding-left:-550px;font-size:45px;color:white;text-shadow: 1px 1px black;"><i class="fa-solid fa-fire-flame-curved"></i> <b>Top Voted <%= tag %> bots </b></span><br>
+      <span style="padding-left:-250px;color: white;font-size: 17px;">These are the most voted  <%= tag %> bots for this month.</span></p>
+      <% let voted = bot.sort((a,b) => b.monthlyVotes - a.monthlyVotes) %>
+      <% for(let i = 0; i < voted.length; i++){ %>
+      <%  if (i === 3) break; %>
+      <div class="card" style="border-radius:10px;">
+        <div class="banner" style="background-image: url(<%= voted[i].bannerURL || voted[i].iconURL %>);opacity: 0.15" title="Banner"></div>
+        <img src="<%= voted[i].iconURL %>" style="opacity: 2" alt="<%= voted[i].name %>'s Avatar" draggable="false" class="botimg_main">
+        <p class="botname_main" style="opacity: 2;height:65px;width:250px;padding:10px;"> 
+          <b><%= voted[i].name %></b>
+           <br>
+          <span style="font-size:15px; font-weight:normal;"><i class="fa-solid fa-server"></i> <%= voted[i].servers || "N/A" %> • <i class="fa-solid fa-check-to-slot"></i> <%= voted[i].monthlyVotes %></span>
+        </p>
+        <div class="botdesc_main" style="height:75px;width:auto;flex:auto;padding:10px;">
+          <%= voted[i].shortDesc %>
+        </div>
+        <div class="bottags_main" style="height:75px;width:auto;flex:auto;padding:10px;">
+          <i class="fa-solid fa-hashtag"></i> <%= voted[i].tags %>
+        </div>
+        <div style="margin-left:20px;margin-top:-40px">
+          <a href="/bots/<%= voted[i].id %>/">
+            <button class="viewbtn"><i class="fa-solid fa-eye"></i> View</button>
+        </div></a>
+        <a href="/bots/<%= voted[i].id %>/vote">
+          <button class="votebtn"><i class="fa-solid fa-check-to-slot"></i> Vote</button></a>
+      </div></a>
+      <% } %>
+	</div>
+      <div class="botContainer" style="background-color: #242424;margin-top: 200px;"><br><br><br>
+        <div class="centerText">
+      <p><span style="padding-left:-550px;font-size:45px;color:white;text-shadow: 1px 1px black;"><i class="fa-solid fa-fire-flame-curved"></i> <b>All <%= tag %> bots</b></span><br>
+      <span style="padding-left:-250px;color: white;font-size: 17px;">These are all <%= tag %> bots.</span></p>
+      <% let allBots = bot.sort((a,b) => b.name - a.name) %>
+      <% for(let i = 0; i < allBots.length; i++){ %>
+      <%  if (i === 3) break; %>
+      <div class="card" style="border-radius:10px;">
+        <div class="banner" style="background-image: url(<%= allBots[i].bannerURL || allBots[i].iconURL %>);opacity: 0.15" title="Banner"></div>
+        <img src="<%= allBots[i].iconURL %>" style="opacity: 2" alt="<%= allBots[i].name %>'s Avatar" draggable="false" class="botimg_main">
+        <p class="botname_main" style="opacity: 2;height:65px;width:250px;padding:10px;"> 
+          <b><%= allBots[i].name %></b>
+           <br>
+          <span style="font-size:15px; font-weight:normal;"><i class="fa-solid fa-server"></i> <%= allBots[i].servers || "N/A" %> • <i class="fa-solid fa-check-to-slot"></i> <%= allBots[i].monthlyVotes %></span>
+        </p>
+        <div class="botdesc_main" style="height:75px;width:auto;flex:auto;padding:10px;">
+          <%= allBots[i].shortDesc %>
+        </div>
+        <div class="bottags_main" style="height:75px;width:auto;flex:auto;padding:10px;">
+          <i class="fa-solid fa-hashtag"></i> <%= allBots[i].tags %>
+        </div>
+        <div style="margin-left:20px;margin-top:-40px">
+          <a href="/bots/<%= allBots[i].id %>/">
+            <button class="viewbtn"><i class="fa-solid fa-eye"></i> View</button>
+        </div></a>
+        <a href="/bots/<%= allBots[i].id %>/vote">
+          <button class="votebtn"><i class="fa-solid fa-check-to-slot"></i> Vote</button></a>
+      </div></a>
+      <% } %>
+      <br><br><br><br>
+      <% } else { %>
+      <p><span style="padding-left:-550px;font-size:45px;color:white;text-shadow: 1px 1px black;"><b> No results found! </b></span><br>
+      <span style="padding-left:-250px;color: white;font-size: 17px;">No bots were found matching the search request.</span></p>
+      <% } %>	
+    <br><br>
+      </div><br>
+  </div>
+</div>
+</div>
+
+<%- include("./parts/footer.ejs") %>
+  <style>
+    .centerText {
+    text-align: center;
+    padding-right: 10px;
+    padding-left: 15px;
+	}
+  </style>
+<script>
+  $(function(params) {
+    const searchBtn = $("#search-btn");
+    searchBtn.click(function(event) {
+      event.preventDefault();
+      const searchBox = $("#search-box");
+      const searchTerm = searchBox.val();
+      if (searchTerm) {
+        searchBtn.addClass("enabled");
+        location.replace(`/search?q=${searchTerm}`);
+      }
+    });
+  });
+</script>
