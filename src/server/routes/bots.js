@@ -208,7 +208,6 @@ router.post("/search", async (req, res) => {
   let botShort = await botModel.find({ status: "approved", shortDesc:  {'$regex': `${req.body.q}`, $options: 'gi'}});
   let user = await userModel.findOne({ revoltId: req.session.userAccountId });
   let bot = botDesc.length >= 1 ? botDesc : (botShort.length >= 1 ? botShort : (botName.length >= 1 ? botName : null ) )
-  console.log(bot)
   if(user) {
     let userRaw = await client.users.fetch(user.revoltId);
     user.username = userRaw.username;
