@@ -208,6 +208,9 @@ router.post("/search", async (req, res) => {
   let botShort = await botModel.find({ status: "approved", shortDesc:  {'$regex': `${req.body.q}`, $options: 'i'}});
   let user = await userModel.findOne({ revoltId: req.session.userAccountId });
   let bot = botDesc.length >= 1 ? botDesc : (botShort.length >= 1 ? botShort : (botName.length >= 1 ? botName : null ) )
+  for (let i = 0; i < bot.length; i++) {
+    bot[i].tags = bot[i].tags.join(", ")
+  }
   if(user) {
     let userRaw = await client.users.fetch(user.revoltId);
     user.username = userRaw.username;
@@ -231,6 +234,9 @@ router.get("/tags/:tag", async (req, res) => {
     user.username = userRaw.username;
     user.avatar = userRaw.avatar;
     user.id = user.revoltId
+  }
+  for (let i = 0; i < bot.length; i++) {
+    bot[i].tags = bot[i].tags.join(", ")
   }
   if (bot.length == 0) return res.render("search.ejs", {error: "No bots could not be found on our list with specified tag.", bot: bot || null, tag: req.params.tag ||null, user: user || null})
   res.render("search.ejs", {
