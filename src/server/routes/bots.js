@@ -156,7 +156,7 @@ router.get("/:id", async (req, res) => {
 
 router.get("/:id/edit", checkAuth, async (req, res) => {
   let bot = await botModel.findOne({ id: req.params.id });
-  if (!bot)
+  if (!bot || bot == null)
     return res
       .status(404)
       .json({ message: "This bot could not be found on our list." });
@@ -281,7 +281,7 @@ router.post("/search", async (req, res) => {
       ? botShort
       : botName.length >= 1
       ? botName
-      : null;
+      : [];
   for (let i = 0; i < bot.length; i++) {
     bot[i].tags = bot[i].tags.join(", ");
   }
