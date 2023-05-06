@@ -35,19 +35,19 @@
       <br>
         <% for(let i = 0; i < config.tags.length; i++){ %>
           <a href="/bots/tags/<%= config.tags[i].toLowerCase() %>">
-             <button style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655" class="btn btn-primary pl-3 pr-3 mr-3"><i class="fa-brands fa-hashtag"></i>&nbsp;&nbsp;<span style="text-align: right;"><b><%= config.tags[i] %></b></span></button>
+             <button style="border-radius: 7px;margin-top:3px; background-color: #FF3366;border-color: transparent" class="btn btn-primary pl-3 pr-3 mr-3"><i class="fa-brands fa-hashtag"></i>&nbsp;&nbsp;<span style="text-align: right;"><b><%= config.tags[i] %></b></span></button>
          </a>
              <% } %>
     </div>
     <div style="background-color: #242424;margin-bottom: 15px;">
-      <div class="botContainer" style="background-color: #242424;margin-top: 200px;"><br><br><br>
+      <div class="botContainer" style="background-color: #111016;margin-top: 200px;"><br><br><br>
         <div class="centerText">
       <% if (!error){ %> 
       <p><span style="padding-left:-550px;font-size:45px;color:white;text-shadow: 1px 1px black;"><i class="fa-solid fa-fire-flame-curved"></i> <b>Top Voted <%= tag %> bots </b></span><br>
       <span style="padding-left:-250px;color: white;font-size: 17px;">These are the most voted  <%= tag %> bots for this month.</span></p>
       <% let voted = bot.sort((a,b) => b.monthlyVotes - a.monthlyVotes) %>
       <% for(let i = 0; i < voted.length; i++){ %>
-      <%  if (i === 3) break; %>
+      <%  if (i === 4) break; %>
       <div class="card" style="border-radius:10px;">
         <div class="banner" style="background-image: url(<%= voted[i].bannerURL || voted[i].iconURL %>);opacity: 0.15" title="Banner"></div>
         <img src="<%= voted[i].iconURL %>" style="opacity: 2" alt="<%= voted[i].name %>'s Avatar" draggable="false" class="botimg_main">
@@ -71,7 +71,7 @@
       </div></a>
       <% } %>
 	</div>
-      <div class="botContainer" style="background-color: #242424;margin-top: 200px;"><br><br><br>
+      <div class="botContainer" style="background-color: #111016;margin-top: 200px;"><br><br><br>
         <div class="centerText">
       <p><span style="padding-left:-550px;font-size:45px;color:white;text-shadow: 1px 1px black;"><i class="fa-solid fa-fire-flame-curved"></i> <b>All <%= tag %> bots</b></span><br>
       <span style="padding-left:-250px;color: white;font-size: 17px;">These are all submitted bots placed in the <%= tag %> category</span></p>

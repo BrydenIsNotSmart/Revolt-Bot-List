@@ -17,7 +17,7 @@
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-ellipsis"></i>&nbsp;More</a>
-        <div class="dropdown-menu" style="background-color: #fe4655;border-radius: 8px">
+        <div class="dropdown-menu" style="background-image:radial-gradient( circle 325px at 19.2% 64.8%,  rgba(254,62,101,1) 9.7%, rgba(166,24,146,1) 91.3% );border-radius: 8px">
           <div class="btn-group-vertical">
             <a class="dropdown-item" style="color: white;" href="/partners"><i class="fa-solid fa-handshake"></i>&nbsp;&nbsp;Partners</a>
             <a class="dropdown-item" style="color: white;" href="/docs"><i class="fa-solid fa-book-open"></i>&nbsp;&nbsp;API Docs</a>
@@ -30,8 +30,8 @@
     <ul class="nav navbar-nav navbar-right">
       <% if (user) { %>
       <li class="nav-item dropdown" style="margin-right: 150px;">
-        <a class="nav-link dropdown-toggle pl-3 pr-3 mr-3 btn btn-primary" style="border-radius: 10px;margin-top:4px;background-color: #fe4655;border-color: #fe4655;" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><img class="right" draggable="false" src="https://autumn.revolt.chat/avatars/<%= user.avatar._id %>/<%= user.avatar.filename %>" width="35" height="35" style="border-radius:100%;" />&nbsp;&nbsp;<%= user.username %></a>
-        <div class="dropdown-menu" style="background-color: #fe4655;border-radius: 8px">
+        <a class="nav-link dropdown-toggle pl-3 pr-3 mr-3 btn btn-primary" style="border-radius: 10px;margin-top:4px;background-color: transparent;border-color: transparent;background-image:radial-gradient( circle 325px at 19.2% 64.8%,  rgba(254,62,101,1) 9.7%, rgba(166,24,146,1) 91.3% );" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><img class="right" draggable="false" src="https://autumn.revolt.chat/avatars/<%= user.avatar._id %>/<%= user.avatar.filename %>" width="35" height="35" style="border-radius:100%;" />&nbsp;&nbsp;<%= user.username %></a>
+        <div class="dropdown-menu" style="background-image:radial-gradient( circle 325px at 19.2% 64.8%,  rgba(254,62,101,1) 9.7%, rgba(166,24,146,1) 91.3% );border-radius: 8px">
           <a class="dropdown-item" style="color: white;" href="/users/<%= user.revoltId %>"><i class="fa-solid fa-address-card"></i> &nbsp;&nbsp;Profile</a>
           <a class="dropdown-item" style="color: white;" href="/bots/submit"><i class="fa-solid fa-robot"></i>&nbsp;&nbsp;Add Bot</a>
           <a class="dropdown-item" style="color: white;" href="/servers/submit"><i class="fa-solid fa-comments"></i>&nbsp;&nbsp;Add Server</a>

@@ -35,7 +35,7 @@ module.exports = {
 			  })
 			}, 10000)
 		  })
-	    }, 86400000)
+	    }, 8640000)
 
 		//-Vote Reset-//
 		let CronJob = require('cron').CronJob;

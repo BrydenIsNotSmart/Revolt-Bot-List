@@ -34,10 +34,9 @@
 	<form action="/bots/search" method="POST">
       <input type="text" class="form-control" style="height: 45px" name="q" placeholder="Searching for bots...">
 	</form>
-      <br>
         <% for(let i = 0; i < config.tags.length; i++){ %>
           <a href="/bots/tags/<%= config.tags[i].toLowerCase() %>">
-             <button style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655" class="btn btn-primary pl-3 pr-3 mr-3"><i class="fa-brands fa-hashtag"></i>&nbsp;&nbsp;<span style="text-align: right;"><b><%= config.tags[i] %></b></span></button>
+             <button style="border-radius: 7px;margin-top:3px; background-color: #FF3366;border-color: transparent" class="btn btn-primary pl-3 pr-3 mr-3"><i class="fa-brands fa-hashtag"></i>&nbsp;&nbsp;<span style="text-align: right;"><b><%= config.tags[i] %></b></span></button>
          </a>
              <% } %>
     </div>
@@ -45,7 +44,7 @@
     </div>
     <% if (bots !== null) { %>
     <div style="background-color: #242424;margin-bottom: 15px;">
-      <div class="botContainer" style="background-color: #242424;margin-top: 200px;"><br><br><br>
+      <div class="botContainer" style="background-color: #111016;margin-top: 200px;"><br><br><br>
         <div class="centerText">
       <p><span style="padding-left:-550px;font-size:45px;color:white;text-shadow: 1px 1px black;"><i class="fa-solid fa-fire-flame-curved"></i> <b>Top Voted</b></span><br>
       <span style="padding-left:-250px;color: white;font-size: 17px;">These are the most voted bots for this month.</span></p>
