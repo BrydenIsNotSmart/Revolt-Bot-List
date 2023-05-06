@@ -1,9 +1,10 @@
 const express = require('express');
 const path = require('node:path');
 const router = express.Router();
+const model = global.botModel;
+const userModel = global.userModel;
 
 router.get('/', async (req, res) => {
-    let model = require("../../database/models/bot.js")
     let bots = await model.find({
         status: "approved",
       });
@@ -26,7 +27,6 @@ router.get('/', async (req, res) => {
 })
 
 router.get('/explore', async (req, res) => {
-  let model = require("../../database/models/bot.js")
   let bots = await model.find({
       status: "approved",
     });
@@ -34,7 +34,6 @@ router.get('/explore', async (req, res) => {
     for (let i = 0; i < bots.length; i++) {
       bots[i].tags = bots[i].tags.join(", ")
     }
-    let userModel = require("../../database/models/user.js")
     let user = await userModel.findOne({ revoltId: req.session.userAccountId });
     if(user) {
       let userRaw = await client.users.fetch(user.revoltId);
@@ -47,5 +46,31 @@ router.get('/explore', async (req, res) => {
       config
   })
 })
+
+router.get("beta/search", async (req, res) => {
+  const search = req.query?.q || req.query?.s;
+  if (!search) return res.redirect("/");
+
+  let bots = await model.find({ approved: true });
+  let botsList = [];
+  let user = await userModel.findOne({ revoltId: req.session.userAccountId }) || null;
+  for (let i = 0; i < bots.length; i++) {
+    if (
+      bots[i].tags.map((t) => t.toLowerCase()).includes(search.toLowerCase()) ||
+      bots[i].shortDesc.toLowerCase().includes(search.toLowerCase()) ||
+      bots[i].id.toLowerCase().includes(search.toLowerCase())
+    ) {
+      botsList.push(bots[i]);
+    }
+    bots[i].tags = bots[i].tags.join(", ");
+  }
+console.log(search, botsList)
+  res.render("search.ejs", {
+    bot: global.client,
+    bots: botsList,
+    user,
+    search,
+  });
+});
 
 module.exports = router;
