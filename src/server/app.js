@@ -192,6 +192,8 @@ app.use("/bot", botsRouter);
 const usersRouter = require("./routes/users.js");
 app.use("/users", usersRouter);
 app.use("/user", usersRouter);
+const botRulesRouter = require("./routes/bot-rules.js");
+app.use("/bot-rules", botRulesRouter);
 
 app.listen(config.port, () => {
   console.info(`[INFO] Running on port ` + config.port);
