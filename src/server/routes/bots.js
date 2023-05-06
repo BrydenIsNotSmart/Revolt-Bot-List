@@ -34,7 +34,7 @@ router.get('/submit', checkAuth, async (req, res) => {
   res.render("bots/submit.ejs", {
     user,
     tags: config.tags
-  }) 
+  })
 })
 
 router.post('/submit', checkAuth, async (req, res) => {
@@ -94,12 +94,6 @@ router.get("/:id", async (req, res) => {
     let approved = await botModel.findOne({ id: req.params.id, status: "approved" }) || await botModel.findOne({ name: req.params.id, status: "approved", certified: true }) || await botModel.findOne({ vanity: req.params.id, status: "approved", certified: true });
     let awaiting = await botModel.findOne({ id: req.params.id, status: "awaiting" });
     let isStaff = await userModel.findOne({ revoltId: req.session.userAccountId, isStaff: true });
-    if (!approved && !awaiting || awaiting && !isStaff && !awaiting.owners.includes(req.session.userAccountId)) return res.status(404).json({ message: "This bot could not be found on our list or is not approved."})
-    let bot = awaiting || approved;
-    const marked = require("marked");
-    const description = marked.parse(bot.description);
-    bot.description = description;
-    bot.tags = bot.tags.join(", ")
     let user = await userModel.findOne({ revoltId: req.session.userAccountId });
     if(user) {
       let userRaw = await client.users.fetch(user.revoltId);
@@ -107,7 +101,13 @@ router.get("/:id", async (req, res) => {
       user.avatar = userRaw.avatar;
       user.id = user.revoltId
     }
-
+    if (req.params.id == "search") return res.render("explore.ejs", {user: user, bots: null, error: null});
+    if (!approved && !awaiting || awaiting && !isStaff && !awaiting.owners.includes(req.session.userAccountId)) return res.status(404).json({ message: "This bot could not be found on our list or is not approved."})
+    let bot = awaiting || approved;
+    const marked = require("marked");
+    const description = marked.parse(bot.description);
+    bot.description = description;
+    bot.tags = bot.tags.join(", ")
     res.render("bots/view.ejs", {
       user: user || null,
       botclient: client,
@@ -199,6 +199,45 @@ router.get("/:id/vote", async (req, res) => {
   res.render("bots/vote.ejs", {
     user: user || null,
     bot
+  })
+})
+
+router.post("/search", async (req, res) => {
+  let botDesc = await botModel.find({ status: "approved", description:  {'$regex': `${req.body.q}`, $options: 'i'}});
+  let botName = await botModel.find({ status: "approved", name:  {'$regex': `${req.body.q}`, $options: 'i'}});
+  let botShort = await botModel.find({ status: "approved", shortDesc:  {'$regex': `${req.body.q}`, $options: 'i'}});
+  let user = await userModel.findOne({ revoltId: req.session.userAccountId });
+  let bot = botDesc.length >= 1 ? botDesc : (botShort.length >= 1 ? botShort : (botName.length >= 1 ? botName : null ) )
+  if(user) {
+    let userRaw = await client.users.fetch(user.revoltId);
+    user.username = userRaw.username;
+    user.avatar = userRaw.avatar;
+    user.id = user.revoltId
+  }
+  if (bot == null || bot.length == 0) return res.render("search.ejs", {error: "No bots could not be found on our list with specified term.", bot: bot || null, tag: req.query.q ||null, user: user || null})
+  res.render("search.ejs", {
+    user: user || null,
+    bot,
+    error: null,
+    tag: req.params.tag
+  })
+});
+
+router.get("/tags/:tag", async (req, res) => {
+  let bot = await botModel.find({ tags:  {'$regex': `^${req.params.tag}$`, $options: 'i'}});
+  let user = await userModel.findOne({ revoltId: req.session.userAccountId });
+  if(user) {
+    let userRaw = await client.users.fetch(user.revoltId);
+    user.username = userRaw.username;
+    user.avatar = userRaw.avatar;
+    user.id = user.revoltId
+  }
+  if (bot.length == 0) return res.render("search.ejs", {error: "No bots could not be found on our list with specified tag.", bot: bot || null, tag: req.params.tag ||null, user: user || null})
+  res.render("search.ejs", {
+    user: user || null,
+    bot,
+    error: null,
+    tag: req.params.tag.toUpperCase()
   })
 })
 
