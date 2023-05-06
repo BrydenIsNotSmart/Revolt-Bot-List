@@ -1,7 +1,9 @@
 <html lang="en" class="dark-mode">
-  <head>
-    <%- include('./parts/head.ejs') %>
-  </head>
+
+<head>
+  <%- include('./parts/head.ejs') %>
+</head>
+
 <body>
   <%- include('./parts/aside.ejs') %>
 
@@ -154,11 +156,12 @@
             }
           })
         }
+
         function decline(id, reason) {
           event.preventDefault();
           if (!id) return document.getElementById('declineError_' + id).innerHTML = '<div class="alert alert-danger" role="alert">Please provide a bot ID.</div>';
           if (!reason) return document.getElementById('declineError_' + id).innerHTML = '<div class="alert alert-danger" role="alert">Please provide a reason for declining the bot.</div>';
-          
+
           fetch('/panel/bot/decline', {
             method: 'POST',
             headers: {
