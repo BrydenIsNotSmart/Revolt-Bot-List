@@ -224,7 +224,7 @@ router.post("/search", async (req, res) => {
 });
 
 router.get("/tags/:tag", async (req, res) => {
-  let bot = await botModel.find({ tags: req.params.tag });
+  let bot = await botModel.find({ tags:  {'$regex': `^${req.params.tag}$`, $options: 'i'}});
   let user = await userModel.findOne({ revoltId: req.session.userAccountId });
   if(user) {
     let userRaw = await client.users.fetch(user.revoltId);
@@ -237,7 +237,7 @@ router.get("/tags/:tag", async (req, res) => {
     user: user || null,
     bot,
     error: null,
-    tag: req.params.tag
+    tag: req.params.tag.toUpperCase()
   })
 })
 
