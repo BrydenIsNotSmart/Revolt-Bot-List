@@ -33,7 +33,7 @@
         <% for(let i = 0; i < config.tags.length; i++){ %>
           <%  if (i === 6) break; %>
           <a href="/bots/tags/<%= config.tags[i].toLowerCase() %>">
-             <button style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655" class="btn btn-primary pl-3 pr-3 mr-3"><i class="fa-brands fa-hashtag"></i>&nbsp;&nbsp;<span style="text-align: right;"><b><%= config.tags[i] %></b></span></button>
+             <button style="border-radius: 7px;margin-top:3px; background-color: #FF3366;border-color: transparent" class="btn btn-primary pl-3 pr-3 mr-3"><i class="fa-brands fa-hashtag"></i>&nbsp;&nbsp;<span style="text-align: right;"><b><%= config.tags[i] %></b></span></button>
          </a>
              <% } %>
              <a href="/explore">
