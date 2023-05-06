@@ -203,9 +203,9 @@ router.get("/:id/vote", async (req, res) => {
 })
 
 router.post("/search", async (req, res) => {
-  let botDesc = await botModel.find({ status: "approved", description:  {'$regex': `${req.body.q}`, $options: 'gi'}});
-  let botName = await botModel.find({ status: "approved", name:  {'$regex': `${req.body.q}`, $options: 'gi'}});
-  let botShort = await botModel.find({ status: "approved", shortDesc:  {'$regex': `${req.body.q}`, $options: 'gi'}});
+  let botDesc = await botModel.find({ status: "approved", description:  {'$regex': `${req.body.q}`, $options: 'i'}});
+  let botName = await botModel.find({ status: "approved", name:  {'$regex': `${req.body.q}`, $options: 'i'}});
+  let botShort = await botModel.find({ status: "approved", shortDesc:  {'$regex': `${req.body.q}`, $options: 'i'}});
   let user = await userModel.findOne({ revoltId: req.session.userAccountId });
   let bot = botDesc.length >= 1 ? botDesc : (botShort.length >= 1 ? botShort : (botName.length >= 1 ? botName : null ) )
   if(user) {
