@@ -64,7 +64,6 @@ router.get("beta/search", async (req, res) => {
     }
     bots[i].tags = bots[i].tags.join(", ");
   }
-console.log(search, botsList)
   res.render("search.ejs", {
     bot: global.client,
     bots: botsList,
