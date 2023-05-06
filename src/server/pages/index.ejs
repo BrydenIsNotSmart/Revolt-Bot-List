@@ -29,7 +29,6 @@
 	<form action="/bots/search" method="POST">
       <input type="text" class="form-control" style="height: 45px" name="q" placeholder="Searching for bots...">
 	</form>
-      <br>
         <% for(let i = 0; i < config.tags.length; i++){ %>
           <%  if (i === 6) break; %>
           <a href="/bots/tags/<%= config.tags[i].toLowerCase() %>">
