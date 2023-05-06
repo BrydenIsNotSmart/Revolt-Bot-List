@@ -1,17 +1,17 @@
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:site_name" content="Revolt Bot List">
-    <meta property="og:title" content="<%= bot.name %>">
-    <meta name="keywords" content="RevoltBotList,botlist,revolt,<%= bot.name %>,revoltbots,revoltservers">
-    <meta property="og:url" content="https://revoltbots.org">
-    <meta property="og:description" content="<%= bot.shortDesc %>">
-    <meta property="og:image" content="<%= bot.iconURL %>">
-    <meta property="og:color" content="#fe4655">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sanitize-html/1.26.0/sanitize-html.min.js"></script>
-    <link rel='stylesheet' href='/css/botpage.scss'>
-    <title><%= bot.name %> - Revolt Bots</title>
-    <%- include("../parts/head.ejs") %>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:site_name" content="Revolt Bot List">
+  <meta property="og:title" content="<%= bot.name %>">
+  <meta name="keywords" content="RevoltBotList,botlist,revolt,<%= bot.name %>,revoltbots,revoltservers">
+  <meta property="og:url" content="https://revoltbots.org">
+  <meta property="og:description" content="<%= bot.shortDesc %>">
+  <meta property="og:image" content="<%= bot.iconURL %>">
+  <meta property="og:color" content="#fe4655">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sanitize-html/1.26.0/sanitize-html.min.js"></script>
+  <link rel='stylesheet' href='/css/botpage.scss'>
+  <title><%= bot.name %> - Revolt Bots</title>
+  <%- include("../parts/head.ejs") %>
 </head>
 <%- include("../parts/nav.ejs") %>
 
@@ -44,7 +44,8 @@
         </hr>
         <p style="color:white"><i class="fa-solid fa-terminal"></i> <b>Prefix</b>: <code><%= bot.prefix %></code>&nbsp;&nbsp;|&nbsp;&nbsp;<i class="fa-solid fa-file-code" aria-hidden="true"></i> <b>Library</b>: <%= bot.library %>
           &nbsp;&nbsp;|&nbsp;&nbsp;<i class="fa-solid fa-check-to-slot"></i> <b>Votes</b>: <%= bot.votes %>&nbsp;&nbsp;|&nbsp;&nbsp; <i class="fa-solid fa-server"></i> <b>Servers:</b> <%= bot.servers || "N/A" %>&nbsp;&nbsp;|&nbsp;&nbsp;
-          <i class="fa-solid fa-clock"></i> <b>Submitted</b>: <%= new Date(bot.submittedOn).toLocaleDateString() %></p>
+          <i class="fa-solid fa-clock"></i> <b>Submitted</b>: <%= new Date(bot.submittedOn).toLocaleDateString() %>
+        </p>
         <hr>
         <a href="https://app.revolt.chat/bot/<%= bot.id %>" type="button" style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655" class="btn btn-primary pr-3 pl-3 mr-1"><i class="fa-solid fa-plus"></i> Invite</a>
         <form id="votebutton" method="post" action="/bots/<%= bot.id %>/vote" style="display: none;"></form>
@@ -56,8 +57,8 @@
         <a href="<%= bot.github %>" type="button" style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-brands fa-github"></i> GitHub</a>
         <% } %>
         <% if (bot.support) { %>
-          <a href="<%= bot.support %>" type="button" style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655" class="btn btn-info pr-3 pl-3 mr-1"><img src="/img/revolt.svg" alt="Revolt Icon" height="18px" width="18px">Support</a>
-          <% } %>
+        <a href="<%= bot.support %>" type="button" style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655" class="btn btn-info pr-3 pl-3 mr-1"><img src="/img/revolt.svg" alt="Revolt Icon" height="18px" width="18px">Support</a>
+        <% } %>
         <% if (user && bot.owners.includes(user.revoltId)) { %>
         <a href="/bots/<%= bot.id %>/edit" type="button" style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655; color: white" class="btn btn-warning pr-3 pl-3 mr-1"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
         <% } %>
@@ -65,29 +66,25 @@
     </div><br><br>
     <% try { %>
     <% if(bot.owners.filter(o => o !== "").length >= 2){ %>
-      <h2 style="color: white">
-        <i class="fa-solid fa-code"></i> <b>Developers</b>
+    <h2 style="color: white">
+      <i class="fa-solid fa-code"></i> <b>Developers</b>
     </h2><br>
-    <% for(let i = 0; i < bot.owners.length; i++) { %> 
-    <a class="owner" href="/user/<%= bot.owners[i] %>"><img class="rounded-circle" style="width: 45px; height: 45px;"
-        src="https://autumn.revolt.chat/avatars/<%= botclient.users.get(bot.owners[i]).avatar._id %>/<%= botclient.users.get(bot.owners[i]).avatar.filename %>.png">&nbsp;<b
-        style="font-size: 20px;">
+    <% for(let i = 0; i < bot.owners.length; i++) { %>
+    <a class="owner" href="/user/<%= bot.owners[i] %>"><img class="rounded-circle" style="width: 45px; height: 45px;" src="https://autumn.revolt.chat/avatars/<%= botclient.users.get(bot.owners[i]).avatar._id %>/<%= botclient.users.get(bot.owners[i]).avatar.filename %>.png">&nbsp;<b style="font-size: 20px;">
         <%= botclient.users.get(bot.owners[i]).username || "Unknown User" %>
       </b></a>&nbsp;&nbsp;
     <% } %>
-   <% }else{ %>
-      <h2 style="color: white">
-        <i class="fa-solid fa-code"></i> <b>Developer</b>
+    <% }else{ %>
+    <h2 style="color: white">
+      <i class="fa-solid fa-code"></i> <b>Developer</b>
     </h2>
-    <a class="owner" href="/user/<%= bot.owners[0] %>"><img class="rounded-circle idk" style="width: 45px; height: 45px;"
-        src="https://autumn.revolt.chat/avatars/<%= botclient.users.get(bot.owners[0]).avatar._id %>/<%= botclient.users.get(bot.owners[0]).avatar.filename %>">&nbsp;<b
-        style="font-size: 20px;">
+    <a class="owner" href="/user/<%= bot.owners[0] %>"><img class="rounded-circle idk" style="width: 45px; height: 45px;" src="https://autumn.revolt.chat/avatars/<%= botclient.users.get(bot.owners[0]).avatar._id %>/<%= botclient.users.get(bot.owners[0]).avatar.filename %>">&nbsp;<b style="font-size: 20px;">
         <%= botclient.users.get(bot.owners[0]).username || "Unknown User" %>
       </b></a>
     <% } %><br>
     <% } catch(err) { %>
-      <a class="owner" href="/user/<%= bot.owners[0] %>">&nbsp;<b style="font-size: 20px;">Unknown User</b></a>
-  <%  } %>
+    <a class="owner" href="/user/<%= bot.owners[0] %>">&nbsp;<b style="font-size: 20px;">Unknown User</b></a>
+    <%  } %>
     <hr>
   </div>
 </div>
@@ -121,4 +118,4 @@
     });
     descriptionBox.html(sanitizedRender);
   });
-  </script>
+</script>

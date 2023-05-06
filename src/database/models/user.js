@@ -16,6 +16,10 @@ let app = mongoose.Schema({
   isStaff: {
     type: Boolean,
     default: false
+  },
+  premium: {
+    type: Boolean,
+    default: false,
   }
 });
 

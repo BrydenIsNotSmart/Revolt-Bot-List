@@ -5,11 +5,16 @@
 </head>
 <%- include("./parts/nav.ejs") %>
 <div class="container" style="padding-top: 175px;">
-    <p class="talign;" style="color:white;text-align: left;"><br>
-      <span style="padding-top:-5px;font-size:50px;padding-bottom:-5px;color:white"><b><span class="vitalText">Revolt</span>Bots</b></span><br>
-      <span class="typing_desc" style="color:white"></span>
-      <script>
-        new TypeIt(".typing_desc", {
+  <p class="talign;" style="color:white;text-align: left;"><br>
+    <span style="padding-top:-5px;font-size:50px;padding-bottom:-5px;color:white"><b><span class="vitalText">Revolt</span>Bots</b></span><br>
+    <span class="typing_desc" style="color:white"></span>
+    <script>
+      new TypeIt(".typing_desc", {
+        speed: 90,
+        waitUntilVisible: true,
+        startDelay: 1000,
+      })
+      new TypeIt(".typing_desc", {
           speed: 90,
           waitUntilVisible: true,
           startDelay: 1000,
@@ -145,11 +150,26 @@
   </div>
 </div>
 	<% } %>
-
-  <style>
-    .centerText {
+  
+<style>
+  .centerText {
     text-align: center;
     padding-right: 10px;
     padding-left: 15px;
-}
-  </style>
+    }
+</style>
+
+<script>
+  $(function(params) {
+    const searchBtn = $("#search-btn");
+    searchBtn.click(function(event) {
+      event.preventDefault();
+      const searchBox = $("#search-box");
+      const searchTerm = searchBox.val();
+      if (searchTerm) {
+        searchBtn.addClass("disabled");
+        location.replace(`/search?q=${searchTerm}`);
+      }
+    });
+  });
+</script>
