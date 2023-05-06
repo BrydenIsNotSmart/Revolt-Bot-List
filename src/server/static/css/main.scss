@@ -1,9 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
 
 body {
-    background-color: #fe4655;
+    background-color: ##111016;
+    background: linear-gradient(to bottom, #350E20 1%, #111016 90%);
     /*background: linear-gradient(90deg, rgba(12,10,37,1) 32%, rgba(35,12,98,1) 87%); */
-    background: linear-gradient(to left top, rgb(105, 8, 8) 40%/*bottom-right color*/, rgb(197, 11, 11) 100% /*top-left color*/);
     margin: 0;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -43,7 +43,7 @@ body {
   width: 375px;
   backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
-  background-color: #111111;
+  background-color: #14121C;
   border-radius: 10px;
   margin-top: 15px;
   margin-left: auto;
@@ -54,7 +54,7 @@ body {
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 .viewbtn {
-  background-color: #fe4655;
+  background-color: #FF3366;
   height: 40px;
   width: 150px;
   border: none;
@@ -67,7 +67,7 @@ body {
   margin-top: 45px;
 }
 .votebtn {
-  background-color: #fe4655;
+  background-color: #FF3366;
   height: 40px;
   width: 150px;
   border: none;
