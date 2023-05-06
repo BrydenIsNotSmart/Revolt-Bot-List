@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 let app = mongoose.Schema({
   revoltId: {
     type: String,
-    required: true
+    required: true,
   },
   verified: {
     type: Boolean,
@@ -11,9 +11,8 @@ let app = mongoose.Schema({
   },
   code: {
     type: String,
-    required: true 
+    required: true,
   },
-
 });
 
 module.exports = mongoose.model("loginRequests", app);

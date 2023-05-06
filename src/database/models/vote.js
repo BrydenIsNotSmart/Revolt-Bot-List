@@ -19,8 +19,8 @@ let app = mongoose.Schema({
   },
   ip: {
     type: String,
-    required: false
-  }
+    required: false,
+  },
 });
 
 module.exports = mongoose.model("votes", app);
