@@ -77,7 +77,6 @@
       <span style="padding-left:-250px;color: white;font-size: 17px;">These are all submitted bots placed in the <%= tag %> category</span></p>
       <% let allBots = bot.sort((a,b) => b.name - a.name) %>
       <% for(let i = 0; i < allBots.length; i++){ %>
-      <%  if (i === 3) break; %>
       <div class="card" style="border-radius:10px;">
         <div class="banner" style="background-image: url(<%= allBots[i].bannerURL || allBots[i].iconURL %>);opacity: 0.15" title="Banner"></div>
         <img src="<%= allBots[i].iconURL %>" style="opacity: 2" alt="<%= allBots[i].name %>'s Avatar" draggable="false" class="botimg_main">
