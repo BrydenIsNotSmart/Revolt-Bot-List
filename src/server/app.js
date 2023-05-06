@@ -88,11 +88,11 @@ app.post("/login", async (req, res) => {
         message: "There is already an on-going login request for this account.",
       });
     let code = generateLoginCode();
-     let request = await requestModel.create({
-       revoltId: req.body.revoltID,
-       verified: false,
-       code: code
-     })
+    let request = await requestModel.create({
+      revoltId: req.body.revoltID,
+      verified: false,
+      code: code,
+    });
     res.render("auth/confirm.ejs", {
       code,
       revoltId: req.body.revoltID,
