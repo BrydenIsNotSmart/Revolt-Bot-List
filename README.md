@@ -1,4 +1,4 @@
-# Revolt Bot List
+<p align="center"><img src="./rbl-text-by-axorax.svg"/></p>
 
 The first 3rd-party open-sourced simple bot list for the small chat platform Revolt.
 
