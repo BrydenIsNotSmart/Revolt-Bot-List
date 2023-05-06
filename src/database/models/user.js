@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 let app = mongoose.Schema({
   revoltId: {
     type: String,
-    required: true
+    required: true,
   },
   verified: {
     type: String,
@@ -11,16 +11,16 @@ let app = mongoose.Schema({
   },
   createdAt: {
     type: Date,
-    required: true 
+    required: true,
   },
   isStaff: {
     type: Boolean,
-    default: false
+    default: false,
   },
   premium: {
     type: Boolean,
     default: false,
-  }
+  },
 });
 
 module.exports = mongoose.model("users", app);

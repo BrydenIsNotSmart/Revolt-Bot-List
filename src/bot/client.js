@@ -50,7 +50,11 @@ client.once("ready", () => {
       let set = db.now;
       let timeout = db.time;
       if (set - (Date.now() - timeout) <= 0) {
-        await client.api.post(`/channels/${db.channel}/messages`, {content: `<@${db.owner}>, reminder to vote for <@${db.message}>` }).catch(() => {});
+        await client.api
+          .post(`/channels/${db.channel}/messages`, {
+            content: `<@${db.owner}>, reminder to vote for <@${db.message}>`,
+          })
+          .catch(() => {});
         return await db.delete();
       }
     });

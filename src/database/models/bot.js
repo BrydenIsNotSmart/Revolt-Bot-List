@@ -1,34 +1,33 @@
 const mongoose = require("mongoose");
 
 let app = mongoose.Schema({
-   
   id: {
     type: String,
-    required: true
+    required: true,
   },
   name: {
     type: String,
-    required: true
+    required: true,
   },
   iconURL: {
     type: String,
-    required: true
+    required: true,
   },
   bannerURL: {
     type: String,
-    required: false
+    required: false,
   },
-   prefix: {
+  prefix: {
     type: String,
-    required: true
+    required: true,
   },
   shortDesc: {
     type: String,
-    required: true
+    required: true,
   },
   description: {
     type: String,
-    required: false
+    required: false,
   },
   submittedOn: {
     type: Date,
@@ -36,15 +35,15 @@ let app = mongoose.Schema({
   },
   status: {
     type: String,
-    default: "awaiting" //- awaiting: waiting to be reviewed, appproved, denied, inprogress: currently being reviewed.
+    default: "awaiting", //- awaiting: waiting to be reviewed, appproved, denied, inprogress: currently being reviewed.
   },
   certified: {
     type: Boolean,
     default: false,
   },
   owners: {
-    type: Array, 
-    required: true
+    type: Array,
+    required: true,
   },
   votes: {
     type: Number,
@@ -56,31 +55,31 @@ let app = mongoose.Schema({
   },
   servers: {
     type: Number,
-    required: false
+    required: false,
   },
   library: {
     type: String,
-    required: true
+    required: true,
   },
   tags: {
     type: Array,
-    required: true
+    required: true,
   },
   website: {
     type: String,
-    required: false
+    required: false,
   },
   support: {
     type: String,
-    required: false
+    required: false,
   },
   github: {
     type: String,
-    required: false
+    required: false,
   },
   vanity: {
     type: String,
-    required: false
-  }
+    required: false,
+  },
 });
 module.exports = mongoose.model("bots", app);

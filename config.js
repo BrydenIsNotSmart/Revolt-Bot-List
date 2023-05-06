@@ -25,7 +25,7 @@ module.exports = {
     "Counting",
     "Logging",
     "Game",
-    "NSFW"
+    "NSFW",
   ],
   channels: {
     weblogs: "01GQ1AKANW8TVTH6R2P79069K8",
