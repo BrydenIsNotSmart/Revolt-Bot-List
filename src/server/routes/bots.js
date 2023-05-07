@@ -107,12 +107,7 @@ router.get("/:id", async (req, res) => {
   let approved =
     (await botModel.findOne({ id: req.params.id, status: "approved" })) ||
     (await botModel.findOne({
-      name: req.params.id,
-      status: "approved",
-      certified: true,
-    })) ||
-    (await botModel.findOne({
-      vanity: req.params.id,
+      vanity: { $regex: `${req.params.id}`, $options: "i" },
       status: "approved",
       certified: true,
     }));
@@ -156,7 +151,7 @@ router.get("/:id", async (req, res) => {
 
 router.get("/:id/edit", checkAuth, async (req, res) => {
   let bot = await botModel.findOne({ id: req.params.id });
-  if (!bot)
+  if (!bot || bot == null)
     return res
       .status(404)
       .json({ message: "This bot could not be found on our list." });
@@ -225,6 +220,7 @@ router.post("/:id/edit", checkAuth, async (req, res) => {
     (bot.prefix = data.prefix);
   bot.website = data.website;
   bot.github = data.github;
+  bot.vanity = data.vanity || null;
   bot.description = data.desc;
   bot.shortDesc = data.shortDesc;
   bot.support = data.support || null;
@@ -281,7 +277,7 @@ router.post("/search", async (req, res) => {
       ? botShort
       : botName.length >= 1
       ? botName
-      : null;
+      : [];
   for (let i = 0; i < bot.length; i++) {
     bot[i].tags = bot[i].tags.join(", ");
   }
