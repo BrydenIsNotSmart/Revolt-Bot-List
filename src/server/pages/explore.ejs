@@ -15,48 +15,49 @@
         startDelay: 1000,
       })
       new TypeIt(".typing_desc", {
+        speed: 90,
+        waitUntilVisible: true,
+        startDelay: 1000,
+      })
+      new TypeIt(".typing_desc", {
           speed: 90,
           waitUntilVisible: true,
           startDelay: 1000,
         })
-        new TypeIt(".typing_desc", {
-            speed: 90,
-            waitUntilVisible: true,
-            startDelay: 1000,
-          })
-          .type("A place where you can find the best Revolt Bots.")
-          .pause(5000)
-          .delete(48)
-          .type('Revolt Bots, providing you and your community to experience more than just a chat room.')
-          .go()
-      </script>
-           </p>
-	<form action="/bots/search" method="POST">
-      <input type="text" class="form-control" style="height: 45px" name="q" placeholder="Searching for bots...">
-	</form>
-        <% for(let i = 0; i < config.tags.length; i++){ %>
-          <a href="/bots/tags/<%= config.tags[i].toLowerCase() %>">
-             <button style="border-radius: 7px;margin-top:3px; background-color: #FF3366;border-color: transparent" class="btn btn-primary pl-3 pr-3 mr-3"><i class="fa-brands fa-hashtag"></i>&nbsp;&nbsp;<span style="text-align: right;"><b><%= config.tags[i] %></b></span></button>
-         </a>
-             <% } %>
-    </div>
-      </a>
-    </div>
-    <% if (bots !== null) { %>
-    <div style="background-color: #242424;margin-bottom: 15px;">
-      <div class="botContainer" style="background-color: #111016;margin-top: 200px;"><br><br><br>
-        <div class="centerText">
+        .type("A place where you can find the best Revolt Bots.")
+        .pause(5000)
+        .delete(48)
+        .type('Revolt Bots, providing you and your community to experience more than just a chat room.')
+        .go()
+    </script>
+  </p>
+  <form action="/bots/search" method="POST">
+    <input type="text" class="form-control" style="height: 45px" name="q" placeholder="Searching for bots...">
+  </form>
+  <% for(let i = 0; i < config.tags.length; i++){ %>
+  <a href="/bots/tags/<%= config.tags[i].toLowerCase() %>">
+    <button style="border-radius: 7px;margin-top:3px; background-color: #FF3366;border-color: transparent" class="btn btn-primary pl-3 pr-3 mr-3"><i class="fa-brands fa-hashtag"></i>&nbsp;&nbsp;<span style="text-align: right;"><b><%= config.tags[i] %></b></span></button>
+  </a>
+  <% } %>
+</div>
+</a>
+</div>
+<% if (bots !== null) { %>
+<div style="background-color: #242424;margin-bottom: 15px;">
+  <div class="botContainer" style="background-color: #111016;margin-top: 200px;"><br><br><br>
+    <div class="centerText">
       <p><span style="padding-left:-550px;font-size:45px;color:white;text-shadow: 1px 1px black;"><i class="fa-solid fa-fire-flame-curved"></i> <b>Top Voted</b></span><br>
-      <span style="padding-left:-250px;color: white;font-size: 17px;">These are the most voted bots for this month.</span></p>
+        <span style="padding-left:-250px;color: white;font-size: 17px;">These are the most voted bots for this month.</span>
+      </p>
       <% let voted = bots.sort((a,b) => b.monthlyVotes - a.monthlyVotes) %>
       <% for(let i = 0; i < voted.length; i++){ %>
       <%  if (i === 8) break; %>
       <div class="card" style="border-radius:10px;">
         <div class="banner" style="background-image: url(<%= voted[i].bannerURL || voted[i].iconURL %>);opacity: 0.15" title="Banner"></div>
         <img src="<%= voted[i].iconURL %>" style="opacity: 2" alt="<%= voted[i].name %>'s Avatar" draggable="false" class="botimg_main">
-        <p class="botname_main" style="opacity: 2;height:65px;width:250px;padding:10px;"> 
+        <p class="botname_main" style="opacity: 2;height:65px;width:250px;padding:10px;">
           <b><%= voted[i].name %></b>
-           <br>
+          <br>
           <span style="font-size:15px; font-weight:normal;"><i class="fa-solid fa-server"></i> <%= voted[i].servers || "N/A" %> • <i class="fa-solid fa-check-to-slot"></i> <%= voted[i].monthlyVotes %></span>
         </p>
         <div class="botdesc_main" style="height:75px;width:auto;flex:auto;padding:10px;">
@@ -75,39 +76,41 @@
       <% } %>
       <br><br><br><br>
       <p><span style="padding-left:-550px;font-size:45px;color:white; text-shadow: 1px 1px black;"><i class="fa-solid fa-clock"></i> <b>Recently Added</b></span><br>
-        <span style="padding-left:-250px;color: white;font-size: 17px;">These are the most recently added bots on our list.</span></p>
-        <% let added = bots.sort((a,b) => b.submittedOn - a.submittedOn) %>
-        <% for(let i = 0; i < added.length; i++){ %>
-        <%  if (i === 8) break; %>
-        <div class="card" style="border-radius:10px;">
-            <div class="banner" style="background-image: url(<%= added[i].bannerURL || added[i].iconURL %>);opacity: 0.15" title="Banner"></div>
-            <img src="<%= added[i].iconURL %>" style="opacity: 2" alt="<%= added[i].name %>'s Avatar" draggable="false" class="botimg_main">
-            <p class="botname_main" style="opacity: 2;height:65px;width:250px;padding:10px;"> 
-              <b><%= added[i].name %></b>
-              <% if (added[i].id === "1004264023111507979") { %>
-                <span title="Official Bot"><i class="fa fa-circle-check"></i></span>
-                <%  } %> <br>
-              <span style="font-size:15px; font-weight:normal;"><i class="fa-solid fa-server"></i> <%= added[i].servers || "N/A" %> • <i class="fa-solid fa-check-to-slot"></i> <%= added[i].monthlyVotes %>
-            </p>
-            <div class="botdesc_main" style="height:75px;width:auto;flex:auto;padding:10px;">
-               <%= added[i].shortDesc %>
-            </div>
-            <div class="bottags_main" style="height:75px;width:auto;flex:auto;padding:10px;">
-              <i class="fa-solid fa-hashtag"></i> <%= added[i].tags %>
-            </div>
-            <div style="margin-left:20px;margin-top:-40px">
-              <a href="/bots/<%= added[i].id %>/">
-                <button class="viewbtn"><i class="fa-solid fa-eye"></i> View</button>
-            </div>
-          </a>
-          <a href="/bots/<%= added[i].id %>/vote">
-            <button class="votebtn"><i class="fa-solid fa-check-to-slot"></i> Vote</button></a>
+        <span style="padding-left:-250px;color: white;font-size: 17px;">These are the most recently added bots on our list.</span>
+      </p>
+      <% let added = bots.sort((a,b) => b.submittedOn - a.submittedOn) %>
+      <% for(let i = 0; i < added.length; i++){ %>
+      <%  if (i === 8) break; %>
+      <div class="card" style="border-radius:10px;">
+        <div class="banner" style="background-image: url(<%= added[i].bannerURL || added[i].iconURL %>);opacity: 0.15" title="Banner"></div>
+        <img src="<%= added[i].iconURL %>" style="opacity: 2" alt="<%= added[i].name %>'s Avatar" draggable="false" class="botimg_main">
+        <p class="botname_main" style="opacity: 2;height:65px;width:250px;padding:10px;">
+          <b><%= added[i].name %></b>
+          <% if (added[i].id === "1004264023111507979") { %>
+          <span title="Official Bot"><i class="fa fa-circle-check"></i></span>
+          <%  } %> <br>
+          <span style="font-size:15px; font-weight:normal;"><i class="fa-solid fa-server"></i> <%= added[i].servers || "N/A" %> • <i class="fa-solid fa-check-to-slot"></i> <%= added[i].monthlyVotes %>
+        </p>
+        <div class="botdesc_main" style="height:75px;width:auto;flex:auto;padding:10px;">
+          <%= added[i].shortDesc %>
         </div>
-        <% } %>
-        <br><br><br><br>
+        <div class="bottags_main" style="height:75px;width:auto;flex:auto;padding:10px;">
+          <i class="fa-solid fa-hashtag"></i> <%= added[i].tags %>
+        </div>
+        <div style="margin-left:20px;margin-top:-40px">
+          <a href="/bots/<%= added[i].id %>/">
+            <button class="viewbtn"><i class="fa-solid fa-eye"></i> View</button>
+        </div>
+        </a>
+        <a href="/bots/<%= added[i].id %>/vote">
+          <button class="votebtn"><i class="fa-solid fa-check-to-slot"></i> Vote</button></a>
+      </div>
+      <% } %>
+      <br><br><br><br>
       <p><span style="padding-left:-550px;font-size:45px;color:white; text-shadow: 1px 1px black;"><i class="fa-solid fa-dice"></i> <b>Random Bots</b></span><br>
-        <span style="padding-left:-250px;color: white;font-size: 17px;">These are the most random bots on our list.</span></p>
-        <%
+        <span style="padding-left:-250px;color: white;font-size: 17px;">These are the most random bots on our list.</span>
+      </p>
+      <%
         let randomBots = bots.filter(a => a.status === "approved")
         randomBots.forEach((val, key) => {
           randomIndex = Math.ceil(Math.random()*(key + 1));
@@ -115,47 +118,48 @@
           randomBots[randomIndex] = val;
         });
     %>
-    <% 
+      <% 
         for(let i = 0; i < randomBots.length; i++) {
         if (i === 8) break;
         let labBots = randomBots[i];
       if(labBots) {
     %>
-    <% let a = labBots; %>
-    <div class="card" style="border-radius:10px;">
+      <% let a = labBots; %>
+      <div class="card" style="border-radius:10px;">
         <div class="banner" style="background-image: url(<%= a.bannerURL || a.iconURL %>);opacity: 0.15" title="Banner"></div>
         <img src="<%= a.iconURL %>" style="opacity: 2" alt="<%= a.name %>'s Avatar" draggable="false" class="botimg_main">
-        <p class="botname_main" style="height:65px;width:250px;padding:10px;opacity: 2"> 
+        <p class="botname_main" style="height:65px;width:250px;padding:10px;opacity: 2">
           <b><%= a.name %></b><br>
           <span style="font-size:15px; font-weight:normal;"><i class="fa-solid fa-server"></i> <%= a.servers || "N/A" %> • <i class="fa-solid fa-check-to-slot"></i> <%= a.monthlyVotes %>
         </p>
         <div class="botdesc_main" style="height:75px;width:auto;flex:auto;padding:10px;">
-         <%= a.shortDesc %>
+          <%= a.shortDesc %>
         </div>
         <div class="bottags_main" style="height:75px;width:auto;flex:auto;padding:10px;">
-         <i class="fa-solid fa-hashtag"></i> <%= a.tags %>
+          <i class="fa-solid fa-hashtag"></i> <%= a.tags %>
         </div>
         <div style="margin-left:20px;margin-top:-40px">
           <a href="/bots/<%= a.id %>/">
             <button class="viewbtn"><i class="fa-solid fa-eye"></i> View</button>
         </div>
-      </a>
-      <a href="/bots/<%= a.id %>/vote">
-        <button class="votebtn"><i class="fa-solid fa-check-to-slot"></i> Vote</button></a>
-    </div>
-    <% }} %>
-    <br><br>
-      </div><br>
+        </a>
+        <a href="/bots/<%= a.id %>/vote">
+          <button class="votebtn"><i class="fa-solid fa-check-to-slot"></i> Vote</button></a>
+      </div>
+      <% }} %>
+      <br><br>
+    </div><br>
   </div>
 </div>
-	<% } %>
-  
+<%- include("./parts/footer.ejs") %>
+<% } %>
+
 <style>
   .centerText {
     text-align: center;
     padding-right: 10px;
     padding-left: 15px;
-    }
+  }
 </style>
 
 <script>
