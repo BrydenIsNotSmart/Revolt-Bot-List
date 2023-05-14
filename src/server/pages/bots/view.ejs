@@ -70,7 +70,7 @@
       <i class="fa-solid fa-code"></i> <b>Developers</b>
     </h2><br>
     <% for(let i = 0; i < bot.owners.length; i++) { %>
-    <a class="owner" href="/user/<%= bot.owners[i] %>"><img class="rounded-circle" style="width: 45px; height: 45px;" src="https://autumn.revolt.chat/avatars/<%= botclient.users.get(bot.owners[i]).avatar._id %>/<%= botclient.users.get(bot.owners[i]).avatar.filename %>.png">&nbsp;<b style="font-size: 20px;">
+    <a class="owner" href="/user/<%= bot.owners[i] %>"><img class="rounded-circle" style="width: 45px; height: 45px;" src="https://autumn.revolt.chat/avatars/<%= botclient.users.get(bot.owners[i]).avatar._id %>/<%= botclient.users.get(bot.owners[i]).avatar.filename %>.webp">&nbsp;<b style="font-size: 20px;">
         <%= botclient.users.get(bot.owners[i]).username || "Unknown User" %>
       </b></a>&nbsp;&nbsp;
     <% } %>
