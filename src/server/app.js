@@ -88,11 +88,11 @@ app.post("/login", async (req, res) => {
         message: "There is already an on-going login request for this account.",
       });
     let code = generateLoginCode();
-     let request = await requestModel.create({
-       revoltId: req.body.revoltID,
-       verified: false,
-       code: code
-     })
+    let request = await requestModel.create({
+      revoltId: req.body.revoltID,
+      verified: false,
+      code: code,
+    });
     res.render("auth/confirm.ejs", {
       code,
       revoltId: req.body.revoltID,
@@ -192,6 +192,8 @@ app.use("/bot", botsRouter);
 const usersRouter = require("./routes/users.js");
 app.use("/users", usersRouter);
 app.use("/user", usersRouter);
+const botRulesRouter = require("./routes/bot-rules.js");
+app.use("/bot-rules", botRulesRouter);
 
 app.listen(config.port, () => {
   console.info(`[INFO] Running on port ` + config.port);

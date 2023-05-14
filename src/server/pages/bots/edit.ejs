@@ -34,8 +34,13 @@
     <input type="url" class="inputField" placeholder="&nbsp;Ex. https://github.com/BrydenIsNotSmart/Revolt-Bot-List" value="<%= bot.github %>" name="github" autocomplete="off"><br>
     <h3 style="color:white;margin-top:25px"><b>Bot Support</b></h3>
     <input type="url" class="inputField" placeholder="&nbsp;Ex. https://rvlt.gg/kmZBZ6h1" value="<%= bot.support %>" name="support" autocomplete="off"><br>
-    <h3 style="color:white;margin-top:25px"><b>Bot Library</b></h3>
-    <input type="text" class="inputField" placeholder="&nbsp;Ex. revolt.js" name="library" value="<%= bot.library %>" autocomplete="off" required><br>
+    <% if (bot.certified == true){ %> 
+    <h3 style="color:white;margin-top:25px"><b>Page Vanity</b></h3>
+    <input type="text" class="inputField" placeholder="<%= bot.vanity %>" name="vanity" value="<%= bot.vanity %>" autocomplete="off" required><br>
+	<% } else { %>
+    <h3 style="color:white;margin-top:25px"><b>Page Vanity</b></h3>
+    <input type="text" class="inputField" disabled=true placeholder="" name="vanity" value="<%= bot.vanity %>" autocomplete="off" required><br>
+	<% } %>
     <% if (user.revoltId === bot.owners[0]) { %>
     <h3 style="color:white;margin-top:25px"><b>Other Owners</b></h3>
     <input type="text" class="inputField" placeholder="&nbsp;Ids sepreated by space (must be in our server)" value="<%= bot.owners.slice(1).join(" ") %>" name="owners" autocomplete="off"><br>

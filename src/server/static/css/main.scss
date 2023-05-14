@@ -1,13 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap");
 
 body {
-    background-color: #fe4655;
-    /*background: linear-gradient(90deg, rgba(12,10,37,1) 32%, rgba(35,12,98,1) 87%); */
-    background: linear-gradient(to left top, rgb(105, 8, 8) 40%/*bottom-right color*/, rgb(197, 11, 11) 100% /*top-left color*/);
-    margin: 0;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    font-family: 'Montserrat', sans-serif;
+  background-color: ##111016;
+  background: linear-gradient(to bottom, #350e20 1%, #111016 90%);
+  /*background: linear-gradient(90deg, rgba(12,10,37,1) 32%, rgba(35,12,98,1) 87%); */
+  margin: 0;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  font-family: "Montserrat", sans-serif;
 }
 .box {
   width: 400px;
@@ -22,20 +22,23 @@ body {
 }
 
 .a:hover {
-  color: transparent
+  color: transparent;
 }
 
 .box::before {
   content: "";
-  top: 50px; right: 50px; bottom: 50px; left: 50px;
+  top: 50px;
+  right: 50px;
+  bottom: 50px;
+  left: 50px;
   position: absolute;
   display: block;
   background: transparent;
-  box-shadow: 0 0 2em 2em rgba(0,0,0,0.5);
+  box-shadow: 0 0 2em 2em rgba(0, 0, 0, 0.5);
 }
 
 ::-webkit-scrollbar {
-    width: 10px;
+  width: 10px;
 }
 
 .card {
@@ -43,7 +46,7 @@ body {
   width: 375px;
   backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
-  background-color: #111111;
+  background-color: #14121c;
   border-radius: 10px;
   margin-top: 15px;
   margin-left: auto;
@@ -54,7 +57,7 @@ body {
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 .viewbtn {
-  background-color: #fe4655;
+  background-color: #ff3366;
   height: 40px;
   width: 150px;
   border: none;
@@ -67,7 +70,7 @@ body {
   margin-top: 45px;
 }
 .votebtn {
-  background-color: #fe4655;
+  background-color: #ff3366;
   height: 40px;
   width: 150px;
   border: none;
@@ -138,9 +141,9 @@ body {
   overflow: hidden;
   text-align: left;
 }
- .banner {
+.banner {
   height: 125px;
-  min-height:125px;
+  min-height: 125px;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -154,14 +157,14 @@ body {
     padding-right: 125px;
     padding-left: 125px;
     margin-right: auto;
-    margin-left: auto
+    margin-left: auto;
   }
   .indexContainer {
     width: 100%;
     padding-right: 721px;
     padding-left: 100px;
     margin-right: auto;
-    margin-left: auto
+    margin-left: auto;
   }
 }
 .boticon {
@@ -204,157 +207,156 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-    background: #0e1015;
+  background: #0e1015;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #0c0e13;
-    border-radius: 5px;
+  background: #0c0e13;
+  border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #0e1015;
+  background: #0e1015;
 }
 
 #myBtn {
-    display: none;
-    position: fixed;
-    bottom: 20px;
-    right: 30px;
-    z-index: 99;
-    font-size: 18px;
-    border: 1px white solid;
-    outline: none;
-    background-color: transparent;
-    color: white;
-    cursor: pointer;
-    padding: 15px;
-    border-radius: 15px;
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  z-index: 99;
+  font-size: 18px;
+  border: 1px white solid;
+  outline: none;
+  background-color: transparent;
+  color: white;
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 15px;
 }
 
 .cooolimg {
-    animation: hover 4s ease-in-out infinite;
+  animation: hover 4s ease-in-out infinite;
 }
 
 @keyframes hover {
-    0% {
-        transform: translateY(0px)
-    }
+  0% {
+    transform: translateY(0px);
+  }
 
-    50% {
-        transform: translateY(-10px)
-    }
+  50% {
+    transform: translateY(-10px);
+  }
 
-    100% {
-        transform: translateY(0px)
-    }
+  100% {
+    transform: translateY(0px);
+  }
 }
 
 #myBtn:hover {
-    background-color: white;
-    color: black;
+  background-color: white;
+  color: black;
 }
 
 .Container {
-    background-color: transparent;
-    padding: 1rem;
-    padding-left: -115px;
-    border-radius: 0.5rem;
-    width: 100%;
-  }
-  
+  background-color: transparent;
+  padding: 1rem;
+  padding-left: -115px;
+  border-radius: 0.5rem;
+  width: 100%;
+}
+
+.Grid__Container {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 10px;
+}
+
+.Stat__Card {
+  padding: 1rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.15);
+}
+
+.Stat__Container {
+  display: flex;
+  flex-direction: column;
+}
+
+.Stat__Title {
+  color: #6c757d;
+}
+
+.Stat__Content {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+@media (min-width: 768px) {
   .Grid__Container {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: 10px;
+    grid-template-columns: repeat(3, 1fr);
   }
-  
-  .Stat__Card {
-    padding: 1rem;
-    background-color: white;
-    border-radius: 0.5rem;
-    box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.15);
-  }
-  
-  .Stat__Container {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .Stat__Title {
-    color: #6c757d;
-  }
-  
-  .Stat__Content {
-    font-size: 32px;
-    font-weight: 700;
-  }
-  
-  
-  @media (min-width: 768px) {
-    .Grid__Container {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
+}
 
 .card:hover {
-    top: -7px;
+  top: -7px;
 }
- .vitalText {
+.vitalText {
   background: #fe4655;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 @media only screen and (min-width: 1080px) {
-.botMain {
-  width: 100%;
-  margin-top: 150px;
+  .botMain {
+    width: 100%;
+    margin-top: 150px;
     padding-right: 150px;
     padding-left: 150px;
     margin-right: auto;
-    margin-left: auto
-}
-.botPageAvatar {
-  border-radius: 50%;
-  width: 175px;
-  height: 175px;
-  border: 7px solid #3f2f97;
-}
-.botPageBelow {
-  margin-top: -115px;
-  background-color: #fe4655;
-}
-.botPageName {
-  color: white;
-  font-size: 40px;
-  margin-top: -155px;
-  padding-left: 195px
-}
-.botPageShortDesc {
-  color: white;
-  font-size: 20px;
-  margin-top: -25px;
-  padding-left: 195px
-}
-.botPageDesc {
-  color: white;
-  margin-top: -475px;
-  padding-left: 100px;
-  padding-right: 750px;
-  padding-bottom: 25px;
-  width:100%;
-  bottom:0;
-}
-.botPageInfo {
-  margin-top: 150px;
-  padding-top: 75px;
+    margin-left: auto;
+  }
+  .botPageAvatar {
+    border-radius: 50%;
+    width: 175px;
+    height: 175px;
+    border: 7px solid #3f2f97;
+  }
+  .botPageBelow {
+    margin-top: -115px;
+    background-color: #fe4655;
+  }
+  .botPageName {
+    color: white;
+    font-size: 40px;
+    margin-top: -155px;
+    padding-left: 195px;
+  }
+  .botPageShortDesc {
+    color: white;
+    font-size: 20px;
+    margin-top: -25px;
+    padding-left: 195px;
+  }
+  .botPageDesc {
+    color: white;
+    margin-top: -475px;
+    padding-left: 100px;
+    padding-right: 750px;
+    padding-bottom: 25px;
+    width: 100%;
+    bottom: 0;
+  }
+  .botPageInfo {
+    margin-top: 150px;
+    padding-top: 75px;
     padding-right: 250px;
     padding-left: 1300px;
     margin-right: auto;
     margin-left: auto;
     color: white;
-}
+  }
 }
 
 .inputField {
@@ -376,5 +378,5 @@ body {
   color: white;
 }
 .footerItem {
-  color: #fe4655
+  color: #fe4655;
 }
