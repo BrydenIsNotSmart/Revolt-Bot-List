@@ -35,3 +35,17 @@ cron.schedule("*/30 * * * *", () => {
   global.userModel = require("./models/user");
   global.loginModel = require("./models/loginRequest");
 });
+
+cron.schedule("* * */ 1 * *", async () => {
+  let dbots = await global.botModel.find({ status: "denied" });
+  if (!dbots.length) return;
+  const yesterday = new Date(new Date().getTime() - 24 * 60 * 60 * 1000);
+  for (const bot of dbots) {
+    if (bot.deniedOn <= yesterday) {
+      bot.remove().catch(() => null);
+    }
+  }
+  for (const user of dusers) {
+
+  }
+});

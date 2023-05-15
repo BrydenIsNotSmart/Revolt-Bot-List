@@ -19,6 +19,26 @@ router.get("/v1/bots/:id", async (req, res) => {
   return res.json(await getBotData(rs, true, req));
 });
 
+router.post("/v1/bots/stats", async (req, res) => {
+  const key = req.headers.authorization;
+  if (!key) return res.status(401).json({ json: "Please provides a API Key." });
+
+  let bot = await botModel.findOne({ apikey: key });
+  if (!bot)
+    return res.status(404).json({
+      message:
+        "This bot is not on our list, or you entered an invaild API Key.",
+    });
+  const servers = req.body.server_count || req.header("server_count");
+
+  if (!servers)
+    return res.status(400).json({ message: "Please provide a server count." });
+
+  bot.servers = servers.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+  await bot.save().catch(() => null);
+  return res.json({ message: "Successfully updated." });
+});
+
 module.exports = router;
 
 async function getBotData(data, fetchReviews = false, req) {

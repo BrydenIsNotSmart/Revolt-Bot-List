@@ -9,6 +9,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 client.remind = new Map();
 global.client = client;
+global.selfBot = selfBot;
 
 //-Events-//
 const eventsPath = path.join(__dirname, "events");

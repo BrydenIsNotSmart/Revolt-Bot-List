@@ -33,6 +33,10 @@ let app = mongoose.Schema({
     type: Date,
     required: false,
   },
+  deniedOn: {
+    type: Date,
+    required: false,
+  },
   status: {
     type: String,
     default: "awaiting", //- awaiting: waiting to be reviewed, appproved, denied, inprogress: currently being reviewed.
@@ -76,6 +80,14 @@ let app = mongoose.Schema({
   github: {
     type: String,
     required: false,
+  },
+  apikey: {
+    type: String,
+    required: false
+  },
+  reviewer: {
+    type: String,
+    required: false
   },
   vanity: {
     type: String,

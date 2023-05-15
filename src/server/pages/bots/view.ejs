@@ -47,20 +47,20 @@
           <i class="fa-solid fa-clock"></i> <b>Submitted</b>: <%= new Date(bot.submittedOn).toLocaleDateString() %>
         </p>
         <hr>
-        <a href="https://app.revolt.chat/bot/<%= bot.id %>" type="button" style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655" class="btn btn-primary pr-3 pl-3 mr-1"><i class="fa-solid fa-plus"></i> Invite</a>
+        <a href="https://app.revolt.chat/bot/<%= bot.id %>" type="button" style="border-radius: 7px;margin-top:3px; background-color: #FF3366;border-color: transparent" class="btn btn-primary pr-3 pl-3 mr-1"><i class="fa-solid fa-plus"></i> Invite</a>
         <form id="votebutton" method="post" action="/bots/<%= bot.id %>/vote" style="display: none;"></form>
-        <a href="/bots/<%= bot.id %>/vote" onclick="document.getElementById('votebutton').submit();" type="button" style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-check-to-slot"></i> Vote</a>
+        <a href="/bots/<%= bot.id %>/vote" onclick="document.getElementById('votebutton').submit();" type="button" style="border-radius: 7px;margin-top:3px; background-color: #FF3366;border-color: transparent" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-check-to-slot"></i> Vote</a>
         <% if (bot.website) { %>
-        <a href="<%= bot.website %>" type="button" style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-globe"></i> Website</a>
+        <a href="<%= bot.website %>" type="button" style="border-radius: 7px;margin-top:3px; background-color: #FF3366;border-color: transparent" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-globe"></i> Website</a>
         <% } %>
         <% if (bot.github) { %>
-        <a href="<%= bot.github %>" type="button" style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-brands fa-github"></i> GitHub</a>
+        <a href="<%= bot.github %>" type="button" style="border-radius: 7px;margin-top:3px; background-color: #FF3366;border-color: transparent" class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-brands fa-github"></i> GitHub</a>
         <% } %>
         <% if (bot.support) { %>
-        <a href="<%= bot.support %>" type="button" style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655" class="btn btn-info pr-3 pl-3 mr-1"><img src="/img/revolt.svg" alt="Revolt Icon" height="18px" width="18px">Support</a>
+        <a href="<%= bot.support %>" type="button" style="border-radius: 7px;margin-top:3px; background-color: #FF3366;border-color: transparent" class="btn btn-info pr-3 pl-3 mr-1"><img src="/img/revolt.svg" alt="Revolt Icon" height="18px" width="18px">Support</a>
         <% } %>
         <% if (user && bot.owners.includes(user.revoltId)) { %>
-        <a href="/bots/<%= bot.id %>/edit" type="button" style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655; color: white" class="btn btn-warning pr-3 pl-3 mr-1"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+        <a href="/bots/<%= bot.id %>/edit" type="button" style="border-radius: 7px;margin-top:3px; background-color: #FF3366;border-color: transparent; color: white" class="btn btn-warning pr-3 pl-3 mr-1"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
         <% } %>
       </div>
     </div><br><br>
@@ -70,8 +70,8 @@
       <i class="fa-solid fa-code"></i> <b>Developers</b>
     </h2><br>
     <% for(let i = 0; i < bot.owners.length; i++) { %>
-    <a class="owner" href="/user/<%= bot.owners[i] %>"><img class="rounded-circle" style="width: 45px; height: 45px;" src="https://autumn.revolt.chat/avatars/<%= botclient.users.get(bot.owners[i]).avatar._id %>/<%= botclient.users.get(bot.owners[i]).avatar.filename %>.png">&nbsp;<b style="font-size: 20px;">
-        <%= botclient.users.get(bot.owners[i]).username || "Unknown User" %>
+    <a class="owner" href="/user/<%= bot.owners[i] %>"><img class="rounded-circle" style="width: 45px; height: 45px;" src="https://autumn.revolt.chat/avatars/<%= botclient.users.fetch(bot.owners[i]).avatar._id %>/<%= botclient.users.fetch(bot.owners[i]).avatar.filename %>.png">&nbsp;<b style="font-size: 20px;">
+        <%= botclient.users.fetch(bot.owners[i]).username || "Unknown User" %>
       </b></a>&nbsp;&nbsp;
     <% } %>
     <% }else{ %>
@@ -79,7 +79,7 @@
       <i class="fa-solid fa-code"></i> <b>Developer</b>
     </h2>
     <a class="owner" href="/user/<%= bot.owners[0] %>"><img class="rounded-circle idk" style="width: 45px; height: 45px;" src="https://autumn.revolt.chat/avatars/<%= botclient.users.get(bot.owners[0]).avatar._id %>/<%= botclient.users.get(bot.owners[0]).avatar.filename %>">&nbsp;<b style="font-size: 20px;">
-        <%= botclient.users.get(bot.owners[0]).username || "Unknown User" %>
+        <%= botclient.users.fetch(bot.owners[0]).username || "Unknown User" %>
       </b></a>
     <% } %><br>
     <% } catch(err) { %>

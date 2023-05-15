@@ -54,7 +54,7 @@
         </div>
       </div>
 
-      <h2 class="h3 pt-3">Bots in Queue</h2>
+      <h2 class="h3 pt-3">Awaiting Approval</h2>
       <p>Here is a list of all the bots in the queue.</p>
       <% if (botsdata.filter(b => b.status == 'awaiting').length < 1) { %>
       <div class="alert d-flex alert-warning" role="alert">
@@ -76,7 +76,7 @@
             </thead>
             <tbody>
               <% let i = 0; %>
-              <% botsdata.filter(b => b.status != 'approved').map(bot => { %>
+              <% botsdata.filter(b => b.status == 'awaiting').map(bot => { %>
               <tr id="unverified_<%= bot.id %>">
                 <th scope="row"><%= i + 1 %></th>
                 <td class="f-flex">
@@ -84,47 +84,49 @@
                   <%- bot.name %>
                 </td>
                 <td class="d-flex" style="text-align: center;">
-                  <a class="badge bg-faded-success text-success me-2" type="button" data-bs-toggle="modal" data-bs-target="#approve_<%= bot.id %>" style="width: 100%;">Approve</a>
-                  <a class="badge bg-faded-danger text-danger me-2" type="button" data-bs-toggle="modal" data-bs-target="#decline_<%= bot.id %>" style="width: 100%;">Decline</a>
+                  <form target="__blank" action="/panel/bots/<%= bot.id %>/testing" method="post">
+                  <button type="submit" style="width: 100%;border-color:transparent;" class="badge bg-faded-success text-success me-2">Start Testing</button>
+                </form>
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+        </table>
+      </div>
+      <% } %>
 
-                  <div class="modal fade" id="approve_<%= bot.id %>" tabindex="-1" style="display: none; text-align:left" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title">Approving <%= bot.username %>?</h5>
-                          <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                          <span>By approving this bot, means that you have checked the bot and it is safe to use.</span>
-                        </div>
-                        <div id="approveError_<%= bot.id %>"></div>
-                        <div class="modal-footer">
-                          <button class="btn btn-secondary btn-sm" type="button" data-bs-dismiss="modal">Close</button>
-                          <button class="btn btn-primary btn-sm" onclick="approve(`<%= bot.id %>`)">Approve</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="modal fade" id="decline_<%= bot.id %>" tabindex="-1" style="display: none; text-align:left" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title">Declining <%= bot.username %>?</h5>
-                          <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                          <span>By declining this bot, means that you have checked the bot and it is not safe to use.</span>
-                          <textarea class="form-control" id="declineReason_<%= bot.id %>" placeholder="Reason for declining the bot" style="height: 100px"></textarea>
-                        </div>
-                        <div id="declineError_<%= bot.id %>"></div>
-                        <div class="modal-footer">
-                          <button class="btn btn-secondary btn-sm" type="button" data-bs-dismiss="modal">Close</button>
-                          <button class="btn btn-danger btn-sm" onclick="decline(`<%= bot.id %>`, document.getElementById('declineReason_<%= bot.id %>').value)">Decline</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+      <h2 class="h3 pt-3">In Progress</h2>
+      <p>Here is a list of all the bots that are currently being tested..</p>
+      <% if (botsdata.filter(b => b.status == 'inprogress').length < 1) { %>
+      <div class="alert d-flex alert-warning" role="alert">
+        <i class="bx bx-error lead me-3"></i>
+        <div>
+          <h6 class="alert-heading">No bots in queue!</h6>
+          <p>There are no bots in the queue at the moment.</p>
+        </div>
+      </div>
+      <% } else { %>
+      <div class="table-responsive">
+        <table class="table table-striped-columns">
+          <thead;>
+            <tr>
+              <th>#</th>
+              <th>Bot</th>
+              <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+              <% let i = 0; %>
+              <% botsdata.filter(b => b.status == 'inprogress').map(bot => { %>
+              <tr id="unverified_<%= bot.id %>">
+                <th scope="row"><%= i + 1 %></th>
+                <td class="f-flex">
+                  <img src="<%= bot.iconURL %>" class="rounded-circle me-2" width="20" height="20" alt="<%- bot.username %>" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                  <%- bot.name %>
+                </td>
+                <td class="d-flex" style="text-align: center;">
+                  <a class="badge bg-faded-success text-success me-2" type="button" data-bs-toggle="modal" href="/panel/bots/<%= bot.id %>/approve" style="width: 100%;">Approve</a>
+                  <a class="badge bg-faded-danger text-danger me-2" type="button" href="/panel/bots/<%= bot.id %>/deny" style="width: 100%;">Decline</a>
 
                   <a href="/bots/<%= bot.id %>" class="badge bg-faded-primary text-primary" style="width: 100%">View Profile</a>
                 </td>

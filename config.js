@@ -37,6 +37,7 @@ module.exports = {
   },
   roles: {
     bots: "01GX2QPE8SWZWPVN3DFQGJCMHC",
+    botsintesting: "01H0E1JT1C8TMAPNDJ15SCTA6W",
     members: "01GVC849ZNZYCC9BFYHNJSNNBB",
   },
 };

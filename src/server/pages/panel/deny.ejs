@@ -1,0 +1,27 @@
+<html lang="en" class="dark-mode">
+
+<head>
+    <title>Denying <%= bot.name %> - Staff Panel</title>
+  <%- include('./parts/head.ejs') %>
+</head>
+
+<body>
+  <%- include('./parts/aside.ejs') %>
+
+  <!-- Page container -->
+  <main class="docs-container pt-5 pb-3 pb-lg-4" style="padding-right: 0px;">
+    <div class="container-fluid px-xxl-5 px-lg-4 pt-4 pt-lg-5 pb-4">
+        <h2 class="ps-lg-2 ps-xxl-0 mt-2 mt-lg-0 pt-4 pb-2 mb-3 mb-xl-4">Deny&nbsp;&nbsp;<img alt="<%= bot.name %>'s avatar" height="40px" width="40px" style="border-radius: 50%;" src="<%= bot.iconURL %>">&nbsp;<%= bot.name %></h2>
+        <form action="/panel/bots/<%= bot.id %>/deny" method="POST">
+          <div class="form-group">            
+            <label for="reason">Reason</label><br>
+            <textarea class="form-control" id="reason" name="reason" rows="3" maxlength="1900" placeholder="Provide why their bot got denied" required></textarea>
+          </div>
+          <button type="submit" style="margin-top: 10px;" class="btn btn-danger"><i class="fa-solid fa-trash"></i>&nbsp;&nbsp;Deny</button>
+        </form>
+    </div>
+  </main>
+
+</body>
+<%- include('../parts/footer.ejs') %>
+<div class="modal-backdrop fade show d-none"></div>
