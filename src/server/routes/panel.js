@@ -62,18 +62,17 @@ router.post("/bots/:id/testing", async (req, res) => {
    let createdChannel = await server.createChannel({
     name: `${bot.name.toLowerCase()}`,
     description: `Testing session channel to test ${bot.name}.`,
-  });
-  let channel = await client.channels.get(createdChannel.id);
+   });
+console.log(createdChannel)
   let cat = [];
-  console.log(channel)
-  server.categories.map(d => { if (d.id === "01GX1R43Q03JF7SMBKRW71F7EF") d.channels.push(channel._id); cat.push(d) });
-  server.edit({ categories: cat });
-  await channel.sendMessage({
+  server.categories.map(d => { if (d.id === "01GX1R43Q03JF7SMBKRW71F7EF") d.channels.push(createdChannel._id); cat.push(d) });
+  server.edit({ categories: cat }); 
+  await client.channels.get(createdChannel._id).sendMessage({
     content: `<@${req.session.userAccountId}>`,
     embeds: [
       { 
       colour: "#FF3366",
-      description: `## Testing Session\nWelcome to your new testing session for <@${bot.id}>.\nYou may now begin testing this bot. Any questions? View the staff panel or ask an admin.\n### Prefix: \`rb!\``
+      description: `## Testing Session\nWelcome to your new testing session for <@${bot.id}>.\nYou may now begin testing this bot. Any questions? View the staff panel or ask an admin.\n\n### Prefix:\n\`${bot.prefix}\``
     }],
   });
   res.send("You may no begin to test this bot in our testing server.")
