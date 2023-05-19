@@ -21,48 +21,7 @@ app.use(
     store: new MongoStore({ mongooseConnection: mongoose.connection }),
   })
 );
-app.use("/img", express.static(path.join(__dirname, "/static/img")));
-app.get("/css/main.scss", (req, res) => {
-  const originalCSS = fs.readFileSync(
-    path.join(__dirname, "/static/css/main.scss"),
-    "utf8"
-  );
-  var options = {};
-  const minifiedCSS = new CleanCSS(options).minify(originalCSS);
-  res.set("Content-Type", "text/css");
-  res.send(minifiedCSS.styles);
-});
-app.get("/css/navbar.scss", (req, res) => {
-  const originalCSS = fs.readFileSync(
-    path.join(__dirname, "/static/css/navbar.scss"),
-    "utf8"
-  );
-  var options = {};
-  const minifiedCSS = new CleanCSS(options).minify(originalCSS);
-  res.set("Content-Type", "text/css");
-  res.send(minifiedCSS.styles);
-});
-app.get("/css/botpage.scss", (req, res) => {
-  const originalCSS = fs.readFileSync(
-    path.join(__dirname, "/static/css/botpage.scss"),
-    "utf8"
-  );
-  var options = {};
-  const minifiedCSS = new CleanCSS(options).minify(originalCSS);
-  res.set("Content-Type", "text/css");
-  res.send(minifiedCSS.styles);
-});
-app.get("/css/panel.scss", (req, res) => {
-  const originalCSS = fs.readFileSync(
-    path.join(__dirname, "/static/css/panel.scss"),
-    "utf8"
-  );
-  var options = {};
-  const minifiedCSS = new CleanCSS(options).minify(originalCSS);
-  res.set("Content-Type", "text/css");
-  res.send(minifiedCSS.styles);
-});
-
+app.use(express.static(__dirname + "/static"));
 app.get("/login", async function (req, res) {
   let userModel = require("../database/models/user");
   let user = await userModel.findOne({ revoltId: req.session.userAccountId });

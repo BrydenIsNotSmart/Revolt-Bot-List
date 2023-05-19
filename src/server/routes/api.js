@@ -70,7 +70,7 @@ async function getBotData(data, fetchReviews = false, req) {
 
   if (BotRaw) {
     info.username = BotRaw.username;
-    info.avatar = `https://autumn.revolt.chat/avatars/${BotRaw.avatar._id}/${BotRaw.avatar.filename}.png`;
+    info.avatar = `https://autumn.revolt.chat/avatars/${BotRaw.avatar._id}/${BotRaw.avatar.filename}.webp`;
   }
   return info;
 }

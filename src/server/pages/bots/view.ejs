@@ -18,7 +18,7 @@
 <div class="botpagecontainer">
   <% if (bot.status === "awaiting" || bot.status === "inprogress") { %>
   <div style="border-radius: 10px;margin-top: 25px;text-align: center;background-color: transparent;border-color: #ECE81A;color: white" class="alert alert-warning" role="alert">
-    <h3><i class="fa-solid fa-triangle-exclamation"></i> Warning!</h3>45r
+    <h3><i class="fa-solid fa-triangle-exclamation"></i> Warning!</h3>
     <p>This bot is still going through the approval process and thus has not yet been approved, therefore we cannot be certain that all functions work as expected.</p>
   </div>
   <% } %>
@@ -70,8 +70,13 @@
       <i class="fa-solid fa-code"></i> <b>Developers</b>
     </h2><br>
     <% for(let i = 0; i < bot.owners.length; i++) { %>
+<<<<<<< HEAD
     <a class="owner" href="/user/<%= bot.owners[i] %>"><img class="rounded-circle" style="width: 45px; height: 45px;" src="https://autumn.revolt.chat/avatars/<%= botclient.users.fetch(bot.owners[i]).avatar._id %>/<%= botclient.users.fetch(bot.owners[i]).avatar.filename %>.png">&nbsp;<b style="font-size: 20px;">
         <%= botclient.users.fetch(bot.owners[i]).username || "Unknown User" %>
+=======
+    <a class="owner" href="/user/<%= bot.owners[i] %>"><img class="rounded-circle" style="width: 45px; height: 45px;" src="https://autumn.revolt.chat/avatars/<%= botclient.users.get(bot.owners[i]).avatar._id %>/<%= botclient.users.get(bot.owners[i]).avatar.filename %>.webp">&nbsp;<b style="font-size: 20px;">
+        <%= botclient.users.get(bot.owners[i]).username || "Unknown User" %>
+>>>>>>> 670d0598c06930c5a0009f23d4adebd4bfdd78c2
       </b></a>&nbsp;&nbsp;
     <% } %>
     <% }else{ %>
