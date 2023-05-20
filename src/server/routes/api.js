@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const ms = require("ms")
 
 router.get("/", (req, res) => res.redirect("/api/v1"));
 
@@ -39,6 +40,59 @@ router.post("/v1/bots/stats", async (req, res) => {
   return res.json({ message: "Successfully updated." });
 });
 
+router.get("/v1/bots/:id/voted", async (req, res) => {
+  const bot = await global.botModel.findOne({ id: req.params.id });
+  if (!bot)
+    return res.status(404).json({ message: "This bot is not on our list." });
+  if (!bot.status === "approved") 
+    return res.status(400).json({ message: "This bot is not approved yet." });
+
+  const id = req.query.user;
+  if (!id)
+    return res
+      .status(400)
+      .json({ message: `You didn't provide 'user' in the query` });
+  let user = await global.client.users.fetch(id).catch(() => null);
+  if (!user)
+    return res.status(400).json({
+      message: `The 'user' you provided couldn't be found on Discord.`,
+    });
+  if (user.bot)
+    return res.status(400).json({
+      message: `The user ID  you provided is a Revolt bot, and bots can't vote.`,
+    });
+
+  let x = await global.voteModel.findOne({ bot: bot.id, user: user._id });
+  if (!x) return res.json({ voted: false });
+  const vote = canUserVote(x);
+  if (!vote.status) return res.json({ voted: false });
+  return res.json({
+    voted: true,
+    current: parseInt(x.date),
+    next: parseInt(x.date) + parseInt(x.time),
+  });
+});
+
+router.get("/v1/bots/:id/votes", async (req, res) => {
+  const bot = await global.botModel.findOne({ id: req.params.id });
+  if (!bot) return res.status(404).json({ message: "This bot is not on our list." });
+  if (!bot.status === "approved") return res.status(400).json({ message: "This bot is not approved yet." });
+
+  let x = await global.voteModel.find({ bot: bot._id });
+  if (!x || !x.length)
+    return res.json({
+      status: false,
+      message: `There is 0 users waiting to vote for your bot.`,
+    });
+  return res.json({
+    votes: x.map((c) => ({
+      user: c.user,
+      current: parseInt(c.date),
+      next: parseInt(c.date) + parseInt(c.time),
+    })),
+  });
+});
+
 module.exports = router;
 
 async function getBotData(data, fetchReviews = false, req) {
@@ -73,4 +127,11 @@ async function getBotData(data, fetchReviews = false, req) {
     info.avatar = `https://autumn.revolt.chat/avatars/${BotRaw.avatar._id}/${BotRaw.avatar.filename}.webp`;
   }
   return info;
+}
+
+function canUserVote(x) {
+  const left = x.time - (Date.now() - x.date),
+    formatted = ms(left, { long: true });
+  if (left <= 0 || formatted.includes("-")) return { status: true };
+  return { status: false, left, formatted };
 }
