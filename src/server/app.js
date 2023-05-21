@@ -153,6 +153,8 @@ app.use("/users", usersRouter);
 app.use("/user", usersRouter);
 const botRulesRouter = require("./routes/bot-rules.js");
 app.use("/bot-rules", botRulesRouter);
+const discordRouter = require("./routes/discord.js");
+app.use("/vital", discordRouter);
 
 app.listen(config.port, () => {
   console.info(`[INFO] Running on port ` + config.port);

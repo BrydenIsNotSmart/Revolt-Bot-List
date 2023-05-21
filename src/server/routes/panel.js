@@ -96,6 +96,7 @@ router.get("/bots/:id/approve", async (req, res) => {
   });
      
 })
+
 router.get("/bots/:id/deny", async (req, res) => {
   let bot = await botModel.findOne({ id: req.params.id });
   if (!bot || bot.deleted) return res.status(404).json({ message: "This bot was not found or it has been deleted" });
@@ -124,4 +125,5 @@ router.post("/bots/:id/deny", async (req, res) => {
 router.get("/grass", async (req,res) => {
   return res.status(200).json({message: "Touch some grass, kid."})
 })
+
 module.exports = router;
