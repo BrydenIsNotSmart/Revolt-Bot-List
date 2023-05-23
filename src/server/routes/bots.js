@@ -175,6 +175,7 @@ router.get("/:id/edit", checkAuth, async (req, res) => {
 
 router.post("/:id/edit", checkAuth, async (req, res) => {
   const data = req.body;
+  console.log(data)
   if (!data)
     return res.status(400).json("You need to provide the bot's information.");
   let bot = await botModel.findOne({ id: req.params.id });
@@ -182,8 +183,8 @@ router.post("/:id/edit", checkAuth, async (req, res) => {
     return res
       .status(404)
       .json({ message: "This bot could not be found on our list." });
-  if (!bot.owners.includes(req.session.userAccountId)) return res.redirect("/");
-  let BotRaw = await client.bots.fetchPublic(req.params.id).catch((err) => {
+ if (!bot.owners.includes(req.session.userAccountId)) return res.redirect("/");
+  let BotRaw = await client.users.fetch(req.params.id).catch((err) => {
     console.log(err);
   });
   if (!BotRaw)
@@ -201,7 +202,7 @@ router.post("/:id/edit", checkAuth, async (req, res) => {
     });
     data.owners = owners;
   }
-
+  console.log(BotRaw)
   if (data.owners) {
     data.owners.forEach(async (owner) => {
       try {
@@ -214,7 +215,6 @@ router.post("/:id/edit", checkAuth, async (req, res) => {
       }
     });
   }
-
   (bot.name = BotRaw.username),
     (bot.iconURL = `https://autumn.revolt.chat/avatars/${BotRaw.avatar._id}/${BotRaw.avatar.filename}`),
     (bot.prefix = data.prefix);
@@ -231,7 +231,7 @@ router.post("/:id/edit", checkAuth, async (req, res) => {
     res.status(201).json({ message: "Successfully Edited", code: "OK" });
     let logs = client.channels.get(config.channels.weblogs);
     logs.sendMessage(
-      `<\@${req.session.userAccountId}> edited **${BotRaw.username}**.\n<https://revoltbots.org/bots/${req.params.id}>`
+      `<\@${req.session.userAccountId}> edited **${BotRaw.username}**.\n<https://revoltbots.org/bots/${data.botid}>`
     );
   });
 });
