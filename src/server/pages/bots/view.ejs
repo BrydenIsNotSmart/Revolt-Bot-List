@@ -79,7 +79,7 @@
       <i class="fa-solid fa-code"></i> <b>Developer</b>
     </h2>
     <a class="owner" href="/user/<%= bot.owners[0] %>"><img class="rounded-circle idk" style="width: 45px; height: 45px;" src="https://autumn.revolt.chat/avatars/<%= botclient.users.get(bot.owners[0]).avatar._id %>/<%= botclient.users.get(bot.owners[0]).avatar.filename %>">&nbsp;<b style="font-size: 20px;">
-        <%= botclient.users.fetch(bot.owners[0]).username || "Unknown User" %>
+        <%= botclient.users.get(bot.owners[0]).username || "Unknown User" %>
       </b></a>
     <% } %><br>
     <% } catch(err) { %>
