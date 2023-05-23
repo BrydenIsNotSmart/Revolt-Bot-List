@@ -69,14 +69,9 @@
     <h2 style="color: white">
       <i class="fa-solid fa-code"></i> <b>Developers</b>
     </h2><br>
-    <% for(let i = 0; i < bot.owners.length; i++) { %>
-<<<<<<< HEAD
-    <a class="owner" href="/user/<%= bot.owners[i] %>"><img class="rounded-circle" style="width: 45px; height: 45px;" src="https://autumn.revolt.chat/avatars/<%= botclient.users.fetch(bot.owners[i]).avatar._id %>/<%= botclient.users.fetch(bot.owners[i]).avatar.filename %>.png">&nbsp;<b style="font-size: 20px;">
-        <%= botclient.users.fetch(bot.owners[i]).username || "Unknown User" %>
-=======
+    <% for(let i=0; i < bot.owners.length; i++) { %>
     <a class="owner" href="/user/<%= bot.owners[i] %>"><img class="rounded-circle" style="width: 45px; height: 45px;" src="https://autumn.revolt.chat/avatars/<%= botclient.users.get(bot.owners[i]).avatar._id %>/<%= botclient.users.get(bot.owners[i]).avatar.filename %>.webp">&nbsp;<b style="font-size: 20px;">
         <%= botclient.users.get(bot.owners[i]).username || "Unknown User" %>
->>>>>>> 670d0598c06930c5a0009f23d4adebd4bfdd78c2
       </b></a>&nbsp;&nbsp;
     <% } %>
     <% }else{ %>
