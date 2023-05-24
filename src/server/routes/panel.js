@@ -63,7 +63,6 @@ router.post("/bots/:id/testing", async (req, res) => {
     name: `${bot.name.toLowerCase()}`,
     description: `Testing session channel to test ${bot.name}.`,
    });
-console.log(createdChannel)
   let cat = [];
   server.categories.map(d => { if (d.id === "01GX1R43Q03JF7SMBKRW71F7EF") d.channels.push(createdChannel._id); cat.push(d) });
   server.edit({ categories: cat }); 
@@ -75,7 +74,7 @@ console.log(createdChannel)
       description: `## Testing Session\nWelcome to your new testing session for <@${bot.id}>.\nYou may now begin testing this bot. Any questions? View the staff panel or ask an admin.\n\n### Prefix:\n\`${bot.prefix}\``
     }],
   });
-  res.send("You may no begin to test this bot in our testing server.")
+  res.send("You may now begin to test this bot in our testing server.")
 });
 
 router.get("/bots/:id/approve", async (req, res) => {
@@ -89,6 +88,7 @@ router.get("/bots/:id/approve", async (req, res) => {
     user.username = userRaw.username;
     user.avatar = userRaw.avatar;
   }
+
   res.render("panel/approve.ejs", {
     bot,
     user,
@@ -118,8 +118,61 @@ router.post("/bots/:id/deny", async (req, res) => {
   let bot = await botModel.findOne({ id: req.params.id });
   if (!bot || bot.deleted) return res.status(404).json({ message: "This bot was not found or it has been deleted" });
   if (bot.status === "approved" || bot.status === "denied") return res.status(400).json({ message: "This bot has already been approved or denied."});
-  bot.deniedOn = Date.now();
 
+  bot.deniedOn = Date.now();
+  bot.status = "denied";
+  await bot.save().then(async () => {
+    let testing = client.servers.get(config.servers.testing);
+    let testingChannel = testing.channels.find(c => c.name === `${bot.name.toLowerCase()}`);
+    try {
+      await testing.kickUser(bot.id);
+      await testingChannel.delete();
+      res.status(201).json({ message: "Successfully Denied", code: "OK" });
+      let logs = client.channels.get(config.channels.weblogs);
+      logs.sendMessage(
+        `<\@${bot.owners[0]}>'s bot **${bot.name}** has been **denied** by <\@${req.session.userAccountId}>.\n<https://revoltbots.org/bots/${bot.id}>\n**Reason**: ${req.body.reason || "None provided."}`
+      );
+      let reviewerRaw = await client.users.fetch(bot.reviewer);
+      bot.owners.forEach(async (owner) => {
+      let user = await client.users.fetch(owner);
+      await user.openDM().then((dm) => { dm.sendMessage(`:x: Your bot **${bot.name}** has been **denied** on RevoltBots.org!\n**Reviewer**: ${reviewerRaw.username}\n**Reason**: ${req.body.reason || "None provided."}`)}).catch(() => { return });
+      })
+      } catch(err) {
+        console.error(err);
+      }
+  })
+})
+
+router.post("/bots/:id/approve", async (req, res) => {
+ let bot = await botModel.findOne({ id: req.params.id });
+  if (!bot || bot.deleted) return res.status(404).json({ message: "This bot could not be found on our list." });
+  if (bot.status === "approved" || bot.status === "denied") return res.status(400).json({ message: "This bot has already been approved or denied." });
+  bot.approvedOn = Date.now();
+  bot.status = "approved";
+  await bot.save().then(async () => {
+    let testing = client.servers.get(config.servers.testing);
+    let testingBot = await testing.fetchMember(bot.id);
+    let testingChannel = testing.channels.find(c => c.name === `${bot.name.toLowerCase()}`);
+    try {
+      await testingBot.kick();
+      await testingChannel.delete();
+      selfBot.api.post(`/bots/${bot.id}/invite`, { 
+        "server": config.servers.main 
+      })
+    res.status(201).json({ message: "Successfully Approved", code: "OK" });
+    let logs = client.channels.get(config.channels.weblogs);
+    logs.sendMessage(
+      `<\@${bot.owners[0]}>'s bot **${bot.name}** has been **approved** by <\@${req.session.userAccountId}>.\n<https://revoltbots.org/bots/${bot.id}>`
+    );
+    let reviewerRaw = await client.users.fetch(bot.reviewer);
+    bot.owners.forEach(async (owner) => {
+    let user = await client.users.fetch(owner);
+    await user.openDM().then((dm) => { dm.sendMessage(`:white_check_mark: Your bot **${bot.name}** has been **approved** on RevoltBots.org!\n**Reviewer**: ${reviewerRaw.username}\n**Feedback**: ${req.body.feedback || "None provided."}`)}).catch(() => { return });
+    })
+    } catch(err) {
+      console.error(err);
+    }
+  })
 })
 
 router.get("/grass", async (req,res) => {

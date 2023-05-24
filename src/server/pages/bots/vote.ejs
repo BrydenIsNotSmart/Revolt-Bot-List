@@ -19,17 +19,17 @@
     <div class="row" style="width: 100%;">
       <img class="idk" src="<%= bot.iconURL %>">
       <div class="col-sm">
-        <h2 style="color: white"><b><%= bot.name %> <span class="btn btn-info" style="border-radius: 7px;margin-top:-5px;background-color: #fe4655;border-color: #fe4655; color: white;height: 35px;"><i class="fa-solid fa-check-to-slot"></i> <span style="margin-top:-10px;">Votes: <%= bot.votes %></span></span></b>
+        <h2 style="color: white"><b><%= bot.name %> <span class="btn btn-info" style="border-radius: 7px;margin-top:-5px;background-color: #FF3366;border-color: #FF3366; color: white;height: 35px;"><i class="fa-solid fa-check-to-slot"></i> <span style="margin-top:-10px;">Votes: <%= bot.votes %></span></span></b>
         </h2>
         <p style="color: white">You can upvote every 12-hours
         </p>
         <hr>
         <% if (user) { %>
         <form action="/bots/<%- bot.id %>/vote" method="POST">
-          <button type="submit" style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655; color: white" class="btn btn-primary btn-lg btn-block" id="upvote"><b> Click to vote</b></button>
+          <button type="submit" style="border-radius: 7px;margin-top:3px; background-color: #FF3366;border-color: #FF3366; color: white" class="btn btn-primary btn-lg btn-block" id="upvote"><b> Click to vote</b></button>
         </form>
         <% } else { %>
-        <a style="text-decoration: none;" href="/login"><button type="button" style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655; color: white" class="btn btn-primary btn-lg btn-block" id="upvote"><b><i class="fa-solid fa-sign-in-alt"></i> Login to vote</b></button></a>
+        <a style="text-decoration: none;" href="/login"><button type="button" style="border-radius: 7px;margin-top:3px; background-color: #FF3366;border-color: #FF3366; color: white" class="btn btn-primary btn-lg btn-block" id="upvote"><b><i class="fa-solid fa-sign-in-alt"></i> Login to vote</b></button></a>
         <% } %>
       </div>
     </div>

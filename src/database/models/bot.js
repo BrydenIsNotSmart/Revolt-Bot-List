@@ -37,6 +37,10 @@ let app = mongoose.Schema({
     type: Date,
     required: false,
   },
+  approvedOn: {
+    type: Date,
+    required: false,
+  },
   status: {
     type: String,
     default: "awaiting", //- awaiting: waiting to be reviewed, appproved, denied, inprogress: currently being reviewed.
