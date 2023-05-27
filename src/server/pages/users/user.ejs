@@ -1,0 +1,169 @@
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:site_name" content="Revolt Bot List">
+  <meta property="og:title" content="Viewing <%= fetched_user?.name %>'s Profile">
+  <meta name="keywords" content="RevoltBotList,botlist,revolt,<%= fetched_user?.name %>,revoltbots,revoltservers">
+  <meta property="og:url" content="https://revoltbots.org">
+  <meta property="og:description" content="<%= fetched_user.bio || " This user doesn't have a bio set." %>">
+  <meta property="og:image" content="<%= fetched_user.avatar %>">
+  <meta property="og:color" content="#fe4655">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sanitize-html/1.26.0/sanitize-html.min.js"></script>
+  <link rel='stylesheet' href='/css/botpage.scss'>
+  <title>
+    <%= fetched_user.name %> - Revolt Bots
+  </title>
+  <%- include("../parts/head.ejs") %>
+</head>
+<%- include("../parts/nav.ejs") %>
+  <div class="botpagecontainer">
+    <div style="background-color: transparent" class="jumbotron mt-5">
+      <div class="row" style="width: 100%;">
+        <img class="idk"
+          src="https://autumn.revolt.chat/avatars/<%= fetched_user?.avatar?._id %>/<%= fetched_user?.avatar?.filename %>">
+        <div class="col-sm">
+          <h2 style="color: white"><b>
+              <%= fetched_user.name %>
+                <% if (fetched_user.isAdmin) { %>
+                  <i class="fa-solid fa-user-pilot" style="font-size: 25px; color: #FF0000"
+                    title="RBL Administrator"></i>
+                  <% } %>
+                    <% if (fetched_user.isStaff) { %>
+                      <i class="fa-solid fa-shield" style="font-size: 25px; color: #954AA8" title="RBL Staff"></i>
+                      <% } %>
+                        <% if (fetched_user.badges.includes("partner")) { %>
+                          <i class="fa-solid fa-handshake" style="font-size: 25px; color: #FD6671"
+                            title="RBL Partner"></i>
+                          <% } %>
+                            <% if (fetched_user.badges.includes("contributor")) { %>
+                              <i class="fa-solid fa-sparkles" style="font-size: 25px; color: #F38BF1"
+                                title="RBL Contributor"></i>
+                              <% } %>
+                                <% if (bots.length> 0) { %>
+                                  <i class="fa-solid fa-code" style="font-size: 25px; color: #3498DB"
+                                    title="Bot Developer"></i>
+                                  <% } %>
+            </b></h2>
+          <p style="color: white">
+            <%= fetched_user.bio %>
+          </p>
+          <p style="color:white">
+            <i style="margin-right: 5px;" class="fa-solid fa-clock"></i> <b>Joined</b>: <%= new
+              Date(fetched_user.createdAt).toLocaleDateString() %>&nbsp;&nbsp;|&nbsp;&nbsp;
+              <i style="margin-right: 5px;" class="fa-solid fa-robot"></i> <b>Bot Count</b>: <%= bots.length %>
+          </p>
+          <% if (user && fetched_user.revoltId===user.revoltId) { %>
+            <a href="/users/<%= fetched_user.revoltId %>/edit" type="button"
+              style="border-radius: 7px;margin-top:3px; background-color: #FF3366;border-color: transparent"
+              class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-edit"></i> Edit Profile</a>
+            <% } %>
+              <% if (fetched_user.website) { %>
+                <a href="<%= fetched_user.website %>" target="_blank" type="button"
+                  style="border-radius: 7px;margin-top:3px; background-color: #FF3366;border-color: transparent"
+                  class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-solid fa-globe"></i> Website</a>
+                <% } %>
+                  <% if (fetched_user.github) { %>
+                    <a href="<%= fetched_user.github %>" target="_blank" type="button"
+                      style="border-radius: 7px;margin-top:3px; background-color: #FF3366;border-color: transparent"
+                      class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-brands fa-github"></i> Github</a>
+                    <% } %>
+                      <% if (fetched_user.twitter) { %>
+                        <a href="<%= fetched_user.twitter %>" target="_blank" type="button"
+                          style="border-radius: 7px;margin-top:3px; background-color: #FF3366;border-color: transparent"
+                          class="btn btn-info pr-3 pl-3 mr-1"><i class="fa-brands fa-twitter"></i> Twitter</a>
+                        <% } %>
+        </div>
+      </div><br><br>
+    </div>
+  </div>
+  <div class="descriptionContainer">
+    <div class="desccard" style="padding-left:0px">
+      <div class="card-body">
+        <div id="bot-description">
+          <%= fetched_user.description %>
+        </div>
+      </div>
+    </div>
+
+    <h1 style="color: white;margin-top:65px;"><i class="fa-solid fa-robot"></i> Bots</h1>
+    <p style="color: white;"> Bots that <%= fetched_user.name %> owns.</p>
+    <% if (bots.length> 0) { bots.map(b => { %>
+      <div class="card" style="border-radius:10px;">
+        <div class="banner" style="background-image: url(<%= b.bannerURL || b.iconURL %>); opacity: 0.15"
+          title="Banner"></div>
+        <img src="<%= b.iconURL %>" style="opacity: 2; margin-left: 13px;" alt="<%= b.name %>'s Avatar"
+          draggable="false" class="botimg_main">
+        <p class="botname_main" style="opacity: 2;height:65px;width:250px;padding:10px;">
+          <b>
+            <%= b.name %>
+          </b>
+          <br>
+          <span style="font-size:15px; font-weight:normal;"><i class="fa-solid fa-server"></i>
+            <%= b.servers || "N/A" %> • <i class="fa-solid fa-check-to-slot"></i>
+              <%= b.monthlyVotes %>
+          </span>
+        </p>
+        <div class="botdesc_main" style="height:75px;width:auto;flex:auto;padding:10px;">
+          <%= b.shortDesc %>
+        </div>
+        <div class="bottags_main" style="height:75px;width:auto;flex:auto;padding:10px;">
+          <i class="fa-solid fa-hashtag"></i>
+          <%= b.tags.join(", ") %>
+        </div>
+        <div style=" margin-left: 200px;margin-top:-40px">
+            <a href="/bots/<%= b.id %>/">
+              <button class="viewbtn"><i class="fa-solid fa-eye"></i> View</button>
+            </a>
+        </div>
+        <% if (user.revoltId && fetched_user.revoltId===user.revoltId) { %>
+          <a href="/bots/<%= b.id %>/edit">
+            <button class="votebtn"><i class="fa-solid fa-edit"></i> Edit</button></a>
+          <% } else { %>
+            <a href="/bots/<%= b.id %>/vote">
+              <button class="votebtn"><i class="fa-solid fa-check-to-slot"></i> Vote</button></a>
+            <% } %>
+      </div>
+      <% }); } else {%>
+        <div style="background-color: #340913; border-radius: 7px; border-color: #980329; color: #ffffff; height: 85px;"
+          class="alert d-flex alert-warning" role="alert">
+          <div>
+            <h4 class="alert-heading"><i style="color: #FF3366" class="fa-solid fa-circle-xmark"></i> No bots</h4>
+            <p>
+              <%= user.revoltId && fetched_user.revoltId===user.revoltId ? `It seems you don't own any bots!` : `It
+                seems that ${fetched_user.name} does not own any bots!` %>
+            </p>
+            <% if (user.revoltId && fetched_user.revoltId===user.revoltId) { %>
+              <a href="/bots/submit">
+                <button style="margin: -67px -200px 0px 0px;" class="votebtn"><i class="fa-solid fa-plus"></i> Add a
+                  bot</button></a>
+              <% } %>
+          </div>
+        </div>
+        <% } %>
+  </div>
+  <br><br>
+  <%- include("../parts/footer.ejs") %>
+
+    <script>
+      $(document).ready(function () {
+        const descriptionBox = $("#bot-description");
+        const descriptionBoxText = descriptionBox.text() || descriptionBox.val();
+        sanitizedRender = sanitizeHtml(descriptionBoxText, {
+          allowedTags: ["address", "article", "aside", "footer", "header", "h1", "h2", "h3", "h4",
+            "h5", "h6", "hgroup", "main", "nav", "section", "blockquote", "dd", "div",
+            "dl", "dt", "figcaption", "figure", "hr", "li", "main", "ol", "p", "pre",
+            "ul", "a", "abbr", "b", "bdi", "bdo", "br", "cite", "code", "data", "dfn",
+            "em", "i", "kbd", "mark", "q", "rb", "rp", "rt", "rtc", "ruby", "s", "samp",
+            "small", "span", "strong", "sub", "sup", "time", "u", "var", "wbr", "caption",
+            "col", "colgroup", "table", "tbody", "td", "tfoot", "th", "thead", "tr", "img", "iframe", "style"
+          ],
+          allowedSchemes: ['data', 'http', 'https'],
+          allowedAttributes: {
+            a: ['href', 'name', 'target'],
+            img: ['src', 'srcset', 'alt', 'title', 'width', 'height', 'loading'],
+            iframe: ['src', 'width', 'height', 'id']
+          },
+        });
+        descriptionBox.html(sanitizedRender);
+      });
+    </script>

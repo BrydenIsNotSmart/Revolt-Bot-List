@@ -1,0 +1,103 @@
+<html lang="en" class="dark-mode">
+
+<head>
+  <%- include('./parts/head.ejs') %>
+</head>
+
+<body>
+  <%- include('./parts/aside.ejs') %>
+
+  <!-- Page container -->
+  <main class="docs-container pt-5 pb-3 pb-lg-4" style="padding-right: 0px;">
+    <div class="container-fluid px-xxl-5 px-lg-4 pt-4 pt-lg-5 pb-4">
+
+      <!-- Page title -->
+      <h1 class="ps-lg-2 ps-xxl-0 mt-2 mt-lg-0 pt-4 pb-2 mb-3 mb-xl-4">General Statistics</h1>
+      <div class="border-0 shadow-sm position-relative overflow-hidden mb-5">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Databases</th>
+                <th>Document Length</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Total Bots</td>
+                <td><%= botsdata.length ? botsdata.length : 0 %></td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Bot Owners</td>
+                <% const owners = botsdata.map(b => b.owners.length); %>
+                <% let ownersLength = 0;
+                for (let i = 0; i < owners.length; i++) {
+                    ownersLength += owners[i];
+                } %>
+                <td><%= ownersLength %></td>
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>Approved Bots</td>
+                <td><%= botsdata.filter(b => b.status == "approved").length ? botsdata.filter(b => b.status == "approved").length : 0 %></td>
+              </tr>
+              <tr>
+                <th scope="row">4</th>
+                <td>Awaiting Approval</td>
+                <td><%= botsdata.filter(b => b.status == "awaiting" || b.status == "awaiting").length ? botsdata.filter(b => b.status == "awaiting" || b.status == "awaiting").length : 0 %></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <h2 class="h3 pt-3">Awaiting Certification</h2>
+      <p>Here is a list of all the bots in the certification queue.</p>
+      <% if (botsdata.filter(e => e.certifyApplied).length === 0) { %>
+      <div class="alert d-flex alert-warning" role="alert">
+        <i class="bx bx-error lead me-3"></i>
+        <div>
+          <h6 class="alert-heading">No bots in certification queue!</h6>
+          <p>There are no bots in the certification queue at the moment.</p>
+        </div>
+      </div>
+      <% } else { %>
+      <div class="table-responsive">
+        <table class="table table-striped-columns">
+          <thead;>
+            <tr>
+              <th>#</th>
+              <th>Bot</th>
+              <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+              <% let i = 0; %>
+              <% botsdata.filter(e => e.certifyApplied).map(bot => { %>
+              <tr id="unverified_<%= bot.id %>">
+                <th scope="row"><%= i + 1 %></th>
+                <td class="f-flex">
+                  <img src="<%= bot.iconURL %>" class="rounded-circle me-2" width="20" height="20" alt="<%- bot.username %>" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                  <%- bot.name %>
+                </td>
+                  <td class="d-flex" style="text-align: center;">
+                    <a class="badge bg-faded-success text-success me-2" type="button" data-bs-toggle="modal" href="/panel/certification/<%= bot.id %>/accept" style="width: 100%;">Approve</a>
+                    <a class="badge bg-faded-danger text-danger me-2" type="button" href="/panel/certification/<%= bot.id %>/deny" style="width: 100%;">Decline</a>
+  
+                    <a href="/bots/<%= bot.id %>" class="badge bg-faded-primary text-primary" style="width: 100%">View Profile</a>
+                  </td>
+              </tr>
+              <% }) %>
+            </tbody>
+        </table>
+      </div>
+      <% } %>
+    </div>
+  </main>
+
+</body>
+<%- include('../parts/footer.ejs') %>
+<div class="modal-backdrop fade show d-none"></div>

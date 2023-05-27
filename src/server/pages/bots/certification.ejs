@@ -1,0 +1,49 @@
+ <head>
+    <title>Certification - Revolt Bots</title>
+    <%- include("../parts/head.ejs") %>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/1.1.0/marked.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sanitize-html/1.26.0/sanitize-html.min.js"></script>
+</head>
+<%- include("../parts/nav.ejs") %>
+
+    <div class="text-center" style="margin-top: 150px;">
+        <img src="https://revolt.chat/_next/static/media/revolt-logo.24213514.svg" style="width: 185px;" alt="logo">
+        <h2 style="color: white"><b>BOTS</b></h2><br><br>
+        <h4 style="color:white"><b>Requirements</b></h4><br>
+        <h5 style="color:white">To certify your bot, you must meet the following requirements:</h5>
+        <ul>
+            <li style="color:white">Your bot must be in at least 10 servers.</li>
+            <li style="color:white"></li>
+            <li style="color:white"></li>
+            <li style="color:white"></li>
+            <li style="color:white"></li>
+        </ul>     
+        <form action="../../../bots/certify" method="POST">
+            <h5 style="color:white"><b>Please select a bot you want to certify</b></h5><br><br>
+            <select style="background-color:#191f2d; border-color: transparent; width: 400px; margin: 0 auto;"
+                class="form-control" id="bot" name="bot" required>
+                <option value="" disabled selected>Select a bot</option>
+                <% for (const bot of bots) { %>
+                    <% if (bot) %>
+                    <option value="<%= bot.id %>">
+                        <%= bot.name %>
+                    </option>
+                    <% } %>
+            </select>
+            <br><br>
+            <input type="checkbox" id="tos" name="tos" value="tos" required>
+            <label for="tos" style="color: white">I accept Revolt's <a href="https://revolt.chat/terms"
+                    target="_blank">Terms of Service</a> and <a href="https://revolt.chat/privacy"
+                    target="_blank">Privacy Policy</a></label><br>
+            <input type="checkbox" id="aup" name="aup" value="aup" required>
+            <label for="aup" style="color: white">I accept Revolt's <a href="https://revolt.chat/aup"
+                    target="_blank">Acceptable Use Policy</a></label><br>
+            <br>
+            <button style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655"
+                class="btn btn-primary pl-3 pr-3 mr-3" type="submit"><i class="fa-solid fa-paper-plane"></i>
+                Submit</button>
+        </form>
+    </div>
+    <br><br>
+    <hr>
+    <%- include("../parts/footer.ejs") %>

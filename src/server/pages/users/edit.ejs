@@ -1,0 +1,74 @@
+<head>
+    <title>Editing Profile - Revolt Bots</title>
+    <%- include("../parts/head.ejs") %>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/1.1.0/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sanitize-html/1.26.0/sanitize-html.min.js"></script>
+  </head>
+  <%- include("../parts/nav.ejs") %>
+  
+  
+  <div class="text-center" style="margin-top: 150px;">
+    <img src="https://revolt.chat/_next/static/media/revolt-logo.24213514.svg" style="width: 185px;" alt="logo">
+    <h2 style="color: white"><b>BOTS</b></h2><br><!--why-->
+    <form action="../../../users/<%= user.revoltId %>/edit" method="POST">
+      <h5 style="color:white"><b>Please fill out this form below to edit your profile.</b></h5><br><br>
+      <h3 style="color:white"><B>Your Id</B></h3>
+      <input type="text" class="inputField" placeholder="&nbsp;Ex. 01GQ15T55EJHGSS91FBT1YFHZW" value="<%= user.revoltId %>" name="botid" readonly required/><br>
+      <h3 style="color:white;margin-top:25px"><b>Bio</b></h3>
+      <input type="text" class="inputField" placeholder="&nbsp;I like turtles..." name="bio" value="<%= user.bio %>" autocomplete="off" spellcheck="true" required><br>
+      <h3 style="color:white;margin-top:25px"><b>Description</b></h3>
+      <textarea type="text" class="inputTextarea" id="botLongDesc" autocomplete="off" name="desc" placeholder="My name is <%= user.username %> and I like... (Supports Markdown and HTML)" value="<%= user.description %>" spellcheck="true" required><%= user.description || "" %></textarea><br>
+      <h3 style="color:white;margin-top:25px"><b>Description Preview</b></h3>
+      <div class="descriptionContainer">
+        <div class="desccard" style="padding-left:0px">
+          <div class="card-body">
+            <div style="color: white" id="botLongDescPreview">Start typing to make it appear..</div>
+          </div>
+        </div>
+      </div>
+      <h3 style="color:white;margin-top:25px"><b>Website</b></h3>
+      <input type="url" class="inputField" placeholder="&nbsp;Ex. https://forgetful.ga/about" value="<%= user.website %>" name="website" autocomplete="off"><br>
+      <h3 style="color:white;margin-top:25px"><b>Github</b></h3>
+      <input type="url" class="inputField" placeholder="&nbsp;Ex. https://github.com/BrydenIsNotSmart" value="<%= user.github %>" name="github" autocomplete="off"><br>
+      <h3 style="color:white;margin-top:25px"><b>Twitter</b></h3>
+      <input type="url" class="inputField" placeholder="&nbsp;Ex. https://twitter.com/" value="<%= user.twitter %>" name="twitter" autocomplete="off"><br>
+<!--not nice-->
+      </select><br>
+      <br>
+      <button style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655" class="btn btn-primary pl-3 pr-3 mr-3" type="submit"><i class="fa-solid fa-paper-plane"></i> Submit</button>
+  </div>
+  </form>
+  </section>
+  
+  <script>
+    const longDesc = $('#botLongDesc');
+    const longDescPreview = $('#botLongDescPreview');
+    longDesc.on('change keyup paste', function() {
+      const markdownRender = marked(longDesc.val());
+      const sanitizedRender = sanitizeHtml(markdownRender, {
+        allowedTags: ["address", "article", "aside", "footer", "header", "h1", "h2", "h3", "h4",
+          "h5", "h6", "hgroup", "main", "nav", "section", "blockquote", "dd", "div",
+          "dl", "dt", "figcaption", "figure", "hr", "li", "main", "ol", "p", "pre",
+          "ul", "a", "abbr", "b", "bdi", "bdo", "br", "cite", "code", "data", "dfn",
+          "em", "i", "kbd", "mark", "q", "rb", "rp", "rt", "rtc", "ruby", "s", "samp",
+          "small", "span", "strong", "sub", "sup", "time", "u", "var", "wbr", "caption",
+          "col", "colgroup", "table", "tbody", "td", "tfoot", "th", "thead", "tr", "img", "iframe", "style"
+        ],
+        allowedSchemes: ['data', 'http', 'https'],
+        allowedAttributes: {
+          a: ['href', 'name', 'target'],
+          img: ['src', 'srcset', 'alt', 'title', 'width', 'height', 'loading'],
+          iframe: ['src', 'width', 'height', 'id']
+        },
+      });
+      longDescPreview.html(sanitizedRender);
+    });
+  </script>
+  
+  <style>
+    .form-group.required label:after {
+      content: " *";
+      color: red;
+    }
+  </style>
+  

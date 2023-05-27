@@ -78,7 +78,7 @@ router.get("/v1/bots/:id/votes", async (req, res) => {
   if (!bot) return res.status(404).json({ message: "This bot is not on our list." });
   if (!bot.status === "approved") return res.status(400).json({ message: "This bot is not approved yet." });
 
-  let x = await global.voteModel.find({ bot: bot._id });
+  let x = await global.voteModel.find({ bot: bot.id });
   if (!x || !x.length)
     return res.json({
       status: false,

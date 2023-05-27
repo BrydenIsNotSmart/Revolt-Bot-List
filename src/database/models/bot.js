@@ -49,6 +49,10 @@ let app = mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  certifyApplied: {
+    type: Boolean,
+    default: false,
+  },
   owners: {
     type: Array,
     required: true,

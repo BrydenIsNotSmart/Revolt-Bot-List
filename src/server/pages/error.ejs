@@ -1,0 +1,15 @@
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/typeit@7.0.4/dist/typeit.min.js"></script>
+    <title>Revolt Bots - Find the Revolt bots that are right for you.</title>
+    <%- include("./parts/head.ejs") %>
+  </head>
+  <%- include("./parts/nav.ejs") %>
+  <div class="text-center" style="margin-top: 150px;">
+    <h1 style="color: white"><b>Error <%= code %></b></h1>
+    <p style="color: white"><%= message %></p>
+    <a href="/">
+      <button style="border-radius: 7px;margin-top:3px; background-color: #FF3366;border-color: #FF3366" class="btn btn-primary pl-3 pr-3 mr-3"><i class="fa-solid fa-house-chimney"></i>&nbsp;<span style="text-align: right;"><b>Home</b></span></button>
+    </a>
+    <a href="/server">
+        <button style="border-radius: 7px;margin-top:3px; background-color: #FF3366;border-color: #FF3366" class="btn btn-primary pl-3 pr-3 mr-3"><img src="/img/revolt.svg" alt="Revolt Icon" height="18px" width="18px">&nbsp;<span style="text-align: right;"><b>Support</b></span></button>
+    </a>

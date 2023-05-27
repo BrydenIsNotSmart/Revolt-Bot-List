@@ -1,0 +1,59 @@
+<html lang="en" class="dark-mode">
+
+<head>
+    <title>Badge System - Staff Panel</title>
+    <%- include('./parts/head.ejs') %>
+</head>
+
+<body>
+    <%- include('./parts/aside.ejs') %>
+
+        <!-- Page container -->
+        <main class="docs-container pt-5 pb-3 pb-lg-4" style="padding-right: 0px;">
+            <div class="container-fluid px-xxl-5 px-lg-4 pt-4 pt-lg-5 pb-4">
+                <h2 class="ps-lg-2 ps-xxl-0 mt-2 mt-lg-0 pt-4 pb-2 mb-3 mb-xl-4">Badge System</h2>
+                <form action="/panel/badges/add" method="POST">
+                    <div class="form-group">
+                        <label style="font-size: 35px;" for="reason">User ID</label><br>
+                        <input
+                            style="background-color:#191f2d; border-radius: 5px; border-color: transparent; width: 400px; height: 43px; color: #ffffff"
+                            type="text" class="inputField" placeholder="" name="userId" required /><br>
+                    </div><br>
+                    <div class="form-group">
+                        <label style="font-size: 35px;" for="reason">Badge Type</label>
+                        <select style="background-color:#191f2d; border-color: transparent; width: 400px;"
+                            class="form-control" name="badge" required>
+                            <option value="staff">Staff</option>
+                            <option value="contributor">Contributor</option>
+                            <option value="partner">Partner</option>
+                        </select>
+                        <button type="submit" style="margin-top: 20px;" class="btn btn-success"><i
+                                class="fa-solid fa-square-check"></i>&nbsp;&nbsp;Apply Badge</button>
+                    </div>
+                </form>
+
+                <form style="margin-top: 100px;" action="/panel/badges/remove" method="POST">
+                    <div class="form-group">
+                        <label style="font-size: 35px;" for="reason">User ID</label><br>
+                        <input
+                            style="background-color:#191f2d; border-radius: 5px; border-color: transparent; width: 400px; height: 43px; color: #ffffff"
+                            type="text" class="inputField" placeholder="" name="userId" required /><br>
+                    </div><br>
+                    <div class="form-group">
+                        <label style="font-size: 35px;" for="reason">Badge Type</label>
+                        <select style="background-color:#191f2d; border-color: transparent; width: 400px;"
+                            class="form-control" name="badge" required>
+                            <option value="staff">Staff</option>
+                            <option value="contributor">Contributor</option>
+                            <option value="partner">Partner</option>
+                        </select>
+                        <button type="submit" style="margin-top: 20px;" class="btn btn-danger"><i
+                                class="fa-solid fa-square-x"></i>&nbsp;&nbsp;Remove Badge</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+
+</body>
+<%- include('../parts/footer.ejs') %>
+    <div class="modal-backdrop fade show d-none"></div>

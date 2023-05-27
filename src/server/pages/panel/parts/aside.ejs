@@ -34,10 +34,15 @@
             <% } else { %>
             <a href="/panel/bots" class="list-group-item list-group-item-action border-0 py-2 px-4"> Revolt Bots</a>
             <% } %>
-            <% if (req.url == '/certification ') { %>
+            <% if (req.url == '/certification') { %>
             <a href="/panel/certification" class="list-group-item list-group-item-action border-0 py-2 px-4 active"> Certification </a>
             <% } else { %>
             <a href="/panel/certification" class="list-group-item list-group-item-action border-0 py-2 px-4"> Certification </a>
+            <% } %>
+            <% if (req.url == '/badges' && user.isAdmin) { %>
+            <a href="/panel/badges" class="list-group-item list-group-item-action border-0 py-2 px-4 active"> Badges</a>
+            <% } else if (user.isAdmin) { %>
+            <a href="/panel/badges" class="list-group-item list-group-item-action border-0 py-2 px-4"> Badges</a>
             <% } %>
           </div>
         </div>

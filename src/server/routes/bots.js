@@ -103,6 +103,42 @@ router.post("/submit", checkAuth, async (req, res) => {
     });
 });
 
+router.get("/certify", checkAuth, async (req, res) => {
+  let user = await userModel.findOne({ revoltId: req.session.userAccountId });
+  let bots = await botModel.find({ owners: { $all: [req.session.userAccountId] } });
+
+  if (user) {
+    let userRaw = await client.users.fetch(user.revoltId);
+    user.username = userRaw.username;
+    user.avatar = userRaw.avatar;
+    user.id = user.revoltId;
+  }
+
+  res.render("bots/certification.ejs", {
+    user: user || null,
+    botclient: client,
+    bots,
+  });
+});
+
+router.post("/certify", checkAuth, async (req, res) => {
+  let user = await userModel.findOne({ revoltId: req.session.userAccountId });
+  let bots = await botModel.find({ owners: { $all: [req.session.userAccountId] } });
+
+  if (user) {
+    let userRaw = await client.users.fetch(user.revoltId);
+    user.username = userRaw.username;
+    user.avatar = userRaw.avatar;
+    user.id = user.revoltId;
+  }
+
+  res.render("bots/certification.ejs", {
+    user: user || null,
+    botclient: client,
+    bots,
+  });
+});
+
 router.get("/:id", async (req, res) => {
   let approved =
     (await botModel.findOne({ id: req.params.id, status: "approved" })) ||
@@ -175,7 +211,6 @@ router.get("/:id/edit", checkAuth, async (req, res) => {
 
 router.post("/:id/edit", checkAuth, async (req, res) => {
   const data = req.body;
-  console.log(data)
   if (!data)
     return res.status(400).json("You need to provide the bot's information.");
   let bot = await botModel.findOne({ id: req.params.id });

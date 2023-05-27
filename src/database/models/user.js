@@ -17,9 +17,37 @@ let app = mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  isAdmin: {
+    type: Boolean,
+    default: false,
+  },
+  badges: {
+    type: Array,
+    default: [],
+  },
   premium: {
     type: Boolean,
     default: false,
+  },
+  website: {
+    type: String,
+    required: false
+  },
+  github: {
+    type: String,
+    required: false
+  },
+  twitter: {
+    type: String,
+    required: false
+  },
+  bio: {
+    type: String,
+    default: "This user does not have a bio.",
+  },
+  description: {
+    type: String,
+    default: "This user does not have a description.",
   },
 });
 

@@ -192,7 +192,19 @@ function checkStaff(req, res, next) {
           if (userAccount.isStaff) {
             next();
           } else {
-            res.status(403).send("Forbidden");
+            let user = userAccount;
+            if (user) {
+              let userRaw = client.users.fetch(user.revoltId);
+              user.username = userRaw.username;
+              user.avatar = userRaw.avatar;
+            }
+            res.status(403).render(
+              "error.ejs", {
+              user,
+              code: 403,
+              message: "You are not authorized to view this page at this time.",
+            }
+            )
           }
         } else {
           res.redirect("/login");
