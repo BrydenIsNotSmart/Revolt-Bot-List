@@ -32,7 +32,7 @@ module.exports = {
     votelogs: "01GXCM24QX3WZP1GBNFQEHSHME",
   },
   servers: {
-    main: "01GXCH9VKDE12A76ZXZJMS0JS6",
+    main: "01GQ14WC58C8AXCWNJQBFDZNT3",
     testing: "01GX1QRSHEA8NE8WCGHEPN3S19",
   },
   roles: {
@@ -43,7 +43,7 @@ module.exports = {
     staff: "01GX1RXVPQV3TNCTXS109H50DW",
     contributor: "01GZJ7Y5NFNB5JRHXYZWNGWZZZ",
     partner: "01H1DJ15N9N21RY3AH9XFPQYB9",
-    certified: "01H1GB1BR01334NB3DJ30QXSAF",
-    botCertified: "01H1GB1Q5B3Y1FDCMBCQ67A5FQ",
+    certified: "01H1MG7T9CHX41XE36911GCT31",
+    botCertified: "01H1MG7YA13EC3M0R4EGKRKXBD",
   },
 };
