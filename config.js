@@ -28,7 +28,7 @@ module.exports = {
     "NSFW",
   ],
   channels: {
-    weblogs: "01H17DM6GQS8EN2EWDSP2QKRJJ",
+    weblogs: "01GQ1AKANW8TVTH6R2P79069K8",
     votelogs: "01GXCM24QX3WZP1GBNFQEHSHME",
   },
   servers: {
