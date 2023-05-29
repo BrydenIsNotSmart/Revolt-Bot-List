@@ -35,9 +35,11 @@
                           <i class="fa-solid fa-handshake" style="font-size: 25px; color: #FD6671"
                             title="RBL Partner"></i>
                           <% } %>
+                          <% if (fetched_user.badges.includes("certified")) { %>
+                            <i style="color: #FF4655" class="fa-solid fa-badge-check" title="Certified Developer"></i>
+                            <% } %>
                             <% if (fetched_user.badges.includes("contributor")) { %>
-                              <i class="fa-solid fa-sparkles" style="font-size: 25px; color: #F38BF1"
-                                title="RBL Contributor"></i>
+                              <i class="fa-solid fa-sparkles" style="font-size: 25px; color: #F38BF1" title="RBL Contributor"></i>
                               <% } %>
                                 <% if (bots.length> 0) { %>
                                   <i class="fa-solid fa-code" style="font-size: 25px; color: #3498DB"
@@ -96,6 +98,9 @@
         <p class="botname_main" style="opacity: 2;height:65px;width:250px;padding:10px;">
           <b>
             <%= b.name %>
+            <% if (b.certified) { %>
+              <i style="color: #FF4655" class="fa-solid fa-badge-check" title="Certified Bot"></i>
+              <% } %>
           </b>
           <br>
           <span style="font-size:15px; font-weight:normal;"><i class="fa-solid fa-server"></i>
@@ -115,7 +120,7 @@
               <button class="viewbtn"><i class="fa-solid fa-eye"></i> View</button>
             </a>
         </div>
-        <% if (user.revoltId && fetched_user.revoltId===user.revoltId) { %>
+        <% if (user && fetched_user.revoltId===user.revoltId) { %>
           <a href="/bots/<%= b.id %>/edit">
             <button class="votebtn"><i class="fa-solid fa-edit"></i> Edit</button></a>
           <% } else { %>
@@ -129,10 +134,10 @@
           <div>
             <h4 class="alert-heading"><i style="color: #FF3366" class="fa-solid fa-circle-xmark"></i> No bots</h4>
             <p>
-              <%= user.revoltId && fetched_user.revoltId===user.revoltId ? `It seems you don't own any bots!` : `It
+              <%= user && fetched_user.revoltId===user.revoltId ? `It seems you don't own any bots!` : `It
                 seems that ${fetched_user.name} does not own any bots!` %>
             </p>
-            <% if (user.revoltId && fetched_user.revoltId===user.revoltId) { %>
+            <% if (user && fetched_user.revoltId===user.revoltId) { %>
               <a href="/bots/submit">
                 <button style="margin: -67px -200px 0px 0px;" class="votebtn"><i class="fa-solid fa-plus"></i> Add a
                   bot</button></a>

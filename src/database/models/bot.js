@@ -101,5 +101,10 @@ let app = mongoose.Schema({
     type: String,
     required: false,
   },
+  badges: {
+    type: Array,
+    default: [],
+    required: false,
+  },
 });
 module.exports = mongoose.model("bots", app);

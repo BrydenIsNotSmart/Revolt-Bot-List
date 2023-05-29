@@ -76,7 +76,7 @@
             </thead>
             <tbody>
               <% let i = 0; %>
-              <% botsdata.filter(e => e.certifyApplied).map(bot => { %>
+              <% botsdata.filter(e => e.certifyApplied).map((bot, i) => { %>
               <tr id="unverified_<%= bot.id %>">
                 <th scope="row"><%= i + 1 %></th>
                 <td class="f-flex">
@@ -84,10 +84,51 @@
                   <%- bot.name %>
                 </td>
                   <td class="d-flex" style="text-align: center;">
-                    <a class="badge bg-faded-success text-success me-2" type="button" data-bs-toggle="modal" href="/panel/certification/<%= bot.id %>/accept" style="width: 100%;">Approve</a>
+                    <a class="badge bg-faded-success text-success me-2" type="button" data-bs-toggle="modal" href="/panel/certification/<%= bot.id %>/approve" style="width: 100%;">Approve</a>
                     <a class="badge bg-faded-danger text-danger me-2" type="button" href="/panel/certification/<%= bot.id %>/deny" style="width: 100%;">Decline</a>
-  
                     <a href="/bots/<%= bot.id %>" class="badge bg-faded-primary text-primary" style="width: 100%">View Profile</a>
+                  </td>
+              </tr>
+              <% }) %>
+            </tbody>
+        </table>
+      </div>
+      <% } %>
+      <br>
+      <h2 class="h3 pt-3">Certified Bots</h2>
+      <p>Here is a list of all certified bots.</p>
+      <% if (botsdata.filter(e => e.certified).length === 0) { %>
+      <div class="alert d-flex alert-warning" role="alert">
+        <i class="bx bx-error lead me-3"></i>
+        <div>
+          <h6 class="alert-heading">No bots are certified!</h6>
+          <p>There are no bots that are certified.</p>
+        </div>
+      </div>
+      <% } else { %>
+      <div class="table-responsive">
+        <table class="table table-striped-columns">
+          <thead;>
+            <tr>
+              <th>#</th>
+              <th>Bot</th>
+              <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+              <% let i = 0; %>
+              <% botsdata.filter(e => e.certified).map((bot, i) => { %>
+              <tr id="unverified_<%= bot.id %>">
+                <th scope="row"><%= i + 1 %></th>
+                <td class="f-flex">
+                  <img src="<%= bot.iconURL %>" class="rounded-circle me-2" width="20" height="20" alt="<%- bot.username %>" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                  <%- bot.name %>
+                </td>
+                  <td class="d-flex" style="text-align: center;">                    
+                    <a href="/bots/<%= bot.id %>" class="badge bg-faded-primary text-primary" style="width: 40%">View Profile</a>
+                    <% if (user.isAdmin) { %>
+                      <a class="badge bg-faded-danger text-danger me-2" type="button" href="/panel/certification/<%= bot.id %>/certifyDelete" style="width: 40%; margin-left: 8px;">Delete</a>
+                    <% } %>
                   </td>
               </tr>
               <% }) %>

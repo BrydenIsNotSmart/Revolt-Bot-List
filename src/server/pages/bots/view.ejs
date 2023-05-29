@@ -23,16 +23,42 @@
   </div>
   <% } %>
   <% if (bot.status === "denied") { %>
-  <div style="border-radius: 10px;margin-top: 25px;text-align: center;background-color: transparent;border-color: #f32013;color: white" class="alert alert-danger" role="alert">
-    <h3><i class="fa-solid fa-triangle-exclamation"></i> Danger!</h3>
-    <p>This bot has been denied, be careful if you invite it.</p>
+    <div
+      style="border-radius: 10px;margin-top: 25px;text-align: center;background-color: transparent;border-color: #f32013;color: white"
+      class="alert alert-danger" role="alert">
+      <h3><i class="fa-solid fa-triangle-exclamation"></i> Danger!</h3>
+      <p>This bot has been denied, be careful if you invite it.</p>
+    </div>
+  <% } %>
+<% if (bot.certifyApplied && user && bot.owners.find(e=> e === user.revoltId) && !bot.certified) { %>
+  <div
+    style="border-radius: 10px;margin-top: 25px;text-align: center;background-color: transparent;border-color: #FF4655;color: white"
+    class="alert alert-danger" role="alert">
+    <h3><i style="color: #FF4655" class="fa-solid fa-badge-check"></i> Pending Certification!</h3>
+    <p>Your bot is pending certification! You'll be notified once your application is looked over. (Only you can see
+      this)</p>
   </div>
   <% } %>
   <div style="background-color: transparent" class="jumbotron mt-5">
     <div class="row" style="width: 100%;">
       <img class="idk" src="<%= bot.iconURL %>">
-      <div class="col-sm">
-        <h2 style="color: white"><b><%= bot.name %></b>
+      <% if (bot.Status) { %> <!--wtf hehesn't it trasparent  it's going to be ok-->
+        <div style="border-radius: 50%; background-color:#290F1D; width: 65px; height: 65px; margin-left: -65px; margin-top: 118px;"></div> 
+        <i style="margin-top: 127px; margin-left:-56px; font-size: 50px; color: <%= bot.statusColor %>" class="fa-solid fa-circle" title="<%= bot.Status %>"></i> 
+      <% } else { %>
+      <div style="border-radius: 50%; background-color:#290F1D; width: 65px; height: 65px; margin-left: -65px; margin-top: 118px;"></div> 
+      <i style="margin-top: 127px; margin-left:-56px; font-size: 50px;color: #A5A5A5" class="fa-solid fa-circle" title="Offline"></i>
+      <% } %>
+      <div style="margin-left: 7px" class="col-sm">
+        <h2 style="color: white"><b>
+            <%= bot.name %>
+              <% if (bot.certified) { %>
+                <i style="color: #FF4655" class="fa-solid fa-badge-check" title="Certified Bot"></i>
+                <% } %>
+                  <% if (bot.tags[0].includes("NSFW") || bot.tags[0].includes("NSFW")) { %>
+                    <i style="color: yellow" class="fa-solid fa-triangle-exclamation" title="NSFW Bot"></i>
+                    <% } %>
+          </b>
         </h2>
 
         <p style="color: white"><%- bot.shortDesc %></p>

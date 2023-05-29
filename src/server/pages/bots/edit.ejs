@@ -57,9 +57,22 @@
     </select><br>
     <br>
     <button style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655" class="btn btn-primary pl-3 pr-3 mr-3" type="submit"><i class="fa-solid fa-paper-plane"></i> Submit</button>
-</div>
 </form>
 </section>
+<br><br>
+<h3 style="color:white;margin-top:25px"><b>API Key</b></h3>
+<form id="apikeyform" action="/bots/<%= bot.id %>/apikey" method="POST">
+  <% if(bot.apikey){ %>
+        <input id="apitokeninput" value="<%= bot.apikey %>" class="inputField" id="apitoken" autocomplete="off" readonly><br><br>
+     <button type="submit" style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655" class="btn btn-primary pl-3 pr-3 mr-3"><i class="fa-solid fa-rotate-right"></i> Regenerate</button><br>
+  <% }else{ %>
+        <input id="apitokeninput" class="inputField" id="apitoken" autocomplete="off" readonly><br><br>
+    <button type="submit" style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655" class="btn btn-primary pl-3 pr-3 mr-3"><i class="fa-solid fa-rotate-right"></i> Generate</button><br>
+  <% } %>
+  <br><br>
+</form>
+</div>
+</div>
 
 <script>
   const longDesc = $('#botLongDesc');

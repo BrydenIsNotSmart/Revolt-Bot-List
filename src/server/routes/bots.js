@@ -78,11 +78,20 @@ router.post("/submit", checkAuth, async (req, res) => {
     });
   }
 
+  let UserRaw = await client.users.fetch(req.params.id).catch((err) => {
+    console.log(err);
+  });
+  if (!UserRaw)
+    return res.status(400).json({
+      message:
+        "Couldn't find the bot on Revolt.",
+    });
+
   await botModel
     .create({
       id: data.botid,
       name: BotRaw.username,
-      iconURL: `https://autumn.revolt.chat/avatars/${BotRaw.avatar._id}/${BotRaw.avatar.filename}`,
+      iconURL: `https://autumn.revolt.chat/avatars/${UserRaw.avatar._id}/${UserRaw.avatar.filename}`,
       prefix: data.prefix,
       shortDesc: data.shortDesc,
       description: data.desc,
@@ -114,7 +123,7 @@ router.get("/certify", checkAuth, async (req, res) => {
     user.id = user.revoltId;
   }
 
-  res.render("bots/certification.ejs", {
+  res.render("bots/certify.ejs", {
     user: user || null,
     botclient: client,
     bots,
@@ -122,21 +131,39 @@ router.get("/certify", checkAuth, async (req, res) => {
 });
 
 router.post("/certify", checkAuth, async (req, res) => {
-  let user = await userModel.findOne({ revoltId: req.session.userAccountId });
-  let bots = await botModel.find({ owners: { $all: [req.session.userAccountId] } });
+  const botDb = botModel.findOne({ id: req.body.bot });
+  if (!botDb) return res.status(404).json({ message: "Bot not found." });
 
-  if (user) {
-    let userRaw = await client.users.fetch(user.revoltId);
-    user.username = userRaw.username;
-    user.avatar = userRaw.avatar;
-    user.id = user.revoltId;
-  }
+  if (botDb.certifyApplied) return res.status(409).json({ message: "You already applied for certification." });
 
-  res.render("bots/certification.ejs", {
-    user: user || null,
-    botclient: client,
-    bots,
+  botDb.updateOne({ certifyApplied: true }).then(() => {
+    res.status(200).json({ message: "Applied for certification! You'll be notified once your application is looked over." });
   });
+});
+
+router.post("/:id/apikey", checkAuth, async (req, res) => {
+  let id = req.params.id;
+  let bot = await botModel.findOne({ id: id });
+  if (!bot) return res.redirect("/");
+  if (!bot.owners.includes(req.session.userAccountId)) return res.redirect("/");
+
+  let data = req.body;
+  function genApiKey(options = {}) {
+    let length = options.length || 5;
+    let string =
+      "abcdefghijklmnopqrstuwvxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+    let code = "";
+    for (let i = 0; i < length; i++) {
+      let random = Math.floor(Math.random() * string.length);
+      code += string.charAt(random);
+    }
+    return code;
+  }
+  bot.apikey = genApiKey({ length: 20 });
+  await bot.save();
+  return res.redirect(
+    `/bots/${id}/edit?success=true&body=You have successfully generated a new token.`
+  );
 });
 
 router.get("/:id", async (req, res) => {
@@ -173,9 +200,22 @@ router.get("/:id", async (req, res) => {
     return res.status(404).json({
       message: "This bot could not be found on our list or is not approved.",
     });
+  const status = {
+  "Online": "#3ABF7E",
+  "Idle": "#F39F00",
+  "Focus": "#4799F0",
+  "Busy": "#F84848",
+  "Invisible": "#A5A5A5",
+  "Offline": "#A5A5A5"
+  }
   let bot = awaiting || approved;
   const marked = require("marked");
   const description = marked.parse(bot.description);
+  let BotRaw = await client.users.fetch(req.params.id).catch(() => null);
+  if (BotRaw) {
+    bot.Status = BotRaw.status.presence || null;
+    bot.statusColor = status[BotRaw.status.presence] || null;
+  }
   bot.description = description;
   bot.tags = bot.tags.join(", ");
   res.render("bots/view.ejs", {

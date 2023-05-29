@@ -30,6 +30,7 @@ router.post("/v1/bots/stats", async (req, res) => {
       message:
         "This bot is not on our list, or you entered an invaild API Key.",
     });
+
   const servers = req.body.server_count || req.header("server_count");
 
   if (!servers)

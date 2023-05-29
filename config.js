@@ -28,11 +28,11 @@ module.exports = {
     "NSFW",
   ],
   channels: {
-    weblogs: "01GQ1AKANW8TVTH6R2P79069K8",
+    weblogs: "01H17DM6GQS8EN2EWDSP2QKRJJ",
     votelogs: "01GXCM24QX3WZP1GBNFQEHSHME",
   },
   servers: {
-    main: "01GQ14WC58C8AXCWNJQBFDZNT3",
+    main: "01GXCH9VKDE12A76ZXZJMS0JS6",
     testing: "01GX1QRSHEA8NE8WCGHEPN3S19",
   },
   roles: {
@@ -42,6 +42,8 @@ module.exports = {
     members: "01GVC849ZNZYCC9BFYHNJSNNBB",
     staff: "01GX1RXVPQV3TNCTXS109H50DW",
     contributor: "01GZJ7Y5NFNB5JRHXYZWNGWZZZ",
-    partner: "01H1DJ15N9N21RY3AH9XFPQYB9"
+    partner: "01H1DJ15N9N21RY3AH9XFPQYB9",
+    certified: "01H1GB1BR01334NB3DJ30QXSAF",
+    botCertified: "01H1GB1Q5B3Y1FDCMBCQ67A5FQ",
   },
 };

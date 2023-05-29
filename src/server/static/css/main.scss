@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap");
 
 body {
-  background-color: ##111016;
+  background-color: #111016;
   background: linear-gradient(to bottom, #350e20 1%, #111016 90%);
   /*background: linear-gradient(90deg, rgba(12,10,37,1) 32%, rgba(35,12,98,1) 87%); */
   margin: 0;
@@ -9,6 +9,16 @@ body {
   background-attachment: fixed;
   font-family: "Montserrat", sans-serif;
 }
+
+.blur {
+  filter: blur(10px);
+}
+
+.blur:hover {
+  filter: blur(0px);
+  animation: 0.5s ease-in-out;
+}
+
 .box {
   width: 400px;
   height: 200px;
