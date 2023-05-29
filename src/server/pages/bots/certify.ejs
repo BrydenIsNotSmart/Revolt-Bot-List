@@ -23,7 +23,7 @@
                 class="form-control" id="bot" name="bot" required>
                 <option value="" disabled selected>Select a bot</option>
                 <% for (const bot of bots) { %>
-                    <% if (!bot.certifyApplied && !bot.certified && bot?.servers > 0 && bot?.votes >= 50 && (new Date().getTime() - new
+                    <% if (!bot.certifyApplied && !bot.certified && bot?.servers > 0 && bot?.monthlyVotes >= 50 && (new Date().getTime() - new
                         Date(bot.submittedOn).getTime())/(1000*60*60*24.0) >= 16) { %>
                         <option value="<%= bot.id %>">
                             <%= bot.name %>
