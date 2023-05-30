@@ -7,8 +7,8 @@ module.exports = {
   description: "Vote for a bot on the BotList.",
   async run(client, message, args) {
     try {
-      let botModel = require("../../database/models/bot");
-      let voteModel = require("../../database/models/vote");
+      let botModel = require("../../../database/models/bot");
+      let voteModel = require("../../../database/models/vote");
 
       let BotRaw;
       if (new RegExp(`(<@!?(.*)>)`).test(args[0])) {

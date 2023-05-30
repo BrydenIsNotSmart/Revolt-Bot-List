@@ -56,11 +56,11 @@ router.get("/v1/bots/:id/voted", async (req, res) => {
   let user = await global.client.users.fetch(id).catch(() => null);
   if (!user)
     return res.status(400).json({
-      message: `The 'user' you provided couldn't be found on Discord.`,
+      message: `The 'user' you provided couldn't be found on Revolt.`,
     });
   if (user.bot)
     return res.status(400).json({
-      message: `The user ID  you provided is a Revolt bot, and bots can't vote.`,
+      message: `The user ID you provided is a Revolt bot, and bots can't vote.`,
     });
 
   let x = await global.voteModel.findOne({ bot: bot.id, user: user._id });

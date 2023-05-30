@@ -1,4 +1,4 @@
-let model = require("../../database/models/loginRequest");
+let model = require("../../../database/models/loginRequest");
 
 module.exports = {
   name: "login",

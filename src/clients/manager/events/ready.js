@@ -1,4 +1,4 @@
-const model = require("../../database/models/loginRequest");
+const model = require("../../../database/models/loginRequest");
 
 module.exports = {
   name: "ready",
@@ -86,7 +86,7 @@ module.exports = {
             embeds,
           })
           .catch(() => {});
-        let voteModel = require("../../database/models/vote");
+        let voteModel = require("../../../database/models/vote");
         await voteModel.collection.drop();
         bots.forEach(async (a) => {
           await voteModel.findOneAndUpdate(

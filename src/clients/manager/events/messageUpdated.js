@@ -1,4 +1,4 @@
-const Reminder = require("../../database/models/reminds");
+const Reminder = require("../../../database/models/reminds");
 const regex = new RegExp(`<@(.*)>`);
 module.exports = {
   name: "message/updated",

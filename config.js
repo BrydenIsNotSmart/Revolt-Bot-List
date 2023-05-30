@@ -5,9 +5,15 @@ module.exports = {
   mongoURI:  process.env.mongoURI,
   sessionSecret: process.env.sessionSecret,
   ownerids: ["01GPZ5PTPQ2RNMZEF02NKD7TQE", "01GQ3NS0EB3FF8V2Q6KHX887DS"],
-  bot: {
-    prefix: "rbl!",
-    token: process.env.botToken,
+  clients: {
+    manager: {
+      prefix: "rbl!",
+      token: process.env.managerToken,
+    },
+    servers: {
+      prefix: "rsl!",
+      token: process.env.serversToken
+    }
   },
   selfbot: {
     email: process.env.selfBotEmail,

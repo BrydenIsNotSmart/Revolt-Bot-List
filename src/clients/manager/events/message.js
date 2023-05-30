@@ -2,9 +2,9 @@ module.exports = {
   name: "message",
   async execute(message) {
     if (message.author.bot || !message.content) return;
-    if (!message.content.toLowerCase().startsWith(config.bot.prefix)) return;
+    if (!message.content.toLowerCase().startsWith(config.clients.manager.prefix)) return;
     let args = message.content.split(" ");
-    let command = args.shift().slice(config.bot.prefix.length).toLowerCase();
+    let command = args.shift().slice(config.clients.manager.prefix.length).toLowerCase();
     let cmd =
       client.commands.get(command) ||
       client.commands.get(client.aliases.get(command));

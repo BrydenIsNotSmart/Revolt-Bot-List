@@ -2,7 +2,7 @@ const { Client } = require("revolt.js");
 const { Collection } = require("discord.js");
 const { readdirSync } = require("node:fs");
 const { join } = require("node:path");
-const Reminders = require("../database/models/reminds");
+const Reminders = require("../../database/models/reminds");
 const client = new Client();
 const selfBot = new Client();
 const fs = require("node:fs");
@@ -62,7 +62,7 @@ client.once("ready", () => {
   }, 6000);
 });
 
-client.loginBot(config.bot.token);
+client.loginBot(config.clients.manager.token);
 selfBot.login({
   email: config.selfbot.email,
   password: config.selfbot.password,
