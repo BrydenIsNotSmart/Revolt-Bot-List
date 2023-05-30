@@ -20,6 +20,7 @@ module.exports = {
     password: process.env.selfBotPassword,
   },
   tags: [
+    "Anime",
     "Bridge",
     "Multipurpose",
     "Moderation",
