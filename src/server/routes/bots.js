@@ -254,6 +254,12 @@ router.post("/:id/edit", checkAuth, async (req, res) => {
   if (!data)
     return res.status(400).json("You need to provide the bot's information.");
   let bot = await botModel.findOne({ id: req.params.id });
+  if (data.vanity) {
+	let botvanity = await botModel.findOne({ vanity: { $regex: `${data.vanity}`, $options: "i" } });
+	if (botvanity !== null && botvanity.id !== req.params.id) return res.status(400).json({
+		message: "The Provided vanity is already taken!"
+	})
+  }
   if (!bot)
     return res
       .status(404)
@@ -301,6 +307,7 @@ router.post("/:id/edit", checkAuth, async (req, res) => {
   bot.support = data.support || null;
   bot.libary = data.libary;
   bot.tags = data.tags;
+  if (bot)
   if (data.owners) bot.owners = data.owners;
   await bot.save().then(async () => {
     res.status(201).json({ message: "Successfully Edited", code: "OK" });
