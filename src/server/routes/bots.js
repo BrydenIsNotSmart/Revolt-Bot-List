@@ -226,7 +226,13 @@ router.get("/:id", async (req, res) => {
 });
 
 router.get("/:id/edit", checkAuth, async (req, res) => {
-  let bot = await botModel.findOne({ id: req.params.id });
+  let bot = await botModel.findOne({ id: req.params.id }) ||
+    (await botModel.findOne({
+      vanity: { $regex: `${req.params.id}`, $options: "i" },
+      status: "approved",
+      certified: true,
+    }));
+
   if (!bot || bot == null)
     return res
       .status(404)
@@ -253,7 +259,13 @@ router.post("/:id/edit", checkAuth, async (req, res) => {
   const data = req.body;
   if (!data)
     return res.status(400).json("You need to provide the bot's information.");
-  let bot = await botModel.findOne({ id: req.params.id });
+  let bot = await botModel.findOne({ id: req.params.id }) ||
+    (await botModel.findOne({
+      vanity: { $regex: `${req.params.id}`, $options: "i" },
+      status: "approved",
+      certified: true,
+    }));
+
   if (data.vanity) {
 	let botvanity = await botModel.findOne({ vanity: { $regex: `${data.vanity}`, $options: "i" } });
 	if (botvanity !== null && botvanity.id !== req.params.id) return res.status(400).json({
@@ -319,7 +331,12 @@ router.post("/:id/edit", checkAuth, async (req, res) => {
 });
 
 router.get("/:id/vote", async (req, res) => {
-  let bot = await botModel.findOne({ id: req.params.id });
+  let bot = await botModel.findOne({ id: req.params.id }) || (await botModel.findOne({
+      vanity: { $regex: `${req.params.id}`, $options: "i" },
+      status: "approved",
+      certified: true,
+    }));
+
   if (!bot)
     return res
       .status(404)
@@ -414,7 +431,11 @@ router.get("/tags/:tag", async (req, res) => {
 });
 
 router.post("/:id/vote", async (req, res) => {
-  let bot = await botModel.findOne({ id: req.params.id });
+  let bot = await botModel.findOne({ id: req.params.id }) || (await botModel.findOne({
+      vanity: { $regex: `${req.params.id}`, $options: "i" },
+      status: "approved",
+      certified: true,
+    }));
   if (!bot)
     return res
       .status(404)
