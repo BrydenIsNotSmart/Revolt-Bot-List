@@ -209,10 +209,16 @@
                 </td>
                 <td>
                   <%- bot.status == "approved" ? '<span class="badge bg-primary">Approved</span>' : '<span class="badge bg-warning">Awaiting Approval</span>' %>
+                  <%- bot.certified ? '<span style="background-color: #DE4352; margin-left: 5px;" class="badge">Certified</span>' : '' %>
                 </td>
 
                 <td style="text-align: center;">
-                  <a href="/bots/<%= bot.id %>" class="badge bg-faded-success text-success" style="width: 100%">View Page</a>
+                  <% if (user.isAdmin) { %>
+                    <a href="/bots/<%= bot.id %>" class="badge bg-faded-success text-success" style="width: 40%">View Page</a>
+                    <a class="badge bg-faded-danger text-danger me-2" type="button" href="/panel/bots/<%= bot.id %>/delete" style="width: 40%; margin-left: 8px;">Delete</a>
+                  <% } else { %>
+                    <a href="/bots/<%= bot.id %>" class="badge bg-faded-success text-success" style="width: 100%">View Page</a>
+                  <% } %>                  
                 </td>
               </tr>
               <% }) %>

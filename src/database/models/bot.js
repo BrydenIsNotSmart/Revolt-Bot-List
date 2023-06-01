@@ -77,6 +77,10 @@ let app = mongoose.Schema({
     type: Array,
     required: true,
   },
+  reviews: {
+    type: Array,
+    required: false,
+  },
   website: {
     type: String,
     required: false,

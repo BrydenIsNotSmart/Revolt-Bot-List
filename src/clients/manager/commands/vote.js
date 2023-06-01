@@ -57,7 +57,7 @@ module.exports = {
 
       logs
         .sendMessage(
-          `<\@${message.author._id}> voted for **${BotRaw.username}**.\n<https://revoltbots.org/bots/${BotRaw._id}>`
+          `<\@${message.author._id}> voted for **${BotRaw.username}**.\n<https://revoltbots.org/bots/${bot.vanity || BotRaw._id}>`
         )
         .catch(() => null);
 

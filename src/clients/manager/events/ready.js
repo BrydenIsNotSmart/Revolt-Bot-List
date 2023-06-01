@@ -67,8 +67,8 @@ module.exports = {
         bots.sort((a, b) => b.monthlyVotes - a.monthlyVotes);
         let top5 = bots.slice(0, 5); // get the top 5 bots
         let description = `# Vote Reset\nThe monthly vote count has been reset!\n Congratulations to the following bots for being the **Most Voted Bots of __${
-          month[new Date().getMonth()]
-        }__**.\n\n\n## ${month[new Date().getMonth()]} Leaderboard\n`;
+          month[new Date().getMonth() - 1]
+        }__**.\n\n\n## ${month[new Date().getMonth() - 1]} Leaderboard\n`;
 
         top5.forEach((bot, index) => {
           description += `\n${index + 1}. ${bot.name} - ${
@@ -89,7 +89,7 @@ module.exports = {
         let voteModel = require("../../../database/models/vote");
         await voteModel.collection.drop();
         bots.forEach(async (a) => {
-          await voteModel.findOneAndUpdate(
+          await botModel.findOneAndUpdate(
             {
               id: a.id,
             },

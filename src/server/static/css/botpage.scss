@@ -1,3 +1,150 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transition: opacity 500ms;
+  visibility: hidden;
+  opacity: 0.3;
+}
+
+.overlay:target {
+  visibility: visible;
+  opacity: 1;
+}
+
+.popup {
+  margin: 70px auto;
+  top: 224px;
+  padding: 20px;
+  background: #571936;
+  border-radius: 5px;
+  width: 100%;
+  height: 50%;
+  position: relative;
+  transition: all 1.2 ease-in-out;
+}
+
+.popup h2 {
+  margin-top: 0;
+  color: #333;
+  font-family: Tahoma, Arial, sans-serif;
+}
+
+.popup .close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  transition: all 200ms;
+  font-size: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #fff;
+}
+
+.popup .close:hover {
+  color: #591d57;
+}
+
+.popup .content {
+  max-height: 30%;
+  overflow: auto;
+}
+
+@media screen and (max-width: 700px) {
+  .box {
+    width: 25%;
+  }
+
+  .popup {
+    width: 25%;
+  }
+}
+
+.highlight {
+  background-color: yellow;
+  transition: background-color 1s ease;
+}
+
+hr {
+  display: block;
+  unicode-bidi: isolate;
+  margin-block-start: 0.5em;
+  margin-block-end: 0.5em;
+  margin-inline-start: auto;
+  margin-inline-end: auto;
+  overflow: hidden;
+  border-style: inset;
+  border-width: 1px;
+}
+
+hr {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: 0;
+  border-top: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+.reviews_devider {
+  margin-top: 25;
+  margin-right: 25px;
+  margin-bottom: 25px;
+  background: #7b216b;
+}
+
+.reviews_replyline {
+  border-left: 2.5px solid #7b216b;
+  margin-top: 0px;
+  margin-bottom: 10px;
+  margin-right: 28px;
+  width: 0px;
+  height: 25px;
+}
+
+.float-left {
+  float: left !important;
+}
+
+.rating {
+  display: flex;
+  margin-top: -10px;
+  flex-direction: row-reverse;
+  margin-left: -4px;
+  float: left;
+}
+
+.rating>input {
+  display: none;
+}
+
+.rating>label {
+  position: relative;
+  width: 19px;
+  font-size: 25px;
+  color: #faa632;
+  cursor: pointer;
+}
+
+.rating>label::before {
+  content: "\2605";
+  position: absolute;
+  opacity: 0;
+}
+
+.rating>label:hover:before,
+.rating>label:hover~label:before {
+  opacity: 1 !important;
+}
+
+.rating>input:checked~label:before {
+  opacity: 1;
+}
+
+.rating:hover>input:checked~label:before {
+  opacity: 0.4;
+}
+
 .desccard {
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   backdrop-filter: blur(50%);
@@ -109,6 +256,14 @@
     margin-right: auto;
     margin-left: auto;
   }
+        .reviewContainer {
+          color: white;
+          width: 100%;
+          padding-right: 150px;
+          padding-left: 150px;
+          margin-right: auto;
+          margin-left: auto;
+        }
 }
 
 @media only screen and (max-width: 600px) {
@@ -119,4 +274,12 @@
     margin-right: auto;
     margin-left: auto;
   }
+.reviewContainer {
+  color: white;
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
 }

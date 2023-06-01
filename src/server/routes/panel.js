@@ -54,6 +54,23 @@ router.get("/certification", async (req, res) => {
   });
 });
 
+router.get("/reports", async (req, res) => {
+  let user = await userModel.findOne({ revoltId: req.session.userAccountId });
+  if (user) {
+    let userRaw = await client.users.fetch(user.revoltId);
+    user.username = userRaw.username;
+    user.avatar = userRaw.avatar;
+  }
+
+  res.render("panel/reports.ejs", {
+    bot: global.client ? global.client : null,
+    path: req.path,
+    reports: await reportModel.find(),
+    user,
+    req,
+  });
+});
+
 router.post("/bots/:id/testing", async (req, res) => {
   let bot = await botModel.findOne({ id: req.params.id });
   let client = global.client;
@@ -333,7 +350,7 @@ router.post("/certification/:id/deny", async (req, res) => {
   if (!bot || bot.deleted) return res.status(404).json({ message: "This bot was not found or it has been deleted" });
   if (!bot.certifyApplied) return res.status(400).json({ message: "This bot has already been denied for certification." });
 
-  bot.certifyApplied = false;
+  bot.updateOne({ certifyApplied: false })
   await bot.save().then(async () => {
     try {
       res.status(201).json({ message: "Successfully Denied Certification", code: "OK" });
@@ -460,7 +477,13 @@ function checkAdmin(req, res, next) {
       { revoltId: req.session.userAccountId },
       async (error, userAccount) => {
         if (error) {
-          res.status(500).send(error);
+          res.status(500).render(
+            "error.ejs", {
+            user,
+            code: 500,
+            message: error,
+          }
+        )
         } else if (userAccount) {
           if (userAccount.isAdmin) {
             next();
