@@ -288,6 +288,18 @@ router.get("/:id", async (req, res) => {
 });
 
 router.get("/:id/edit", checkAuth, async (req, res) => {
+  let bot = await botModel.findOne({ id: req.params.id }) ||
+    (await botModel.findOne({
+      vanity: { $regex: `${req.params.id}`, $options: "i" },
+      status: "approved",
+      certified: true,
+    }));
+
+  if (!bot || bot == null)
+    return res
+      .status(404)
+      .json({ message: "This bot could not be found on our list." });
+  if (!bot.owners.includes(req.session.userAccountId)) return res.redirect("/");
   let user = await userModel.findOne({ revoltId: req.session.userAccountId });
 
   if (user) {
@@ -296,16 +308,6 @@ router.get("/:id/edit", checkAuth, async (req, res) => {
     user.avatar = userRaw.avatar;
     user.id = user.revoltId;
   }
-  let bot = await botModel.findOne({ id: req.params.id });
-  if (!bot || bot == null)
-    return res.status(404).render(
-      "error.ejs", {
-      user,
-      code: 404,
-      message: "This bot could not be found on our list.",
-    }
-    )
-  if (!bot.owners.includes(req.session.userAccountId)) return res.redirect("/");
 
   res.render("bots/edit.ejs", {
     user: user || null,
@@ -326,13 +328,7 @@ router.post("/:id/edit", checkAuth, async (req, res) => {
   }
   const data = req.body;
   if (!data)
-    return res.status(400).render(
-      "error.ejs", {
-      user,
-      code: 400,
-      message: "You need to provide the bot's information.",
-    }
-    )
+    return res.status(400).json("You need to provide the bot's information.");
   let bot = await botModel.findOne({ id: req.params.id });
   if (!bot)
     return res.status(404).render(
@@ -390,6 +386,7 @@ router.post("/:id/edit", checkAuth, async (req, res) => {
   bot.support = data.support || null;
   bot.libary = data.libary;
   bot.tags = data.tags;
+  if (bot)
   if (data.owners) bot.owners = data.owners;
   await bot.save().then(async () => {
     res.status(201).json({ message: "Successfully Edited", code: "OK" });
@@ -401,6 +398,11 @@ router.post("/:id/edit", checkAuth, async (req, res) => {
 });
 
 router.get("/:id/vote", async (req, res) => {
+  let bot = await botModel.findOne({ id: req.params.id });
+  if (!bot)
+    return res
+      .status(404)
+      .json({ message: "This bot could not be found on our list." });
   let user = await userModel.findOne({ revoltId: req.session.userAccountId });
 
   if (user) {
@@ -501,14 +503,6 @@ router.get("/tags/:tag", async (req, res) => {
 });
 
 router.post("/:id/vote", async (req, res) => {
-  let user = await userModel.findOne({ revoltId: req.session.userAccountId });
-
-  if (user) {
-    let userRaw = await client.users.fetch(user.revoltId);
-    user.username = userRaw.username;
-    user.avatar = userRaw.avatar;
-    user.id = user.revoltId;
-  }
   let bot = await botModel.findOne({ id: req.params.id });
   if (!bot)
     return res.status(404).render(

@@ -36,7 +36,7 @@
     <input type="url" class="inputField" placeholder="&nbsp;Ex. https://rvlt.gg/kmZBZ6h1" value="<%= bot.support %>" name="support" autocomplete="off"><br>
     <% if (bot.certified == true){ %> 
     <h3 style="color:white;margin-top:25px"><b>Page Vanity</b></h3>
-    <input type="text" class="inputField" placeholder="<%= bot.vanity %>" name="vanity" value="<%= bot.vanity %>" autocomplete="off" required><br>
+    <input type="text" class="inputField" placeholder="<%= bot.vanity %>" name="vanity" value="<%= bot.vanity %>" autocomplete="off" minlength="4" required><br>
 	<% } else { %>
     <h3 style="color:white;margin-top:25px"><b>Page Vanity</b></h3>
     <input type="text" class="inputField" disabled=true placeholder="" name="vanity" value="<%= bot.vanity %>" autocomplete="off" required><br>
