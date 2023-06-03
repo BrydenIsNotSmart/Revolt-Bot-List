@@ -156,7 +156,7 @@
             <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label> 
             <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
           </div>
-        <textarea maxlength="80" name="review" spellcheck="true" 
+        <textarea maxlength="300" name="review" spellcheck="true" 
           style="margin-top: -25px; margin-left: 80px; margin-right: 20px; border-radius: 7px; background-color: #702849d1; border-color: transparent; color: white; width: 90%; height: 65px; resize: none;"
           placeholder="Write a review..." required></textarea>
         <button id="submitReview"
@@ -339,7 +339,7 @@
             <img style="margin-top: 20px; margin-left: 20px; border-radius: 50%;" width="50" height="50"
               src="<%= bot.iconURL %>" alt="Avatar"
               class="avatar">
-            <textarea maxlength="80" name="review" spellcheck="true"
+            <textarea maxlength="300" name="review" spellcheck="true"
               style="margin-top: 7px; margin-bottom:5px; margin-left: 20px; border-radius: 7px; background-color: #692444; border-color: transparent; color: white; width: 85%; height: auto; resize: none;"
               placeholder="Replying to <%- reviewUser?.username %>" required></textarea>
             <button id="submitReview"

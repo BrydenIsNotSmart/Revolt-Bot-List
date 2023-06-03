@@ -96,7 +96,7 @@ router.post("/submit", checkAuth, async (req, res) => {
     });
   }
 
-  let UserRaw = await client.users.fetch(req.params.id).catch((err) => {
+  let UserRaw = await client.users.fetch(data.botid).catch((err) => {
     console.log(err);
   });
 
