@@ -1,3 +1,9 @@
+.highlight {
+  background-color: #7b1042 !important;
+  border-color: #f10473 !important;
+  border: 2px solid;
+}
+
 .overlay {
   position: fixed;
   top: 0;
@@ -236,13 +242,33 @@ hr {
     margin-right: auto;
     margin-left: auto;
   }
+
+  .reviewContainer {
+    color: white;
+    width: 100%;
+    padding-right: 150px;
+    padding-left: 150px;
+    margin-right: auto;
+    margin-left: auto;
+  }
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 1300px) {
   .botpagecontainer {
     width: 100%;
     padding-right: 15px;
     padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .reviewContainer {
+    color: white;
+    width: 90%;
+    font-size: 12px !important;
+
+    padding-right: 5px;
+    padding-left: 5px;
     margin-right: auto;
     margin-left: auto;
   }
@@ -256,14 +282,6 @@ hr {
     margin-right: auto;
     margin-left: auto;
   }
-        .reviewContainer {
-          color: white;
-          width: 100%;
-          padding-right: 150px;
-          padding-left: 150px;
-          margin-right: auto;
-          margin-left: auto;
-        }
 }
 
 @media only screen and (max-width: 600px) {
@@ -274,12 +292,4 @@ hr {
     margin-right: auto;
     margin-left: auto;
   }
-.reviewContainer {
-  color: white;
-  width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
-}
 }

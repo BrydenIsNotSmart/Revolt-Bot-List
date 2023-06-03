@@ -8,7 +8,9 @@ let app = mongoose.Schema({
   botId: { type: String },
   userId: { type: String },
   serverId: { type: String },
-  description : { type: String },
+  description: { type: String },
+  reason: { type: String },
+  notes: { type: String },
 });
 
 module.exports = mongoose.model("reports", app);

@@ -398,11 +398,19 @@ router.post("/:id/edit", checkAuth, async (req, res) => {
 });
 
 router.get("/:id/vote", async (req, res) => {
-  let bot = await botModel.findOne({ id: req.params.id });
-  if (!bot)
+  let bot = await botModel.findOne({ id: req.params.id }) ||
+    (await botModel.findOne({
+      vanity: { $regex: `${req.params.id}`, $options: "i" },
+      status: "approved",
+      certified: true,
+    }));
+
+  if (!bot || bot == null)
     return res
       .status(404)
       .json({ message: "This bot could not be found on our list." });
+  if (!bot.owners.includes(req.session.userAccountId)) return res.redirect("/");
+
   let user = await userModel.findOne({ revoltId: req.session.userAccountId });
 
   if (user) {
@@ -411,15 +419,6 @@ router.get("/:id/vote", async (req, res) => {
     user.avatar = userRaw.avatar;
     user.id = user.revoltId;
   }
-  let bot = await botModel.findOne({ id: req.params.id });
-  if (!bot)
-    return res.status(404).render(
-      "error.ejs", {
-      user,
-      code: 404,
-      message: "This bot could not be found on our list.",
-    }
-    )
 
   res.render("bots/vote.ejs", {
     user: user || null,
@@ -734,11 +733,9 @@ router.post("/:botId/review/:userId/modal", checkAuth, async (req, res) => {
       }
       )
       
-      let reviews = botDb.reviews.filter(e => e.type === "review");
+      let reviews = botDb.reviews.filter(e => e.type === "review").filter(e => e.revoltId !== info.id);
       let replies = botDb.reviews.filter(e => e.type === "reply").filter(e => e.replied !== info.id)
-      let all = [...reviews, ...replies];
-
-      botDb.reviews = all.filter(e => e.revoltId !== info.userId);
+      botDb.reviews = [...reviews, ...replies];
       await botDb.save().then(() => {
         return res.redirect(`/bots/${req.params.botId}#reviewStart`);
       });
@@ -769,10 +766,9 @@ router.post("/:botId/review/:userId/modal", checkAuth, async (req, res) => {
       }
       )
 
-      let reviews = botDb.reviews.filter(e => e.type === "review");
+      let reviews = botDb.reviews.filter(e => e.type === "review").filter(e => e.revoltId !== info.id);
       let replies = botDb.reviews.filter(e => e.type === "reply").filter(e => e.replied !== info.id)
       botDb.reviews = [...reviews, ...replies];
-      botDb.reviews = botDb.reviews.filter(e => e.type === "review").filter(e => e.revoltId !== info.userId);
       await botDb.save().then(() => {
         return res.redirect(`/bots/${req.params.botId}#reviewStart`);
       });
@@ -825,19 +821,16 @@ router.post("/:botId/review/:userId/modal", checkAuth, async (req, res) => {
         url: info.url,
         userId: info.id,
         reporterId: info.userId,
-        description: info.review,
+        description: info.msg,
+        reason: info.review,
         type: "review",
         active: true,
       })
 
       let logs = client.channels.get(config.channels.reportlogs);
       if (logs)
-        logs
-          .sendMessage(
-            `<\@${info.userId}> reported a review on **${botDb.name}**.\n<https://revoltbots.org/bots/${botDb.id}>`
-          )
-          .catch(() => null);
-      return res.redirect(`/bots/${info.botId}?success=true&body=This review is reported#reply-${info.id}`);
+        logs.sendMessage(`<\@${info.userId}> reported a review on **${botDb.name}**.\n<https://revoltbots.org/bots/${botDb.id}>`).catch(() => null);
+      return res.redirect(`/bots/${info.botId}?success=true&body=This review is reported#${info.id}`);
     } else if (info?.type === "reply") {
       const reports = await reportModel.find({ botId: req.params.botId });
       const report = reports.find(e => e.reporterId === info.userId);
@@ -869,7 +862,8 @@ router.post("/:botId/review/:userId/modal", checkAuth, async (req, res) => {
         url: info.url,
         userId: info.id,
         reporterId: info.userId,
-        description: info.review,
+        description: info.msg,
+        reason: info.review,
         type: "reply",
         active: true
       })

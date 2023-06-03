@@ -62,7 +62,7 @@ router.get("/reports", async (req, res) => {
     user.avatar = userRaw.avatar;
   }
 
-  res.render("panel/reports.ejs", {
+  res.render("panel/reports/index.ejs", {
     bot: global.client ? global.client : null,
     path: req.path,
     reports: await reportModel.find(),
@@ -70,6 +70,58 @@ router.get("/reports", async (req, res) => {
     req,
   });
 });
+
+router.get("/reports/:reporterId/:userId/:botId/:type/resolve", async (req, res) => {
+  let user = await userModel.findOne({ revoltId: req.session.userAccountId });
+  if (user) {
+    let userRaw = await client.users.fetch(user?.revoltId);
+    user.username = userRaw?.username;
+    user.avatar = userRaw.avatar;
+  }
+
+  let report = await reportModel.findOne({ reporterId: req.params.reporterId, userId: req.params.userId, type: req.params.type, botId: req.params.botId, active: true });
+  if (!report) res.status(404).render(
+    "error.ejs", {
+    user,
+    code: 404,
+    message: "This report couldn't be found in the database.",
+  });
+
+if (report.reporterId) {
+    let reporterRaw = await client.users.fetch(report?.reporterId);
+    if (!reporterRaw) return res.status(404).render(
+    "error.ejs", {
+    user,
+    code: 404,
+    message: "The reporter of this report can't be found on Revolt.",
+  });
+    report.reporterName = reporterRaw?.username;
+    report.reporterAvatar = reporterRaw?.avatar;
+} 
+  res.render("panel/reports/resolve.ejs", {
+    report,
+    user,
+    req
+  })
+})
+
+router.post("/reports/resolve", async (req, res) => {
+  let data = req.body;
+  if(data.type == "review" || "reply") {
+    let report = await reportModel.findOne({ reporterId: data.reporterId, userId: data.userId, type: data.type, botId: data.botId, active: true });
+    if (!report) return res.status(404).render(
+      "error.ejs", {
+      user,
+      code: 404,
+      message: "This report couldn't be found in the database.",
+   });
+   report.active = false;
+   report.notes = data.notes || null;
+   await report.save().then(
+    res.status(200).redirect("/panel/reports?success=true?message=You have successfully resolved the report.")
+   )
+  }
+})
 
 router.post("/bots/:id/testing", async (req, res) => {
   let bot = await botModel.findOne({ id: req.params.id });

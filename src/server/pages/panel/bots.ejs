@@ -231,6 +231,7 @@
           let users = document.getElementsByTagName("tr");
           for (let i = 0; i < users.length; i++) {
             let user = users[i].id;
+            console.log(user)
             if (user.startsWith("user")) {
               let username = document.getElementById(user).children[1].innerHTML.toLowerCase();
               let botname = document.getElementById(user).children[2].innerHTML.toLowerCase();

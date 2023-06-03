@@ -1,0 +1,214 @@
+<html lang="en" class="dark-mode">
+
+<head>
+  <%- include('../parts/head.ejs') %>
+</head>
+
+<body>
+  <%- include('../parts/aside.ejs') %>
+
+  <!-- Page container -->
+  <main class="docs-container pt-5 pb-3 pb-lg-4" style="padding-right: 0px;">
+    <div class="container-fluid px-xxl-5 px-lg-4 pt-4 pt-lg-5 pb-4">
+
+      <!-- Page title -->
+      <h1 class="ps-lg-2 ps-xxl-0 mt-2 mt-lg-0 pt-4 pb-2 mb-3 mb-xl-4">General Statistics</h1>
+      <div class="border-0 shadow-sm position-relative overflow-hidden mb-5">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Databases</th>
+                <th>Document Length</th>
+              </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>Total Reports</td>
+              <td><%= reports.length ? reports.length : 0 %></td>
+            </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>Active Reports</td>
+                <td><%= reports.filter(b => b.active).length ? reports.filter(b => b.active).length : 0 %></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <h2 class="h3 pt-3">Active Reports</h2>
+      <p>Here is a list of all the active reports on RBL.</p>
+      <% if (reports.filter(e => e.active).length === 0) { %>
+      <div class="alert d-flex alert-warning" role="alert">
+        <i class="bx bx-error lead me-3"></i>
+        <div>
+          <h6 class="alert-heading">No active reports!</h6>
+          <p>There are no active reports for RBL.</p>
+        </div>
+      </div>
+      <% } else { %>
+      <div class="table-responsive">
+        <table class="table table-striped-columns">
+          <thead;>
+            <tr>
+              <th>#</th>
+              <th>Report</th>
+              <th>Reporter</th>
+              <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+              <% let i = 0; %>
+              <% reports.filter(e => e.active).map((report, i) => { %>
+                <% let reporter = bot.users.get(report.reporterId) %>
+
+                <div id="<%- `report-${report.reporterId}-${report.userId}-${report.type}-${report.reason}` %>" class="overlay">
+                  <div style="height: 500px; width: 600px; border-radius: 7px;" style="color: #fff" class="popup">
+                      <a class="close" href="#?">&times;</a>
+                      <h2 style="color: #ffffff;">Report Information</h2>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <p><b style="font-size: 20px;">Reporter:</b> <%- reporter.username %></p>
+                        <p><b style="font-size: 20px;">Reported:</b> <%- bot.users.get(report.userId).username || "Unknown" %></p>
+                        <p><b style="font-size: 20px;">Type:</b> <%- report.type %></p>
+                        <p><b style="font-size: 20px;">URL:</b> <a target="_blank" href="<%- report.url %>">Link</a></p>
+                      </div>
+
+                      <div class="col-md-6"></div>
+
+                      <div class="col-md-6">
+                        <h4>Reason</h4>
+                        <p><%- report.reason %></p>
+                      </div>
+
+                      <div class="col-md-6">
+                        <h4>Message</h4>
+                        <p><%- report.description %></p>
+                      </div>
+                  </div>
+                </div>
+
+                <tr id="active_<%= report.reporterId %>">
+                <th scope="row"><%= i + 1 %></th>
+                <td class="f-flex">
+                  <%= report.type %>
+                </td>
+                <td class="f-flex">
+                  <%= reporter.username %>
+                </td>
+                  <td class="d-flex" style="text-align: center;">
+                    <a target="_blank" href="/users/<%= report.reporterId %>" class="badge bg-faded-primary text-primary" style="width: 100%">View Reporter</a>
+                    &nbsp;<a href="#<%- `report-${report.reporterId}-${report.userId}-${report.type}-${report.reason}` %>" class="badge bg-faded-success text-success" style="width: 100%; margin-left: 8px;">View Information</a>
+                    &nbsp;<a href="/panel/reports/<%= report.reporterId %>/<%= report.userId %>/<%= report.botId %>/<%= report.type %>/resolve" class="badge bg-faded-danger text-danger" style="width: 100%; margin-left: 8px;">Resolved</a>
+              </tr>
+              <% }) %>
+            </tbody>
+        </table>
+      </div>
+      <% } %>
+      <br>
+      <h2 class="h3 pt-3">Inactive Reports</h2>
+      <p>Here is a list of all inactive reports</p>
+      <div class="input-group mb-3">
+        <input class="form-control" type="text" id="searchUser" placeholder="Search for reported user or bot" aria-label="Search for a user or bot">
+      </div>
+      <% if (reports.filter(e => e.active === false).length === 0) { %>
+      <div class="alert d-flex alert-warning" role="alert">
+        <i class="bx bx-error lead me-3"></i>
+        <div>
+          <h6 class="alert-heading">No inactive reports!</h6>
+          <p>There are no current inactive reports on RBL.</p>
+        </div>
+      </div>
+      <% } else { %>
+      <div class="table-responsive">
+        <table class="table table-striped-columns">
+          <thead;>
+            <tr>
+              <th>#</th>
+              <th>Report</th>
+              <th>Reporter</th>
+              <th>Reported</th>
+              <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+              <% let i = 0; %>
+              <% reports.filter(e => e.active === false).map((report, i) => { %>
+              <% let reporter = bot.users.get(report.reporterId) %>
+              <div id="<%- `report-${report.reporterId}-${reporter.username}-${report.type}-${report.reason}` %>" class="overlay">
+                <div style="height: auto; width: 500px; border-radius: 7px;" style="color: #fff" class="popup">
+                    <a class="close" href="#?">&times;</a>
+                    <h2 style="color: #ffffff;">Report Information</h2>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <p><b style="font-size: 20px;">Reporter:</b> <%- reporter.username %></p>
+                        <p><b style="font-size: 20px;">Reported:</b> <%- bot.users.get(report.userId).username || "Unknown" %></p>
+                        <p><b style="font-size: 20px;">Type:</b> <%- report.type %></p>
+                        <p><b style="font-size: 20px;">URL:</b> <a target="_blank" href="<%- report.url %>">Link</a></p>
+                      </div>
+
+                      <div class="col-md-6"></div>
+
+                      <div class="col-md-6">
+                        <h4>Reason</h4>
+                        <p><%- report.reason %></p>
+                      </div>
+
+                      <div class="col-md-6">
+                        <h4>Message</h4>
+                        <p><%- report.description %></p>
+                      </div>
+                  </div>
+              </div>
+
+              <tr id="inactive_<%- bot.users.get(report.userId).username %>">
+                <th scope="row"><%= i + 1 %></th>
+                <td class="f-flex">
+                  <%= report.type %>
+                </td>
+                  <td class="f-flex">
+                    <%= reporter.username %>
+                  </td>
+                  <td class="f-flex">
+                    <%- bot.users.get(report.userId).username %>
+                  </td>
+                  <td class="d-flex" style="text-align: center;">                    
+                    <a href="/users/<%= report.reporterId %>" class="badge bg-faded-primary text-primary" style="width: 100%">View Reporter</a>
+                    &nbsp;<a href="<%- `#report-${report.reporterId}-${reporter.username}-${report.type}-${report.reason}` %>" class="badge bg-faded-success text-success" style="width: 100%; margin-left: 8px;">View Information</a>
+                  </td>
+              </tr>
+              <% }) %>
+            </tbody>
+        </table>
+      </div>
+      <% } %>
+      <script>
+        document.getElementById("searchUser").addEventListener("keyup", function() {
+          let search = document.getElementById("searchUser").value.toLowerCase();
+          let users = document.getElementsByTagName("tr");
+          for (let i = 0; i < users.length; i++) {
+            let user = users[i].id;
+            console.log(user)
+            if (user.startsWith("inactive")) {
+              let username = document.getElementById(user).children[1].innerHTML.toLowerCase();
+
+              let botname = document.getElementById(user).children[2].innerHTML.toLowerCase();
+              if (username.includes(search) || botname.includes(search)) {
+                document.getElementById(user).style.display = "table-row";
+              } else {
+                document.getElementById(user).style.display = "none";
+              }
+            }
+          }
+        });
+      </script>
+    </div>
+  </main>
+
+</body>
+<%- include('../../parts/footer.ejs') %>
+<div class="modal-backdrop fade show d-none"></div>
