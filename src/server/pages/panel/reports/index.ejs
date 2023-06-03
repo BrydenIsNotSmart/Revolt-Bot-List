@@ -71,10 +71,10 @@
                       <h2 style="color: #ffffff;">Report Information</h2>
                     <div class="row">
                       <div class="col-md-6">
-                        <p><b style="font-size: 20px;">Reporter:</b> <%- reporter.username %></p>
-                        <p><b style="font-size: 20px;">Reported:</b> <%- bot.users.get(report.userId).username || "Unknown" %></p>
-                        <p><b style="font-size: 20px;">Type:</b> <%- report.type %></p>
-                        <p><b style="font-size: 20px;">URL:</b> <a target="_blank" href="<%- report.url %>">Link</a></p>
+                        <p><b">Reporter:</b> <%- reporter.username %></p>
+                        <p><b">Reported:</b> <%- bot.users.get(report.userId).username || "Unknown" %></p>
+                        <p><b">Type:</b> <%- report.type %></p>
+                        <p><b">URL:</b> <a target="_blank" href="<%- report.url %>">Link</a></p>
                       </div>
 
                       <div class="col-md-6"></div>
@@ -145,10 +145,11 @@
                     <h2 style="color: #ffffff;">Report Information</h2>
                     <div class="row">
                       <div class="col-md-6">
-                        <p><b style="font-size: 20px;">Reporter:</b> <%- reporter.username %></p>
-                        <p><b style="font-size: 20px;">Reported:</b> <%- bot.users.get(report.userId).username || "Unknown" %></p>
-                        <p><b style="font-size: 20px;">Type:</b> <%- report.type %></p>
-                        <p><b style="font-size: 20px;">URL:</b> <a target="_blank" href="<%- report.url %>">Link</a></p>
+                        <p><b">Reporter:</b> <%- reporter.username %></p>
+                        <p><b">Reported:</b> <%- bot.users.get(report.userId).username || "Unknown" %></p>
+                        <p><b">Type:</b> <%- report.type %></p>
+                        <p><b">URL:</b> <a target="_blank" href="<%- report.url %>">Link</a></p>
+                        <p><b">Notes:</b> <%- report.notes %></p>
                       </div>
 
                       <div class="col-md-6"></div>
