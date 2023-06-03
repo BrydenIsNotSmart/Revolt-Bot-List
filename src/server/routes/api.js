@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const ms = require("ms")
+const ms = require("ms");
 
 router.get("/", (req, res) => res.redirect("/api/v1"));
 
@@ -45,7 +45,7 @@ router.get("/v1/bots/:id/voted", async (req, res) => {
   const bot = await global.botModel.findOne({ id: req.params.id });
   if (!bot)
     return res.status(404).json({ message: "This bot is not on our list." });
-  if (!bot.status === "approved") 
+  if (!bot.status === "approved")
     return res.status(400).json({ message: "This bot is not approved yet." });
 
   const id = req.query.user;
@@ -56,11 +56,11 @@ router.get("/v1/bots/:id/voted", async (req, res) => {
   let user = await global.client.users.fetch(id).catch(() => null);
   if (!user)
     return res.status(400).json({
-      message: `The 'user' you provided couldn't be found on Revolt.`,
+      message: `The 'user' you provided couldn't be found on Revolt.\n Please use the /votes endpoint`,
     });
   if (user.bot)
     return res.status(400).json({
-      message: `The user ID you provided is a Revolt bot, and bots can't vote.`,
+      message: `The user ID you provided is a Revolt bot, and bots can't vote.\n Please use the /votes endpoint`,
     });
 
   let x = await global.voteModel.findOne({ bot: bot.id, user: user._id });
@@ -69,24 +69,48 @@ router.get("/v1/bots/:id/voted", async (req, res) => {
   if (!vote.status) return res.json({ voted: false });
   return res.json({
     voted: true,
-    current: parseInt(x.date),
-    next: parseInt(x.date) + parseInt(x.time),
+    message: "Please use the /votes endpoint",
   });
 });
 
 router.get("/v1/bots/:id/votes", async (req, res) => {
   const bot = await global.botModel.findOne({ id: req.params.id });
-  if (!bot) return res.status(404).json({ message: "This bot is not on our list." });
-  if (!bot.status === "approved") return res.status(400).json({ message: "This bot is not approved yet." });
+  if (!bot)
+    return res.status(404).json({ message: "This bot is not on our list." });
+  if (!bot.status === "approved")
+    return res.status(400).json({ message: "This bot is not approved yet." });
+  const id = req.query.user;
+  if (id) {
+    let user = await global.sclient.users.fetch(id).catch(() => null);
+    if (!user)
+      return res.status(400).json({
+        message: `The 'user' you provided couldn't be found on Revolt.`,
+      });
+    if (user.bot)
+      return res.status(400).json({
+        message: `The user ID you provided is a Revolt bot, and bots can't vote.`,
+      });
 
-  let x = await global.voteModel.find({ bot: bot.id });
-  if (!x || !x.length)
+    let userX = await global.voteModel.findOne({ bot: bot.id, user: user._id });
+    if (!userX) return res.json({ voted: false });
+    const vote = canUserVote(userX);
+    if (!vote.status) return res.json({ voted: false });
+    if (vote.status) {
+      return res.json({
+        voted: true,
+        current: parseInt(userX.date),
+        next: parseInt(userX.date) + parseInt(userX.time),
+      });
+    }
+  }
+  let botX = await global.voteModel.find({ bot: bot.id });
+  if (!botX || !botX.length)
     return res.json({
       status: false,
       message: `There is 0 users waiting to vote for your bot.`,
     });
   return res.json({
-    votes: x.map((c) => ({
+    votes: botX.map((c) => ({
       user: c.user,
       current: parseInt(c.date),
       next: parseInt(c.date) + parseInt(c.time),
@@ -133,6 +157,6 @@ async function getBotData(data, fetchReviews = false, req) {
 function canUserVote(x) {
   const left = x.time - (Date.now() - x.date),
     formatted = ms(left, { long: true });
-  if (left <= 0 || formatted.includes("-")) return { status: true };
+  if (left >= 0 || formatted.includes("-")) return { status: true };
   return { status: false, left, formatted };
 }
