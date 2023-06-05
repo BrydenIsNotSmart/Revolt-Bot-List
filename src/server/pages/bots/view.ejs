@@ -73,7 +73,7 @@
         <hr>
         </hr>
         <p style="color:white"><i class="fa-solid fa-terminal"></i> <b>Prefix</b>: <code><%= bot.prefix %></code>&nbsp;&nbsp;|&nbsp;&nbsp;<i class="fa-solid fa-file-code" aria-hidden="true"></i> <b>Library</b>: <%= bot.library %>
-          &nbsp;&nbsp;|&nbsp;&nbsp;<i class="fa-solid fa-check-to-slot"></i> <b>Votes</b>: <%= bot.votes %>&nbsp;&nbsp;|&nbsp;&nbsp; <i class="fa-solid fa-server"></i> <b>Servers:</b> <%= bot.servers || "N/A" %>&nbsp;&nbsp;|&nbsp;&nbsp;
+          &nbsp;&nbsp;|&nbsp;&nbsp;<i class="fa-solid fa-check-to-slot"></i> <b>Votes</b>: <%= bot.votes %>&nbsp;&nbsp;|&nbsp;&nbsp; <i class="fa-solid fa-server"></i> <b>Servers:</b> <%= bot.servers.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") || "N/A" %>&nbsp;&nbsp;|&nbsp;&nbsp;
           <i class="fa-solid fa-clock"></i> <b>Submitted</b>: <%= new Date(bot.submittedOn).toLocaleDateString() %>
         </p>
         <hr>

@@ -36,7 +36,8 @@ router.post("/v1/bots/stats", async (req, res) => {
   if (!servers)
     return res.status(400).json({ message: "Please provide a server count." });
 
-  bot.servers = servers.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+  bot.servers = servers;
+  console.log(servers)
   await bot.save().catch(() => null);
   return res.json({ message: "Successfully updated." });
 });
