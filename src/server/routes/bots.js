@@ -222,7 +222,7 @@ router.get("/:id", async (req, res) => {
   let approved =
     (await botModel.findOne({ id: req.params.id, status: "approved" })) ||
     (await botModel.findOne({
-      vanity: { $regex: `${req.params.id}`, $options: "i" },
+      vanity: req.params.id,
       status: "approved",
       certified: true,
     }));
@@ -878,7 +878,6 @@ router.post("/:botId/review/:userId/modal", checkAuth, async (req, res) => {
       return res.redirect(`/bots/${info.botId}?success=true&body=This reply is reported#reply-${info.id}`);
     }
   }
-
 
   // await botDb.save().then(() => {
   //   return res.redirect(`/bots/${req.params.botId}#${req.params.userId}`);
