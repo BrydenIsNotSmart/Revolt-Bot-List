@@ -100,7 +100,7 @@ router.post("/:id/edit", checkAuth, async (req, res) => {
     res.status(201).redirect(`/users/${req.session.userAccountId}?message=Success`)
     let logs = client.channels.get(config.channels.weblogs);
     logs.sendMessage(
-      `<\@${req.session.userAccountId}> edited their profile.\n<https://revoltbots.org/users/${req.session.userAccountId}>`
+      `<\\@${req.session.userAccountId}> edited their profile.\n<https://revoltbots.org/users/${req.session.userAccountId}>`
     );
   });
 });
