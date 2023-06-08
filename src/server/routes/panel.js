@@ -216,7 +216,7 @@ router.post("/bots/:id/deny", async (req, res) => {
       res.status(201).json({ message: "Successfully Denied", code: "OK" });
       let logs = client.channels.get(config.channels.weblogs);
       logs.sendMessage(
-        `<\@${bot.owners[0]}>'s bot **${bot.name}** has been **denied** by <\@${req.session.userAccountId}>.\n<https://revoltbots.org/bots/${bot.id}>\n**Reason**: ${req.body.reason || "None provided."}`
+        `<\\@${bot.owners[0]}>'s bot **${bot.name}** has been **denied** by <\\@${req.session.userAccountId}>.\n<https://revoltbots.org/bots/${bot.id}>\n**Reason**: ${req.body.reason || "None provided."}`
       );
       bot.owners.forEach(async (owner) => {
         let user = await client.users.fetch(owner).catch(() => { })
@@ -247,7 +247,7 @@ router.post("/bots/:id/approve", async (req, res) => {
     res.status(201).json({ message: "Successfully Approved", code: "OK" });
     let logs = client.channels.get(config.channels.weblogs);
     logs.sendMessage(
-      `<\@${bot.owners[0]}>'s bot **${bot.name}** has been **approved** by <\@${req.session.userAccountId}>.\n<https://revoltbots.org/bots/${bot.id}>`
+      `<\\@${bot.owners[0]}>'s bot **${bot.name}** has been **approved** by <\\@${req.session.userAccountId}>.\n<https://revoltbots.org/bots/${bot.id}>`
     );
 
       bot.owners.forEach(async (owner) => {
@@ -408,7 +408,7 @@ router.post("/certification/:id/deny", async (req, res) => {
       res.status(201).json({ message: "Successfully Denied Certification", code: "OK" });
       let logs = client.channels.get(config.channels.weblogs);
       logs.sendMessage(
-        `<\@${bot.owners[0]}>'s bot **${bot.name}** has been **denied** for **certification** by <\@${req.session.userAccountId}>.\n<https://revoltbots.org/bots/${bot.id}>\n**Reason**: ${req.body.reason || "None provided."}`
+        `<\\@${bot.owners[0]}>'s bot **${bot.name}** has been **denied** for **certification** by <\\@${req.session.userAccountId}>.\n<https://revoltbots.org/bots/${bot.id}>\n**Reason**: ${req.body.reason || "None provided."}`
       );
 
       bot.owners.forEach(async (owner) => {
@@ -433,7 +433,7 @@ router.post("/certification/:id/approve", async (req, res) => {
       res.status(201).json({ message: "Successfully Approved Certification", code: "OK" });
       let logs = client.channels.get(config.channels.weblogs);
       logs.sendMessage(
-        `<\@${bot.owners[0]}>'s bot **${bot.name}** has been **certified** by <\@${req.session.userAccountId}>.\n<https://revoltbots.org/bots/${bot.id}>`
+        `<\\@${bot.owners[0]}>'s bot **${bot.name}** has been **certified** by <\\@${req.session.userAccountId}>.\n<https://revoltbots.org/bots/${bot.id}>`
       );
 
       bot.owners.forEach(async (owner) => {
@@ -497,7 +497,7 @@ router.post("/certification/:id/certifyDelete", checkAdmin, async (req, res) => 
       res.status(201).json({ message: "Successfully Deleted Certification", code: "OK" });
       let logs = client.channels.get(config.channels.weblogs);
       logs.sendMessage(
-        `<\@${bot.owners[0]}>'s bot **${bot.name}** **certification** was **deleted**  by <\@${req.session.userAccountId}>.\n<https://revoltbots.org/bots/${bot.id}>\n**Reason**: ${req.body.reason || "None provided."}`
+        `<\\@${bot.owners[0]}>'s bot **${bot.name}** **certification** was **deleted**  by <\\@${req.session.userAccountId}>.\n<https://revoltbots.org/bots/${bot.id}>\n**Reason**: ${req.body.reason || "None provided."}`
       );
 
       bot.owners.forEach(async (owner) => {

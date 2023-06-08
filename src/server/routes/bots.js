@@ -222,7 +222,7 @@ router.get("/:id", async (req, res) => {
   let approved =
     (await botModel.findOne({ id: req.params.id, status: "approved" })) ||
     (await botModel.findOne({
-      vanity: { $regex: `${req.params.id}`, $options: "i" },
+      vanity: req.params.id,
       status: "approved",
       certified: true,
     }));
@@ -392,7 +392,7 @@ router.post("/:id/edit", checkAuth, async (req, res) => {
     res.status(201).json({ message: "Successfully Edited", code: "OK" });
     let logs = client.channels.get(config.channels.weblogs);
     logs.sendMessage(
-      `<\@${req.session.userAccountId}> edited **${BotRaw.username}**.\n<https://revoltbots.org/bots/${data.botid}>`
+      `<\\@${req.session.userAccountId}> edited **${BotRaw.username}**.\n<https://revoltbots.org/bots/${data.botid}>`
     );
   });
 });
@@ -546,7 +546,7 @@ router.post("/:id/vote", async (req, res) => {
   if (logs)
     logs
       .sendMessage(
-        `<\@${req.session.userAccountId}> voted for **${BotRaw.username}**.\n<https://revoltbots.org/bots/${bot.vanity || BotRaw._id}>`
+        `<\\@${req.session.userAccountId}> voted for **${BotRaw.username}**.\n<https://revoltbots.org/bots/${bot.vanity || BotRaw._id}>`
       )
       .catch(() => null);
 
@@ -829,7 +829,7 @@ router.post("/:botId/review/:userId/modal", checkAuth, async (req, res) => {
 
       let logs = client.channels.get(config.channels.reportlogs);
       if (logs)
-        logs.sendMessage(`<\@${info.userId}> reported a review on **${botDb.name}**.\n<https://revoltbots.org/bots/${botDb.id}>`).catch(() => null);
+        logs.sendMessage(`<\\@${info.userId}> reported a review on **${botDb.name}**.\n<https://revoltbots.org/bots/${botDb.id}>`).catch(() => null);
       return res.redirect(`/bots/${info.botId}?success=true&body=This review is reported#${info.id}`);
     } else if (info?.type === "reply") {
       const reports = await reportModel.find({ botId: req.params.botId });
@@ -872,13 +872,12 @@ router.post("/:botId/review/:userId/modal", checkAuth, async (req, res) => {
       if (logs)
         logs
           .sendMessage(
-            `<\@${info.userId}> reported a reply on **${botDb.name}**.\n<https://revoltbots.org/panel/reports#active_${info.userId}>`
+            `<\\@${info.userId}> reported a reply on **${botDb.name}**.\n<https://revoltbots.org/panel/reports#active_${info.userId}>`
           )
           .catch(() => null);
       return res.redirect(`/bots/${info.botId}?success=true&body=This reply is reported#reply-${info.id}`);
     }
   }
-
 
   // await botDb.save().then(() => {
   //   return res.redirect(`/bots/${req.params.botId}#${req.params.userId}`);

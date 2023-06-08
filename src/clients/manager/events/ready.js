@@ -22,14 +22,15 @@ module.exports = {
     setInterval(async () => {
       let bots = await botModel.find();
       bots.forEach(async (bot) => {
-        setTimeout(async () => {
+       setTimeout(async () => {
           client.api.get(`/users/${bot.id}`).then(async (res) => {
             await client.users.createObj(res, true);
             client.users
               .get(`${bot.id}`)
               .fetchProfile()
               .then(async (b) => {
-                let BotRaw = await client.bots.fetchPublic(bot.id);
+                let BotRaw = await client.users.fetch(bot.id);
+                console.log(BotRaw)
                 bot.name = BotRaw.username;
                 bot.iconURL = `https://autumn.revolt.chat/avatars/${BotRaw.avatar._id}/${BotRaw.avatar.filename}`;
                 bot.bannerURL = `${
@@ -40,7 +41,7 @@ module.exports = {
                 await bot.save();
               });
           });
-        }, 10000);
+       }, 10000);
       });
     }, 8640000);
 
