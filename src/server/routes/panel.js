@@ -54,6 +54,75 @@ router.get("/certification", async (req, res) => {
   });
 });
 
+router.get("/reports", async (req, res) => {
+  let user = await userModel.findOne({ revoltId: req.session.userAccountId });
+  if (user) {
+    let userRaw = await client.users.fetch(user.revoltId);
+    user.username = userRaw.username;
+    user.avatar = userRaw.avatar;
+  }
+
+  res.render("panel/reports/index.ejs", {
+    bot: global.client ? global.client : null,
+    path: req.path,
+    reports: await reportModel.find(),
+    user,
+    req,
+  });
+});
+
+router.get("/reports/:reporterId/:userId/:botId/:type/resolve", async (req, res) => {
+  let user = await userModel.findOne({ revoltId: req.session.userAccountId });
+  if (user) {
+    let userRaw = await client.users.fetch(user?.revoltId);
+    user.username = userRaw?.username;
+    user.avatar = userRaw.avatar;
+  }
+
+  let report = await reportModel.findOne({ reporterId: req.params.reporterId, userId: req.params.userId, type: req.params.type, botId: req.params.botId, active: true });
+  if (!report) res.status(404).render(
+    "error.ejs", {
+    user,
+    code: 404,
+    message: "This report couldn't be found in the database.",
+  });
+
+if (report.reporterId) {
+    let reporterRaw = await client.users.fetch(report?.reporterId);
+    if (!reporterRaw) return res.status(404).render(
+    "error.ejs", {
+    user,
+    code: 404,
+    message: "The reporter of this report can't be found on Revolt.",
+  });
+    report.reporterName = reporterRaw?.username;
+    report.reporterAvatar = reporterRaw?.avatar;
+} 
+  res.render("panel/reports/resolve.ejs", {
+    report,
+    user,
+    req
+  })
+})
+
+router.post("/reports/resolve", async (req, res) => {
+  let data = req.body;
+  if(data.type == "review" || "reply") {
+    let report = await reportModel.findOne({ reporterId: data.reporterId, userId: data.userId, type: data.type, botId: data.botId, active: true });
+    if (!report) return res.status(404).render(
+      "error.ejs", {
+      user,
+      code: 404,
+      message: "This report couldn't be found in the database.",
+   });
+   report.active = false;
+   report.notes = data.notes || null;
+   await report.save().then(
+    res.status(200).redirect("/panel/reports?success=true?message=You have successfully resolved the report.")
+   )
+  }
+})
+
 router.post("/bots/:id/testing", async (req, res) => {
   let bot = await botModel.findOne({ id: req.params.id });
   let client = global.client;
@@ -147,7 +216,7 @@ router.post("/bots/:id/deny", async (req, res) => {
       res.status(201).json({ message: "Successfully Denied", code: "OK" });
       let logs = client.channels.get(config.channels.weblogs);
       logs.sendMessage(
-        `<\@${bot.owners[0]}>'s bot **${bot.name}** has been **denied** by <\@${req.session.userAccountId}>.\n<https://revoltbots.org/bots/${bot.id}>\n**Reason**: ${req.body.reason || "None provided."}`
+        `<\\@${bot.owners[0]}>'s bot **${bot.name}** has been **denied** by <\\@${req.session.userAccountId}>.\n<https://revoltbots.org/bots/${bot.id}>\n**Reason**: ${req.body.reason || "None provided."}`
       );
       bot.owners.forEach(async (owner) => {
         let user = await client.users.fetch(owner).catch(() => { })
@@ -178,7 +247,7 @@ router.post("/bots/:id/approve", async (req, res) => {
     res.status(201).json({ message: "Successfully Approved", code: "OK" });
     let logs = client.channels.get(config.channels.weblogs);
     logs.sendMessage(
-      `<\@${bot.owners[0]}>'s bot **${bot.name}** has been **approved** by <\@${req.session.userAccountId}>.\n<https://revoltbots.org/bots/${bot.id}>`
+      `<\\@${bot.owners[0]}>'s bot **${bot.name}** has been **approved** by <\\@${req.session.userAccountId}>.\n<https://revoltbots.org/bots/${bot.id}>`
     );
 
       bot.owners.forEach(async (owner) => {
@@ -333,13 +402,13 @@ router.post("/certification/:id/deny", async (req, res) => {
   if (!bot || bot.deleted) return res.status(404).json({ message: "This bot was not found or it has been deleted" });
   if (!bot.certifyApplied) return res.status(400).json({ message: "This bot has already been denied for certification." });
 
-  bot.certifyApplied = false;
+  bot.updateOne({ certifyApplied: false })
   await bot.save().then(async () => {
     try {
       res.status(201).json({ message: "Successfully Denied Certification", code: "OK" });
       let logs = client.channels.get(config.channels.weblogs);
       logs.sendMessage(
-        `<\@${bot.owners[0]}>'s bot **${bot.name}** has been **denied** for **certification** by <\@${req.session.userAccountId}>.\n<https://revoltbots.org/bots/${bot.id}>\n**Reason**: ${req.body.reason || "None provided."}`
+        `<\\@${bot.owners[0]}>'s bot **${bot.name}** has been **denied** for **certification** by <\\@${req.session.userAccountId}>.\n<https://revoltbots.org/bots/${bot.id}>\n**Reason**: ${req.body.reason || "None provided."}`
       );
 
       bot.owners.forEach(async (owner) => {
@@ -364,7 +433,7 @@ router.post("/certification/:id/approve", async (req, res) => {
       res.status(201).json({ message: "Successfully Approved Certification", code: "OK" });
       let logs = client.channels.get(config.channels.weblogs);
       logs.sendMessage(
-        `<\@${bot.owners[0]}>'s bot **${bot.name}** has been **certified** by <\@${req.session.userAccountId}>.\n<https://revoltbots.org/bots/${bot.id}>`
+        `<\\@${bot.owners[0]}>'s bot **${bot.name}** has been **certified** by <\\@${req.session.userAccountId}>.\n<https://revoltbots.org/bots/${bot.id}>`
       );
 
       bot.owners.forEach(async (owner) => {
@@ -428,7 +497,7 @@ router.post("/certification/:id/certifyDelete", checkAdmin, async (req, res) => 
       res.status(201).json({ message: "Successfully Deleted Certification", code: "OK" });
       let logs = client.channels.get(config.channels.weblogs);
       logs.sendMessage(
-        `<\@${bot.owners[0]}>'s bot **${bot.name}** **certification** was **deleted**  by <\@${req.session.userAccountId}>.\n<https://revoltbots.org/bots/${bot.id}>\n**Reason**: ${req.body.reason || "None provided."}`
+        `<\\@${bot.owners[0]}>'s bot **${bot.name}** **certification** was **deleted**  by <\\@${req.session.userAccountId}>.\n<https://revoltbots.org/bots/${bot.id}>\n**Reason**: ${req.body.reason || "None provided."}`
       );
 
       bot.owners.forEach(async (owner) => {
@@ -460,7 +529,13 @@ function checkAdmin(req, res, next) {
       { revoltId: req.session.userAccountId },
       async (error, userAccount) => {
         if (error) {
-          res.status(500).send(error);
+          res.status(500).render(
+            "error.ejs", {
+            user,
+            code: 500,
+            message: error,
+          }
+        )
         } else if (userAccount) {
           if (userAccount.isAdmin) {
             next();

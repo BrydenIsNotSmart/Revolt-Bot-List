@@ -42,16 +42,31 @@ router.post("/submit", checkAuth, async (req, res) => {
   const data = req.body;
   if (!data)
     return res.status(400).json("You need to provide the bot's information.");
+  let user = await userModel.findOne({ id: req.session.userAccountId });
+  if (user) {
+    let userRaw = await client.users.fetch(user.revoltId);
+    user.username = userRaw.username;
+    user.avatar = userRaw.avatar;
+  }
   if (await botModel.findOne({ id: data.botid }))
-    return res.status(409).json({ message: "This bot is already added." });
+    return res.status(409).render(
+      "error.ejs", {
+      user,
+      code: 409,
+      message: "This bot has already been added to the list.",
+    }
+    )
   let BotRaw = await client.bots.fetchPublic(data.botid).catch((err) => {
     console.log(err);
   });
   if (!BotRaw)
-    return res.status(400).json({
-      message:
-        "The provided bot couldn't be found on Revolt OR it's a private bot, make it public to add it.",
-    });
+    return res.status(400).render(
+      "error.ejs", {
+      user,
+      code: 400,
+      message: "The provided bot couldn't be found on Revolt OR it's a private bot, make it public to add it.",
+    }
+    )
 
   if (data.owners) {
     let owners = [];
@@ -70,22 +85,29 @@ router.post("/submit", checkAuth, async (req, res) => {
       try {
         await client.users.get(owner);
       } catch (e) {
-        return res.status(409).json({
-          message:
-            "One of your owners is not a real user, or isn't in our server.",
-        });
+        return res.status(409).render(
+          "error.ejs", {
+          user,
+          code: 409,
+          message: "One of your owners is not a real user, or isn't in our server.",
+        }
+        )
       }
     });
   }
 
-  let UserRaw = await client.users.fetch(req.params.id).catch((err) => {
+  let UserRaw = await client.users.fetch(data.botid).catch((err) => {
     console.log(err);
   });
+
   if (!UserRaw)
-    return res.status(400).json({
-      message:
-        "Couldn't find the bot on Revolt.",
-    });
+    return res.status(400).render(
+      "error.ejs", {
+      user,
+      code: 400,
+      message: "Couldn't find the bot on Revolt.",
+    }
+    )  
 
   await botModel
     .create({
@@ -131,14 +153,43 @@ router.get("/certify", checkAuth, async (req, res) => {
 });
 
 router.post("/certify", checkAuth, async (req, res) => {
-  const botDb = botModel.findOne({ id: req.body.bot });
-  if (!botDb) return res.status(404).json({ message: "Bot not found." });
+  const botDb = await botModel.findOne({ id: req.body.bot });
+  let user = await userModel.findOne({ id: req.session.userAccountId });
+  if (user) {
+    let userRaw = await client.users.fetch(user.revoltId);
+    user.username = userRaw.username;
+    user.avatar = userRaw.avatar;
+  }
+  if (!botDb) return res.status(404).render(
+    "error.ejs", {
+    user,
+    code: 404,
+    message: "Couldn't find the bot on our list.",
+  }
+  )
+  if (!botDb.owners.includes(req.session.userAccountId)) return res.status(403).render(
+    "error.ejs", {
+    user,
+    code: 403,
+    message: "You don't own this bot.",
+  }
+  )
+  if (!botDb.certifyApplied && !botDb.certified && botDb?.servers > 0 && botDb?.monthlyVotes >= 50 && (new Date().getTime() - new
+    Date(botDb.submittedOn).getTime()) / (1000 * 60 * 60 * 24.0) >= 16) {
+    if (botDb.certifyApplied) return res.status(409).json({ message: "You already applied for certification." });
 
-  if (botDb.certifyApplied) return res.status(409).json({ message: "You already applied for certification." });
-
-  botDb.updateOne({ certifyApplied: true }).then(() => {
-    res.status(200).json({ message: "Applied for certification! You'll be notified once your application is looked over." });
-  });
+    botDb.updateOne({ certifyApplied: true }).then(() => {
+      res.status(200).json({ message: "Applied for certification! You'll be notified once your application is looked over." });
+    });
+  } else {
+    return res.status(400).render(
+      "error.ejs", {
+      user,
+      code: 400,
+      message: "Your bot doesn't meet the requirements for certification.",
+    }
+    )
+  }
 });
 
 router.post("/:id/apikey", checkAuth, async (req, res) => {
@@ -167,10 +218,11 @@ router.post("/:id/apikey", checkAuth, async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
+  const moment = require("moment");
   let approved =
     (await botModel.findOne({ id: req.params.id, status: "approved" })) ||
     (await botModel.findOne({
-      vanity: { $regex: `${req.params.id}`, $options: "i" },
+      vanity: req.params.id,
       status: "approved",
       certified: true,
     }));
@@ -197,9 +249,13 @@ router.get("/:id", async (req, res) => {
       !isStaff &&
       !awaiting.owners.includes(req.session.userAccountId))
   )
-    return res.status(404).json({
+    return res.status(404).render(
+      "error.ejs", {
+      user,
+      code: 404,
       message: "This bot could not be found on our list or is not approved.",
-    });
+    }
+    ) 
   const status = {
   "Online": "#3ABF7E",
   "Idle": "#F39F00",
@@ -211,10 +267,15 @@ router.get("/:id", async (req, res) => {
   let bot = awaiting || approved;
   const marked = require("marked");
   const description = marked.parse(bot.description);
-  let BotRaw = await client.users.fetch(req.params.id).catch(() => null);
+  try {
+    let BotRaw = await client.users.fetch(bot.id);
   if (BotRaw) {
-    bot.Status = BotRaw.status.presence || null;
-    bot.statusColor = status[BotRaw.status.presence] || null;
+      bot.Status = BotRaw.status.presence;
+      bot.statusColor = status[BotRaw.status.presence];
+    }
+  } catch (err) {
+    bot.Status = null;
+    bot.statusColor = null;
   }
   bot.description = description;
   bot.tags = bot.tags.join(", ");
@@ -222,6 +283,7 @@ router.get("/:id", async (req, res) => {
     user: user || null,
     botclient: client,
     bot,
+    moment
   });
 });
 
@@ -256,36 +318,38 @@ router.get("/:id/edit", checkAuth, async (req, res) => {
 });
 
 router.post("/:id/edit", checkAuth, async (req, res) => {
+  let user = await userModel.findOne({ revoltId: req.session.userAccountId });
+
+  if (user) {
+    let userRaw = await client.users.fetch(user.revoltId);
+    user.username = userRaw.username;
+    user.avatar = userRaw.avatar;
+    user.id = user.revoltId;
+  }
   const data = req.body;
   if (!data)
     return res.status(400).json("You need to provide the bot's information.");
-  let bot = await botModel.findOne({ id: req.params.id }) ||
-    (await botModel.findOne({
-      vanity: { $regex: `${req.params.id}`, $options: "i" },
-      status: "approved",
-      certified: true,
-    }));
-
-  if (data.vanity) {
-	let botvanity = await botModel.findOne({ vanity: { $regex: `${data.vanity}`, $options: "i" } });
-	if (botvanity !== null && botvanity.id !== req.params.id) return res.status(400).json({
-		message: "The Provided vanity is already taken!"
-	})
-  }
+  let bot = await botModel.findOne({ id: req.params.id });
   if (!bot)
-    return res
-      .status(404)
-      .json({ message: "This bot could not be found on our list." });
+    return res.status(404).render(
+      "error.ejs", {
+      user,
+      code: 404,
+      message: "This bot could not be found on our list.",
+    }
+    )
  if (!bot.owners.includes(req.session.userAccountId)) return res.redirect("/");
   let BotRaw = await client.users.fetch(req.params.id).catch((err) => {
     console.log(err);
   });
   if (!BotRaw)
-    return res.status(400).json({
-      message:
-        "The provided bot couldn't be found on Revolt OR it's a private bot, make it public to add it.",
-    });
-
+    return res.status(404).render(
+      "error.ejs", {
+      user,
+      code: 404,
+      message: "The provided bot couldn't be found on Revolt OR it's a private bot, make it public to add it.",
+    }
+    )
   if (data.owners) {
     let owners = [];
     owners.push(req.session.userAccountId);
@@ -301,10 +365,13 @@ router.post("/:id/edit", checkAuth, async (req, res) => {
       try {
         await client.users.get(owner);
       } catch (e) {
-        return res.status(409).json({
-          message:
-            "One of your owners is not a real user, or isn't in our server.",
-        });
+        return res.status(409).render(
+          "error.ejs", {
+          user,
+          code: 409,
+          message: "One of your owners is not a real user, or isn't in our server",
+        }
+        )
       }
     });
   }
@@ -325,23 +392,27 @@ router.post("/:id/edit", checkAuth, async (req, res) => {
     res.status(201).json({ message: "Successfully Edited", code: "OK" });
     let logs = client.channels.get(config.channels.weblogs);
     logs.sendMessage(
-      `<\@${req.session.userAccountId}> edited **${BotRaw.username}**.\n<https://revoltbots.org/bots/${data.botid}>`
+      `<\\@${req.session.userAccountId}> edited **${BotRaw.username}**.\n<https://revoltbots.org/bots/${data.botid}>`
     );
   });
 });
 
 router.get("/:id/vote", async (req, res) => {
-  let bot = await botModel.findOne({ id: req.params.id }) || (await botModel.findOne({
+  let bot = await botModel.findOne({ id: req.params.id }) ||
+    (await botModel.findOne({
       vanity: { $regex: `${req.params.id}`, $options: "i" },
       status: "approved",
       certified: true,
     }));
 
-  if (!bot)
+  if (!bot || bot == null)
     return res
       .status(404)
       .json({ message: "This bot could not be found on our list." });
+  if (!bot.owners.includes(req.session.userAccountId)) return res.redirect("/");
+
   let user = await userModel.findOne({ revoltId: req.session.userAccountId });
+
   if (user) {
     let userRaw = await client.users.fetch(user.revoltId);
     user.username = userRaw.username;
@@ -431,15 +502,15 @@ router.get("/tags/:tag", async (req, res) => {
 });
 
 router.post("/:id/vote", async (req, res) => {
-  let bot = await botModel.findOne({ id: req.params.id }) || (await botModel.findOne({
-      vanity: { $regex: `${req.params.id}`, $options: "i" },
-      status: "approved",
-      certified: true,
-    }));
+  let bot = await botModel.findOne({ id: req.params.id });
   if (!bot)
-    return res
-      .status(404)
-      .json({ message: "This bot was not found on our list." });
+    return res.status(404).render(
+      "error.ejs", {
+      user,
+      code: 404,
+      message: "This bot could not be found on our list.",
+    }
+    )
   let x = await voteModel.findOne({
     user: req.session.userAccountId,
     bot: req.params.id,
@@ -447,9 +518,13 @@ router.post("/:id/vote", async (req, res) => {
   if (x) {
     const vote = canUserVote(x);
     if (!vote.status)
-      return res
-        .status(400)
-        .send(`Please wait ${vote.formatted} before you can vote again.`);
+      return res.status(202).render(
+        "error.ejs", {
+        user,
+        code: 202,
+        message: `Please wait ${vote.formatted} before you can vote again.`,
+      }
+      )
     await x.remove().catch(() => null);
   }
 
@@ -471,13 +546,342 @@ router.post("/:id/vote", async (req, res) => {
   if (logs)
     logs
       .sendMessage(
-        `<\@${req.session.userAccountId}> voted for **${BotRaw.username}**.\n<https://revoltbots.org/bots/${BotRaw._id}>`
+        `<\\@${req.session.userAccountId}> voted for **${BotRaw.username}**.\n<https://revoltbots.org/bots/${bot.vanity || BotRaw._id}>`
       )
       .catch(() => null);
 
   return res.redirect(
     `/bots/${req.params.id}?success=true&body=You voted successfully. You can vote again after 12 hours.`
   );
+});
+
+router.post("/:id/review", checkAuth, async (req, res) => {
+  let user = await userModel.findOne({ revoltId: req.session.userAccountId });
+
+  if (user) {
+    let userRaw = await client.users.fetch(user.revoltId);
+    user.username = userRaw.username;
+    user.avatar = userRaw.avatar;
+    user.id = user.revoltId;
+  }
+  const botDb = await botModel.findOne({ id: req.params.id });
+  if (!botDb) return res.status(404).render(
+    "error.ejs", {
+    user,
+    code: 404,
+    message: `Bot not found.`,
+  }
+  )
+
+  if (botDb.owner === req.session.userAccountId) return res.status(403).render(
+    "error.ejs", {
+    user,
+    code: 403,
+    message: `Bot owners cannot review their own bot!`,
+  }
+  )
+  if (botDb.reviews.filter(e => e.type === "review").find((x) => x.revoltId === req.session.userAccountId)) return res.status(403).render(
+    "error.ejs", {
+    user,
+    code: 403,
+    message: `You have already reviewed this bot!`,
+  }
+  )
+
+
+  botDb.reviews.push({
+    revoltId: req.session.userAccountId,
+    createdAt: Date.now(),
+    rating: Number(req.body.rating),
+    msg: req.body.review,
+    type: "review",
+  });
+
+  await botDb.save().then(() => {
+    return res.redirect(`/bots/${req.params.id}#${req.session.userAccountId}`);
+  })
+});
+
+router.post("/:botId/review/:userId/reply", checkAuth, async (req, res) => {
+  let user = await userModel.findOne({ revoltId: req.session.userAccountId });
+
+  if (user) {
+    let userRaw = await client.users.fetch(user.revoltId);
+    user.username = userRaw.username;
+    user.avatar = userRaw.avatar;
+    user.id = user.revoltId;
+  }
+  const botDb = await botModel.findOne({ id: req.params.botId });
+  if (!botDb) return res.status(404).render(
+    "error.ejs", {
+    user,
+    code: 404,
+    message: `Bot not found.`,
+  }
+  )
+
+  if (!botDb.owners.includes(req.session.userAccountId)) return res.status(403).render(
+    "error.ejs", {
+    user,
+    code: 403,
+    message: `Only bot owners can reply to reviews!`,
+  }
+  )
+  if (botDb.reviews.filter(e => e.replied === req.params.userId).filter(e => e.type === "reply").find((x) => x.revoltId === req.session.userAccountId)) return res.status(403).render(
+    "error.ejs", {
+    user,
+    code: 403,
+    message: `You have already replied to this review!`,
+  }
+  )
+
+  botDb.reviews.push({
+    replied: req.params.userId,
+    revoltId: req.session.userAccountId,
+    createdAt: Date.now(),
+    rating: Number(req.body.rating),
+    msg: req.body.review,
+    type: "reply",
+  });
+
+  await botDb.save().then(() => {
+    return res.redirect(`/bots/${req.params.botId}#${req.params.userId}`);
+  })
+});
+
+router.post("/:botId/review/:userId/delete", checkAuth, async (req, res) => {
+  let user = await userModel.findOne({ revoltId: req.session.userAccountId });
+
+  if (user) {
+    let userRaw = await client.users.fetch(user.revoltId);
+    user.username = userRaw.username;
+    user.avatar = userRaw.avatar;
+    user.id = user.revoltId;
+  }
+  const botDb = await botModel.findOne({ id: req.params.botId });
+  if (!botDb) return res.status(404).render(
+    "error.ejs", {
+    user,
+    code: 404,
+    message: `Bot not found.`,
+  }
+  )
+
+  if (!botDb.owners.includes(req.session.userAccountId)) return res.status(403).render(
+    "error.ejs", {
+    user,
+    code: 403,
+    message: `Only bot owners can reply to reviews!`,
+  }
+  )
+  if (botDb.reviews.filter(e => e.replied === req.params.userId).filter(e => e.type === "reply").find((x) => x.revoltId === req.session.userAccountId)) return res.status(403).render(
+    "error.ejs", {
+    user,
+    code: 403,
+    message: `You have already replied to this review!`,
+  }
+  )
+
+  botDb.reviews.push({
+    replied: req.params.userId,
+    revoltId: req.session.userAccountId,
+    createdAt: Date.now(),
+    rating: Number(req.body.rating),
+    msg: req.body.review,
+    type: "reply",
+  });
+
+  await botDb.save().then(() => {
+    return res.redirect(`/bots/${req.params.botId}#${req.params.userId}`);
+  })
+});
+
+router.post("/:botId/review/:userId/modal", checkAuth, async (req, res) => {
+  let user = await userModel.findOne({ revoltId: req.session.userAccountId });
+
+  if (user) {
+    let userRaw = await client.users.fetch(user.revoltId);
+    user.username = userRaw.username;
+    user.avatar = userRaw.avatar;
+    user.id = user.revoltId;
+  }
+
+  const botDb = await botModel.findOne({ id: req.params.botId });
+  if (!botDb) return res.status(404).render(
+    "error.ejs", {
+    user,
+    code: 404,
+    message: "Bot not found.",
+  }
+  )
+  let info = req.body;
+  if (!info) return res.status(400).render(
+    "error.ejs", {
+    user,
+    code: 400,
+    message: "No info provided.",
+  }
+  )
+
+  if (info?.method === "ownerDelete") {
+    if (info?.type === "review") {
+      if (info.id !== info.userId) return res.status(403).render(
+        "error.ejs", {
+        user,
+        code: 403,
+        message: "You can only delete your own reviews!",
+      }
+      )
+      
+      let reviews = botDb.reviews.filter(e => e.type === "review").filter(e => e.revoltId !== info.id);
+      let replies = botDb.reviews.filter(e => e.type === "reply").filter(e => e.replied !== info.id)
+      botDb.reviews = [...reviews, ...replies];
+      await botDb.save().then(() => {
+        return res.redirect(`/bots/${req.params.botId}#reviewStart`);
+      });
+    } else if (info?.type === "reply") {
+      if (!botDb.owners.includes(info.userId)) return res.status(403).render(
+        "error.ejs", {
+        user,
+        code: 403,
+        message: "You aren't an owner of this bot!",
+      }
+      )
+
+      let reviews = botDb.reviews.filter(e => e.type === "review");
+      let replies = botDb.reviews.filter(e => e.type === "reply").filter(e => e.replied !== info.reviewId)
+      botDb.reviews = [...reviews, ...replies];
+      await botDb.save().then(() => {
+        return res.redirect(`/bots/${req.params.botId}#reviewStart`);
+      });
+    }
+  } else if (info?.method === "staffDelete") {
+    if (info?.type === "review") {
+      const userDb = await userModel.findOne({ revoltId: info.userId });
+      if (!userDb.isStaff || !userDb.isAdmin) return res.status(403).render(
+        "error.ejs", {
+        user,
+        code: 403,
+        message: "You aren't a staff member!",
+      }
+      )
+
+      let reviews = botDb.reviews.filter(e => e.type === "review").filter(e => e.revoltId !== info.id);
+      let replies = botDb.reviews.filter(e => e.type === "reply").filter(e => e.replied !== info.id)
+      botDb.reviews = [...reviews, ...replies];
+      await botDb.save().then(() => {
+        return res.redirect(`/bots/${req.params.botId}#reviewStart`);
+      });
+    } else if (info?.type === "reply") {
+      const userDb = await userModel.findOne({ revoltId: info.userId });
+      if (!userDb.isStaff || !userDb.isAdmin) return res.status(403).render(
+        "error.ejs", {
+        user,
+        code: 403,
+        message: "You aren't a staff member!",
+      }
+      )
+
+      let reviews = botDb.reviews.filter(e => e.type === "review");
+      let replies = botDb.reviews.filter(e => e.type === "reply").filter(e => e.replied !== info.reviewId)
+      botDb.reviews = [...reviews, ...replies];
+      await botDb.save().then(() => {
+        return res.redirect(`/bots/${req.params.botId}#reviewStart`);
+      });
+    }
+  } else if (info?.method === "flagModal") {
+    if (info?.type === "review") {
+      const reports = await reportModel.find({ botId: req.params.botId });
+      const report = reports.find(e => e.reporterId === info.userId);
+
+      const botDb = await botModel.findOne({ id: req.params.botId });
+      if (!botDb) return res.status(404).render(
+        "error.ejs", {
+        user,
+        code: 404,
+        message: "This bot was not found on our list.",
+      }
+      )
+      let user = await userModel.findOne({ id: req.session.userAccountId });
+      if (user) {
+        let userRaw = await client.users.fetch(user.revoltId);
+        user.username = userRaw.username;
+        user.avatar = userRaw.avatar;
+      }
+      if (report?.userId === info.id) return res.status(403).render(
+        "error.ejs", {
+        user,
+        code: 403,
+        message: "You have already reported this review!",
+      }
+      )
+
+      await reportModel.create({
+        botId: info.botId,
+        url: info.url,
+        userId: info.id,
+        reporterId: info.userId,
+        description: info.msg,
+        reason: info.review,
+        type: "review",
+        active: true,
+      })
+
+      let logs = client.channels.get(config.channels.reportlogs);
+      if (logs)
+        logs.sendMessage(`<\\@${info.userId}> reported a review on **${botDb.name}**.\n<https://revoltbots.org/bots/${botDb.id}>`).catch(() => null);
+      return res.redirect(`/bots/${info.botId}?success=true&body=This review is reported#${info.id}`);
+    } else if (info?.type === "reply") {
+      const reports = await reportModel.find({ botId: req.params.botId });
+      const report = reports.find(e => e.reporterId === info.userId);
+      let user = await userModel.findOne({ id: req.session.userAccountId });
+      if (user) {
+        let userRaw = await client.users.fetch(user.revoltId);
+        user.username = userRaw.username;
+        user.avatar = userRaw.avatar;
+      }
+      if (report?.userId === info.id) return res.status(403).render(
+        "error.ejs", {
+        user,
+        code: 403,
+        message: "You have already reported this review!",
+      }
+      )
+
+      const botDb = await botModel.findOne({ id: req.params.botId });
+      if (!botDb) return res.status(404).render(
+        "error.ejs", {
+        user,
+        code: 404,
+        message: "This bot was not found on our list.",
+      }
+      )
+
+      await reportModel.create({
+        botId: info.botId,
+        url: info.url,
+        userId: info.id,
+        reporterId: info.userId,
+        description: info.msg,
+        reason: info.review,
+        type: "reply",
+        active: true
+      })
+
+      let logs = client.channels.get(config.channels.reportlogs);
+      if (logs)
+        logs
+          .sendMessage(
+            `<\\@${info.userId}> reported a reply on **${botDb.name}**.\n<https://revoltbots.org/panel/reports#active_${info.userId}>`
+          )
+          .catch(() => null);
+      return res.redirect(`/bots/${info.botId}?success=true&body=This reply is reported#reply-${info.id}`);
+    }
+  }
+
+  // await botDb.save().then(() => {
+  //   return res.redirect(`/bots/${req.params.botId}#${req.params.userId}`);
+  // })
 });
 
 function checkAuth(req, res, next) {

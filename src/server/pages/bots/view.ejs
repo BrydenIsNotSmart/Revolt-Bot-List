@@ -9,6 +9,10 @@
   <meta property="og:image" content="<%= bot.iconURL %>">
   <meta property="og:color" content="#fe4655">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sanitize-html/1.26.0/sanitize-html.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+
+
   <link rel='stylesheet' href='/css/botpage.scss'>
   <title><%= bot.name %> - Revolt Bots</title>
   <%- include("../parts/head.ejs") %>
@@ -42,7 +46,7 @@
   <div style="background-color: transparent" class="jumbotron mt-5">
     <div class="row" style="width: 100%;">
       <img class="idk" src="<%= bot.iconURL %>">
-      <% if (bot.Status) { %> <!--wtf hehesn't it trasparent  it's going to be ok-->
+      <% if (bot.Status) { %>
         <div style="border-radius: 50%; background-color:#290F1D; width: 65px; height: 65px; margin-left: -65px; margin-top: 118px;"></div> 
         <i style="margin-top: 127px; margin-left:-56px; font-size: 50px; color: <%= bot.statusColor %>" class="fa-solid fa-circle" title="<%= bot.Status %>"></i> 
       <% } else { %>
@@ -120,8 +124,288 @@
       <div id="bot-description"><%= bot.description %></div>
     </div>
   </div>
-</div><br>
+</div>
+<div style="margin-top: 130px;" class="reviewContainer">
+  <h2 id="reviewStart"><i style="color: #F39C12;" class="fa-solid fa-star"></i> <b>Reviews</b></h2>
+  <h5 style="color: #888888; margin-bottom: 50px;" id="reviews">
+    <%= bot.name %> has a
+      <% let num=0 %>
+        <% if (bot.reviews.filter(e => e.type === "review").length> 0) { bot.reviews.filter(e => e.type === "review").map(e => num = e.rating + num) %>
+          <% num=Math.round(num / bot.reviews.filter(e => e.type === "review").length) } %>
+            <% for (i=0; i < num || 0; i++) {%>
+              <i style="color: #F39C12;" class="fa-solid fa-star"></i>
+              <% } %>
+                <% for (i=0; i < 5- num; i++) { %>
+                  <i style="color: #F39C12;" class="fa-regular fa-star"></i>
+                  <% } %>
+                    rating with <%= bot.reviews.filter(e => e.type === "review").length===1 ? `1 review.` : `${bot.reviews.filter(e => e.type === "review").length} reviews.` %>
+  </h5>
 
+  <% if (user && !bot.owners.includes(user.revoltId) && !bot.reviews.find(e=> e.revoltId === user.revoltId)) { %>
+    <form action="../../../bots/<%= bot.id %>/review" method="POST">
+      <div class="row"
+        style="width: 100%; background-color:#47122b; height: 200px; border-radius: 8px; margin-bottom: 25px; ">
+        <img style="margin-left: 12px; margin-top: 20px; border-radius: 50%;" width="60" height="60"
+          src="https://autumn.revolt.chat/avatars/<%= user?.avatar._id %>/<%= user?.avatar.filename %>" alt="Avatar"
+          class="avatar">
+          <span style="font-size: 17px; margin-left: 6px; margin-top: 13px"><%= user?.username %></span>
+          <div class="rating" style="margin-left: -147px; margin-top: 30px;">
+            <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label> 
+            <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label> 
+            <input type="radio" name="rating" value="3" id="3" checked><label for="3">☆</label> 
+            <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label> 
+            <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+          </div>
+        <textarea maxlength="300" name="review" spellcheck="true" 
+          style="margin-top: -25px; margin-left: 80px; margin-right: 20px; border-radius: 7px; background-color: #702849d1; border-color: transparent; color: white; width: 90%; height: 65px; resize: none;"
+          placeholder="Write a review..." required></textarea>
+        <button id="submitReview"
+          style="margin-bottom: 10px; margin-left: 80px; background-color: #702849d1; border-radius: 7px; border-color: transparent; color: white; width: auto; height: 35px; resize: none;"
+          class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Submit</button>
+      </div>
+    </form>
+    <% } else if (user && bot.owners.includes(user.revoltId)) { %>
+      <div class="row" style="width: 100%; background-color:#47122b; height: auto; border-radius: 8px; margin-bottom: 25px;">
+        <p style="font-size: 20px; margin-top: 10px; padding-left: 10px; padding-right:10px;">
+          <i style="font-size: 20px; margin-top: 5px; color:rgb(41, 157, 180);" class="fa-solid fa-circle-info"></i> Hello <%- user.username %>, obviously you can't review your own bot. However you can respond to reviews by clicking <i style="color:#ff537e" class="fa-solid fa-ellipsis-h"></i> on the review and then clicking <i style="color:#ff537e" class="fa-solid fa-reply"></i> to reply.
+        </p>
+      </div>
+    <% } %>
+
+      <% if (bot.reviews.filter(e => e.type === "review").length === 0) { %>
+        <hr class="reviews_devider">
+
+        <div style="width: 100%; background-color: #47122b; border-radius: 7px; border-color: #47122B; color: #ffffff; height: auto;" class="alert d-flex alert-warning row" role="alert">
+          <div>
+            <h4 class="alert-heading"><i style="color: #c90b0b" class="fa-solid fa-circle-xmark"></i> No Reviews</h4>
+            <p><%= user && bot.owners.includes(user.revoltId) ? `It seems like your bot doesn't have any reviews!` : `It seems that ${bot.name} does not have any reviews yet!` %></p>
+          </div>
+        </div>
+      <% } %>
+
+      <% bot.reviews.sort((a,b) => b.createdAt - a.createdAt).filter(e => e.type === "review").map((review)=> { %>
+        <hr class="reviews_devider">
+
+        <div id="<%= review.revoltId %>" class="row"
+          style="width: 100%; background-color:#47122b; height: auto; border-radius: 7px; margin-bottom: 15px;">
+          <% const reviewUser = client.users.get(review.revoltId); %>
+            <img style="margin-top: 20px; margin-left: 20px;border-radius: 50%;" width="50" height="50"
+              src="https://autumn.revolt.chat/avatars/<%= reviewUser?.avatar?._id %>/<%= reviewUser?.avatar?.filename %>" alt="Avatar"
+              class="avatar">
+            <div style="margin-top: 13px;" class="col-sm">
+              <a href="/user/<%= review?.revoltId %>" style="text-decoration: none; color: white;"><b>
+                  <%= reviewUser?.username %>
+                </b> <a style="font-size: 15px; color: #888888; margin-left: 4px;">
+                  <%= moment(review?.createdAt).startOf("minute").fromNow();  %>
+                </a></a>
+              <br>
+              <% for (i=0; i < review.rating; i++) { %>
+                <i style="color: #F39C12;" class="fa-solid fa-star"></i>
+                <% } %>
+                  <% for (i=0; i < (5 - review.rating); i++) { %>
+                    <i style="color: #F39C12;" class="fa-regular fa-star"></i>
+                    <% } %>
+                      <p>
+                        <%= review.msg %>
+                      </p>
+            </div>
+            <div class="review-options">
+              <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button"
+                  id="reviewOptionsDropdown-<%= review.revoltId %>" style="background-color: transparent;border-color:transparent;"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fa-solid fa-ellipsis-h"></i>
+                </button>
+                <div class="dropdown-menu" style="background-image:radial-gradient( circle 325px at 19.2% 64.8%,  rgba(254,62,101,1) 9.7%, rgba(166,24,146,1) 91.3% );border-radius: 8px" aria-labelledby="reviewOptionsDropdown-<%= review.revoltId %>">
+                  <a class="dropdown-item" style="color: white" href="#<%= review.revoltId %>" data-review-id="<%= review.revoltId %>" onclick="copyToClipboard('<%= review.revoltId %>')"><i class="fa-solid fa-paperclip"></i> Copy Link</a>
+                  <% if (user && user.revoltId !== review.revoltId) { %>
+                  <a class="dropdown-item flag-review" style="color: white" href="#flagModal-<%- review.revoltId %>" data-review-id="<%= review.revoltId %>"><i style="color:#CCCC0A" class="fa-solid fa-flag"></i> Flag</a>
+                  <% } %>
+                  <% if (user && user.revoltId === review.revoltId) { %>
+                    <a class="dropdown-item" style="color: white" href="#ownerDeleteModal-<%- review.revoltId %>" data-review-id="<%= review.revoltId %>"><i style="color:#c90b0b" class="fa-solid fa-trash"></i> Delete</a>
+                  <% } else if (user && user.isStaff) { %>
+                    <a class="dropdown-item" style="color: white" href="#deleteModal-<%- review.revoltId %>" data-review-id="<%= review.revoltId %>"><i style="color:#c90b0b" class="fa-solid fa-trash"></i> Delete</a>
+                  <% } %>
+                  <% if (user && bot.owners.includes(user.revoltId) && bot.reviews.filter(e => e.replied === review.revoltId).filter(e => e.type === "reply").length === 0) { %>
+                  <a class="dropdown-item replyButton" style="cursor: pointer; color: white" data-review-id="<%- review.revoltId %>"><i class="fa-solid fa-reply"></i> Reply</a>
+                  <% } %>
+                </div>
+            </div>
+        </div>
+        </div>
+        <% bot.reviews.filter(e => e.type === "reply").filter(e => e.replied === review.revoltId).map(reply => { %>
+          <div class="col-md-1 pr-0"><div class="reviews_replyline float-left"></div></div>
+
+          <div id="reply-<%= reply.revoltId %>" class="row"
+            style="width: 100%; background-color:#47122b; height: auto; border-radius: 7px; margin-bottom: 15px; margin-top: 15px; ">
+              <img style="margin-top: 20px; margin-left: 20px;border-radius: 50%;" width="50" height="50"
+                src="<%= bot.iconURL %>" alt="Avatar"
+                class="avatar">
+              <div style="margin-top: 23px;" class="col-sm">
+                <a style="text-decoration: none; color: white;"><b>
+                    <%= bot.name %></b> replied <i class="fa-solid fa-arrow-turn-up"></i> 
+                    <a style="font-size: 15px; color: #888888; margin-left: 4px;">
+                    <%= moment(reply.createdAt).startOf("minute").fromNow();  %>
+                  </a></a>
+                  <br>
+                  <p><%= reply.msg %></p>
+              </div>
+
+              <div class="review-options">
+                <div class="dropdown">
+                  <button class="btn btn-primary dropdown-toggle" type="button"
+                    id="reviewOptionsDropdown-<%= reply.revoltId %>" style="background-color: transparent;border-color:transparent;"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa-solid fa-ellipsis-h"></i>
+                  </button>
+                  <div class="dropdown-menu" style="background-image:radial-gradient( circle 325px at 19.2% 64.8%,  rgba(254,62,101,1) 9.7%, rgba(166,24,146,1) 91.3% );border-radius: 8px" aria-labelledby="reviewOptionsDropdown-<%= review.revoltId %>">
+                    <a class="dropdown-item" style="color: white" href="#reply-<%= review.revoltId %>" data-review-id="<%= review.revoltId %>" onclick="copyToClipboard('reply-<%= review.revoltId %>')"><i class="fa-solid fa-paperclip"></i> Copy Link</a>
+                    <% if (user && !bot.owners.includes(user.revoltId)) { %>
+                    <a class="dropdown-item flag-review" style="color: white" href="#replyFlagModal-<%- review.revoltId %>" data-review-id="<%= review.revoltId %>"><i style="color:#CCCC0A" class="fa-solid fa-flag"></i> Flag</a>
+                    <% } %>
+
+                    <% if (user && bot.owners.includes(user.revoltId)) { %>
+                      <a class="dropdown-item" style="color: white" href="#replyOwnerDeleteModal-<%- review.revoltId %>" data-review-id="<%= review.revoltId %>"><i style="color:#c90b0b" class="fa-solid fa-trash"></i> Delete</a>
+                    <% } else if (user && user.isStaff) { %>
+                      <a class="dropdown-item" style="color: white" href="#replyDeleteModal-<%- review.revoltId %>" data-review-id="<%= review.revoltId %>"><i style="color:#c90b0b" class="fa-solid fa-trash"></i> Delete</a>
+                    <% } %>
+                  </div>
+              </div>
+          </div>
+          </div>
+
+          <% if (user) { %>
+        <div id="replyFlagModal-<%- review.revoltId %>" class="overlay">
+          <div style="height: 300px; width: 300px;" style="color: #fff" class="popup">
+              <a class="close" href="#?">&times;</a>
+              <h2 style="color: #ffffff;">Report Reply</h2>
+              <p>Please provide a reason for flagging this reply:</p>
+              <form action="../../../bots/<%= bot.id %>/review/<%= review.revoltId %>/modal" method="POST">
+                <input type="hidden" name="method" value="flagModal">
+                <input type="hidden" name="id" value="<%= reply.revoltId %>">
+                <input type="hidden" name="botId" value="<%= bot.id %>">
+                <input type="hidden" name="url" value="<%- `http://localhost/bots/${bot.id}/#reply-${reply.revoltId}` %>">
+                <input type="hidden" name="userId" value="<%= user.revoltId %>">
+                <input type="hidden" name="msg" value="<%= reply.msg %>">
+                <input type="hidden" name="type" value="reply">
+                <textarea id="flagReason" maxlength="500" name="review" spellcheck="true" rows="4" cols="50" placeholder="The review is unethical..." style="background-color: #2d0c1b; border-radius: 7px; border-color: transparent; resize: none; width: 100%; color: #ffffff;" required></textarea>
+                <button id="flagReview" style="margin-top: 20px; margin-left: 60px; background-color: #94151B; border-radius: 7px; border-color: transparent; color: white; width: 50%; height: 35px; resize: none;"class="btn btn-primary"><i class="fa-solid fa-delete-right"></i> Report</button>
+              </form>
+            </div>
+        </div>
+
+        <div id="replyDeleteModal-<%- review.revoltId %>" class="overlay">
+          <div style="height: 300px; width: 300px;" class="popup">
+              <a class="close" href="#?">&times;</a>
+              <h2 style="color: #ffffff;">Delete Reply</h2>
+              <p>Are you sure you want to delete this reply?</p>
+              <form action="../../../bots/<%= bot.id %>/review/<%= review.revoltId %>/modal" method="POST">
+                <input type="hidden" name="method" value="staffDelete">
+                <input type="hidden" name="replyId" value="<%= reply.revoltId %>">
+                <input type="hidden" name="reviewId" value="<%= review.revoltId %>">
+                <input type="hidden" name="botId" value="<%= bot.id %>">
+                <input type="hidden" name="userId" value="<%= user.revoltId %>">
+                <input type="hidden" name="type" value="reply">
+                <button style="margin-top: 50px; margin-left: 60px; background-color: #94151B; border-radius: 7px; border-color: transparent; color: white; width: 50%; height: 35px; resize: none;"class="btn btn-primary"><i class="fa-solid fa-delete-right"></i> Delete</button>
+              </form>
+            </div>
+        </div>
+
+        <div id="replyOwnerDeleteModal-<%- review.revoltId %>" class="overlay">
+          <div style="height: 300px; width: 300px;" class="popup">
+              <a class="close" href="#?">&times;</a>
+              <h2 style="color: #ffffff;">Delete Reply</h2>
+              <p>Are you sure you want to delete your own reply?</p>
+              <form action="../../../bots/<%= bot.id %>/review/<%= review.revoltId %>/modal"  method="POST">
+                <input type="hidden" name="method" value="ownerDelete">
+                <input type="hidden" name="replyId" value="<%= reply.revoltId %>">
+                <input type="hidden" name="reviewId" value="<%= review.revoltId %>">
+                <input type="hidden" name="botId" value="<%= bot.id %>">
+                <input type="hidden" name="userId" value="<%= user.revoltId %>">
+                <input type="hidden" name="type" value="reply">
+                <button style="margin-top: 50px; margin-left: 60px; background-color: #94151B; border-radius: 7px; border-color: transparent; color: white; width: 50%; height: 35px; resize: none;"class="btn btn-primary"><i class="fa-solid fa-delete-right"></i> Delete</button>
+              </form>
+            </div>
+        </div>
+        <% } %>
+
+        <% }); %>
+
+        <form class="replying-<%- review.revoltId %>" style="display: none;" action="../../../bots/<%= bot.id %>/review/<%= review.revoltId %>/reply" method="POST">
+          <div class="col-md-1 pr-0"><div class="reviews_replyline float-left"></div></div>
+          <p style="margin-left: 50px; margin-bottom: -40px;"><%- bot.name %> replying <i style="color: white;" class="fa-solid fa-turn-up"></i></p>
+          <div class="row"
+            style="width: 100%; background-color:#47122b; height: auto; border-radius: 7px; margin-bottom: 15px; margin-top: 15px;">
+            <img style="margin-top: 20px; margin-left: 20px; border-radius: 50%;" width="50" height="50"
+              src="<%= bot.iconURL %>" alt="Avatar"
+              class="avatar">
+            <textarea maxlength="300" name="review" spellcheck="true"
+              style="margin-top: 7px; margin-bottom:5px; margin-left: 20px; border-radius: 7px; background-color: #692444; border-color: transparent; color: white; width: 85%; height: auto; resize: none;"
+              placeholder="Replying to <%- reviewUser?.username %>" required></textarea>
+            <button id="submitReview"
+              style="margin-top: auto; margin-bottom:5px; margin-left: 90px; background-color: #692444; border-radius: 7px; border-color: transparent; color: white; width: auto; height: 35px; resize: none;"
+              class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Submit</button>
+          </div>
+        </form>
+
+        <% if (user) { %>
+          <div id="flagModal-<%- review.revoltId %>" class="overlay">
+            <div style="height: 300px; width: 300px;" style="color: #fff" class="popup">
+                <a class="close" href="#?">&times;</a>
+                <h2 style="color: #ffffff;">Report Review</h2>
+                <p>Please provide a reason for flagging this review:</p>
+                <form action="../../../bots/<%= bot.id %>/review/<%= review.revoltId %>/modal" method="POST">
+                  <input type="hidden" name="method" value="flagModal">
+                  <input type="hidden" name="id" value="<%= review.revoltId %>">
+                  <input type="hidden" name="botId" value="<%= bot.id %>">
+                  <input type="hidden" name="url" value="<%- `http://localhost/bots/${bot.id}/#${review.revoltId}` %>">
+                  <input type="hidden" name="userId" value="<%= user.revoltId %>">
+                  <input type="hidden" name="msg" value="<%= review.msg %>">
+                  <input type="hidden" name="type" value="review">
+                  <textarea id="flagReason" maxlength="500" name="review" spellcheck="true" rows="4" cols="50" placeholder="The review is unethical..." style="background-color: #2d0c1b; border-radius: 7px; border-color: transparent; resize: none; width: 100%; color: #ffffff;" required></textarea>
+                  <button style="margin-top: 20px; margin-left: 60px; background-color: #94151B; border-radius: 7px; border-color: transparent; color: white; width: 50%; height: 35px; resize: none;"class="btn btn-primary"><i class="fa-solid fa-delete-right"></i> Report</button>
+                </form>
+              </div>
+          </div>
+  
+          <div id="deleteModal-<%- review.revoltId %>" class="overlay">
+            <div style="height: 300px; width: 300px;" class="popup">
+                <a class="close" href="#?">&times;</a>
+                <h2 style="color: #ffffff;">Delete Review</h2>
+                <p>Are you sure you want to delete this review?</p>
+                <form action="../../../bots/<%= bot.id %>/review/<%= review.revoltId %>/modal" method="POST">
+                  <input type="hidden" name="method" value="staffDelete">
+                  <input type="hidden" name="id" value="<%= review.revoltId %>">
+                  <input type="hidden" name="botId" value="<%= bot.id %>">
+                  <input type="hidden" name="userId" value="<%= user.revoltId %>">
+                  <input type="hidden" name="type" value="review">
+                  <button style="margin-top: 50px; margin-left: 60px; background-color: #94151B; border-radius: 7px; border-color: transparent; color: white; width: 50%; height: 35px; resize: none;"class="btn btn-primary"><i class="fa-solid fa-delete-right"></i> Delete</button>
+                </form>
+              </div>
+          </div>
+  
+          <div id="ownerDeleteModal-<%- review.revoltId %>" class="overlay">
+            <div style="height: 300px; width: 300px;" class="popup">
+                <a class="close" href="#?">&times;</a>
+                <h2 style="color: #ffffff;">Delete Review</h2>
+                <p>Are you sure you want to delete your own review?</p>
+                <form action="../../../bots/<%= bot.id %>/review/<%= review.revoltId %>/modal" method="POST">
+                  <input type="hidden" name="method" value="ownerDelete">
+                  <input type="hidden" name="id" value="<%= review.revoltId %>">
+                  <input type="hidden" name="botId" value="<%= bot.id %>">
+                  <input type="hidden" name="userId" value="<%= user.revoltId %>">
+                  <input type="hidden" name="type" value="review">
+                  <button style="margin-top: 50px; margin-left: 60px; background-color: #94151B; border-radius: 7px; border-color: transparent; color: white; width: 50%; height: 35px; resize: none;"class="btn btn-primary"><i class="fa-solid fa-delete-right"></i> Delete</button>
+                </form>
+              </div>
+          </div>
+        <% } %>
+
+        <% }) %>
+          </div>
+          </div>
+          <div style="margin-top:175px;"></div><hr>
+          <%- include("../parts/footer.ejs") %>
 <script>
   $(document).ready(function() {
     const descriptionBox = $("#bot-description");
@@ -136,6 +420,7 @@
         "col", "colgroup", "table", "tbody", "td", "tfoot", "th", "thead", "tr", "img", "iframe", "style"
       ],
       allowedSchemes: ['data', 'http', 'https'],
+      
       allowedAttributes: {
         a: ['href', 'name', 'target'],
         img: ['src', 'srcset', 'alt', 'title', 'width', 'height', 'loading'],
@@ -143,5 +428,51 @@
       },
     });
     descriptionBox.html(sanitizedRender);
+  });
+
+  $(document).ready(function() {
+    $('.dropdown-toggle').on('click', function(e) {
+      e.stopPropagation();
+      $(this).siblings('.dropdown-menu').toggle();
+    });
+
+     $(document).on('click', function(e) {
+      if ($('.dropdown-menu').is(':visible') && !$(e.target).closest('.dropdown-menu').length ) {
+        $('.dropdown-menu').hide();
+      }
+    });
+  });
+
+  $(document).ready(function() {
+    if (window.location.href.split('#').length > 0) {
+      $(`#${window.location.href.split('#')[1]}`).addClass('highlight');
+    }
+    //window.location.search.split("#")[1] && $(`#${window.location.search.split("#")[1]}`).addClass('highlight');
+  })
+
+  $(document).ready(function() {
+    $('.replyButton').on('click', function(e) {
+      $(`.replying-${e.target.getAttribute('data-review-id')}`).toggle();
+      $(`.replying-${e.target.getAttribute('data-review-id')}`).find('textarea').focus();
+    });
+  });
+
+  function copyToClipboard(reviewId) {
+    var reviewLink = window.location.href.split('#')[0] + '#' + reviewId;
+
+    var dummyElement = document.createElement('textarea');
+    dummyElement.value = reviewLink;
+    document.body.appendChild(dummyElement);
+    dummyElement.select();
+    document.execCommand('copy');
+    document.body.removeChild(dummyElement);
+
+    alert('Review link copied to clipboard!');
+
+    $('#' + reviewId).addClass('highlight');
+  }
+
+  $(document).on('click', function() {
+    $('.review').removeClass('highlight');
   });
 </script>

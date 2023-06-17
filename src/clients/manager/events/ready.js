@@ -22,14 +22,15 @@ module.exports = {
     setInterval(async () => {
       let bots = await botModel.find();
       bots.forEach(async (bot) => {
-        setTimeout(async () => {
+       setTimeout(async () => {
           client.api.get(`/users/${bot.id}`).then(async (res) => {
             await client.users.createObj(res, true);
             client.users
               .get(`${bot.id}`)
               .fetchProfile()
               .then(async (b) => {
-                let BotRaw = await client.bots.fetchPublic(bot.id);
+                let BotRaw = await client.users.fetch(bot.id);
+                console.log(BotRaw)
                 bot.name = BotRaw.username;
                 bot.iconURL = `https://autumn.revolt.chat/avatars/${BotRaw.avatar._id}/${BotRaw.avatar.filename}`;
                 bot.bannerURL = `${
@@ -40,7 +41,7 @@ module.exports = {
                 await bot.save();
               });
           });
-        }, 10000);
+       }, 10000);
       });
     }, 8640000);
 
@@ -67,8 +68,8 @@ module.exports = {
         bots.sort((a, b) => b.monthlyVotes - a.monthlyVotes);
         let top5 = bots.slice(0, 5); // get the top 5 bots
         let description = `# Vote Reset\nThe monthly vote count has been reset!\n Congratulations to the following bots for being the **Most Voted Bots of __${
-          month[new Date().getMonth()]
-        }__**.\n\n\n## ${month[new Date().getMonth()]} Leaderboard\n`;
+          month[new Date().getMonth() - 1]
+        }__**.\n\n\n## ${month[new Date().getMonth() - 1]} Leaderboard\n`;
 
         top5.forEach((bot, index) => {
           description += `\n${index + 1}. ${bot.name} - ${
@@ -89,7 +90,7 @@ module.exports = {
         let voteModel = require("../../../database/models/vote");
         await voteModel.collection.drop();
         bots.forEach(async (a) => {
-          await voteModel.findOneAndUpdate(
+          await botModel.findOneAndUpdate(
             {
               id: a.id,
             },

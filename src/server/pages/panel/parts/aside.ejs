@@ -39,6 +39,11 @@
             <% } else { %>
             <a href="/panel/certification" class="list-group-item list-group-item-action border-0 py-2 px-4"> Certification </a>
             <% } %>
+            <% if (req.url == '/reports') { %>
+            <a href="/panel/reports" class="list-group-item list-group-item-action border-0 py-2 px-4 active"> Reports</a>
+            <% } else { %>
+            <a href="/panel/reports" class="list-group-item list-group-item-action border-0 py-2 px-4"> Reports</a>
+            <% } %>
             <% if (req.url == '/badges' && user.isAdmin) { %>
             <a href="/panel/badges" class="list-group-item list-group-item-action border-0 py-2 px-4 active"> Badges</a>
             <% } else if (user.isAdmin) { %>
