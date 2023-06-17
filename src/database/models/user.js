@@ -31,15 +31,15 @@ let app = mongoose.Schema({
   },
   website: {
     type: String,
-    required: false
+    required: false,
   },
   github: {
     type: String,
-    required: false
+    required: false,
   },
   twitter: {
     type: String,
-    required: false
+    required: false,
   },
   bio: {
     type: String,

@@ -146,7 +146,7 @@ const botsRouter = require("./routes/bots.js");
 const usersRouter = require("./routes/users.js");
 const botRulesRouter = require("./routes/bot-rules.js");
 const discordRouter = require("./routes/discord.js");
-const docsRouter = require("./routes/docs.js")
+const docsRouter = require("./routes/docs.js");
 app.use("/", indexRouter);
 app.use("/panel", checkAuth, checkStaff, panelRouter);
 app.use("/api", apiRouter);
@@ -157,7 +157,7 @@ app.use("/user", usersRouter);
 app.use("/bot-rules", botRulesRouter);
 app.use("/vital", discordRouter);
 //app.use("/docs", checkAuth,checkStaff,docsRouter)
-app.use("/docs",docsRouter)
+app.use("/docs", docsRouter);
 
 app.listen(config.port, () => {
   console.info(`[INFO] Running on port ` + config.port);
@@ -201,13 +201,11 @@ function checkStaff(req, res, next) {
               user.username = userRaw.username;
               user.avatar = userRaw.avatar;
             }
-            res.status(403).render(
-              "error.ejs", {
+            res.status(403).render("error.ejs", {
               user,
               code: 403,
               message: "You are not authorized to view this page at this time.",
-            }
-            )
+            });
           }
         } else {
           res.redirect("/login");
