@@ -22,13 +22,13 @@ router.get("/v1/bots/:id", async (req, res) => {
 
 router.post("/v1/bots/stats", async (req, res) => {
   const key = req.headers.authorization;
-  if (!key) return res.status(401).json({ json: "Please provides a API Key." });
+  if (!key) return res.status(401).json({ json: "Please provide an API Key." });
 
   let bot = await botModel.findOne({ apikey: key });
   if (!bot)
     return res.status(404).json({
       message:
-        "This bot is not on our list, or you entered an invaild API Key.",
+        "This bot is not on our list, or you entered an invaild API key.",
     });
 
   const servers = req.body.server_count || req.header("server_count");
@@ -37,15 +37,15 @@ router.post("/v1/bots/stats", async (req, res) => {
     return res.status(400).json({ message: "Please provide a server count." });
 
   bot.servers = servers;
-  console.log(servers)
+  console.log(servers);
   await bot.save().catch(() => null);
-  return res.json({ message: "Successfully updated." });
+  return res.json({ message: "Successfully updated!" });
 });
 
 router.get("/v1/bots/:id/voted", async (req, res) => {
   const bot = await global.botModel.findOne({ id: req.params.id });
   if (!bot)
-    return res.status(404).json({ message: "This bot is not on our list." });
+    return res.status(404).json({ message: "This bot is not in our list." });
   if (!bot.status === "approved")
     return res.status(400).json({ message: "This bot is not approved yet." });
 
@@ -77,7 +77,7 @@ router.get("/v1/bots/:id/voted", async (req, res) => {
 router.get("/v1/bots/:id/votes", async (req, res) => {
   const bot = await global.botModel.findOne({ id: req.params.id });
   if (!bot)
-    return res.status(404).json({ message: "This bot is not on our list." });
+    return res.status(404).json({ message: "This bot is not in our list." });
   if (!bot.status === "approved")
     return res.status(400).json({ message: "This bot is not approved yet." });
   const id = req.query.user;

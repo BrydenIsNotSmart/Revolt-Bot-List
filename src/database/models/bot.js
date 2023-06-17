@@ -95,11 +95,11 @@ let app = mongoose.Schema({
   },
   apikey: {
     type: String,
-    required: false
+    required: false,
   },
   reviewer: {
     type: String,
-    required: false
+    required: false,
   },
   vanity: {
     type: String,

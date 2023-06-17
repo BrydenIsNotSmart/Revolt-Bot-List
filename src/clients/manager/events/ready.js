@@ -22,7 +22,7 @@ module.exports = {
     setInterval(async () => {
       let bots = await botModel.find();
       bots.forEach(async (bot) => {
-       setTimeout(async () => {
+        setTimeout(async () => {
           client.api.get(`/users/${bot.id}`).then(async (res) => {
             await client.users.createObj(res, true);
             client.users
@@ -30,7 +30,7 @@ module.exports = {
               .fetchProfile()
               .then(async (b) => {
                 let BotRaw = await client.users.fetch(bot.id);
-                console.log(BotRaw)
+                console.log(BotRaw);
                 bot.name = BotRaw.username;
                 bot.iconURL = `https://autumn.revolt.chat/avatars/${BotRaw.avatar._id}/${BotRaw.avatar.filename}`;
                 bot.bannerURL = `${
@@ -41,7 +41,7 @@ module.exports = {
                 await bot.save();
               });
           });
-       }, 10000);
+        }, 10000);
       });
     }, 8640000);
 

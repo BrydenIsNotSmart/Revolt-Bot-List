@@ -5,8 +5,7 @@ const cron = require("node-cron");
 let mongoURI = config.mongoURI; // 'mongodb://127.0.0.1:27017/RevoltBotList?retryWrites=true&w=majority'
 try {
   mongoose.set("strictQuery", false);
-  mongoose.connect(mongoURI)
-    .then(console.info("[INFO] Connected to MongoDB."));
+  mongoose.connect(mongoURI).then(console.info("[INFO] Connected to MongoDB."));
 } catch (err) {
   console.log(`[ERROR] Connecting to MongoDB...`);
   console.error(err);
@@ -21,7 +20,7 @@ try {
       );
     });
   });
-} catch (e) {} 
+} catch (e) {}
 //-DB-Caching-//
 global.voteModel = require("./models/vote");
 global.botModel = require("./models/bot");
@@ -48,6 +47,5 @@ cron.schedule("* * */ 1 * *", async () => {
     }
   }
   for (const user of dusers) {
-
   }
 });
