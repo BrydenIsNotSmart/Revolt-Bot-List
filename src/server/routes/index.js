@@ -40,7 +40,7 @@ router.get("/explore", async (req, res) => {
     user.username = userRaw.username;
     user.avatar = userRaw.avatar;
   }
-  res.render("explore.ejs", {
+  res.render("bexplore.ejs", {
     bots,
     user,
     config,

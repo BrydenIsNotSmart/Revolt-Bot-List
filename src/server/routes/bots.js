@@ -229,7 +229,7 @@ router.get("/:id", async (req, res) => {
     user.id = user.revoltId;
   }
   if (req.params.id == "search")
-    return res.render("explore.ejs", { user: user, bots: null, error: null });
+    return res.render("bexplore.ejs", { user: user, bots: null, error: null });
   if (
     (!approved && !awaiting) ||
     (awaiting &&

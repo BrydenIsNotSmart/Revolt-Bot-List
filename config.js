@@ -39,15 +39,14 @@ module.exports = {
   servers: [
     'Community', 
     'Development', 
-    'BotList', 
-    "ServerList", 
     'Social', 
-    'Gaming', 
-    'Fun', 
+    'Gaming',
     'Emotes', 
     'Streaming', 
-    'Anime', 
-    'Memes'
+    'Anime',
+    'Fun',
+    'Roleplay',
+    'Givaway'
   ]
 },
   channels: {

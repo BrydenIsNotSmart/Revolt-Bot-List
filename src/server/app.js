@@ -143,24 +143,27 @@ const indexRouter = require("./routes/index.js");
 const panelRouter = require("./routes/panel.js");
 const apiRouter = require("./routes/api.js");
 const botsRouter = require("./routes/bots.js");
+const serversRouter = require("./routes/servers.js");
 const usersRouter = require("./routes/users.js");
 const botRulesRouter = require("./routes/bot-rules.js");
 const discordRouter = require("./routes/discord.js");
 const docsRouter = require("./routes/docs.js")
+const teamRouter = require("./routes/team.js")
+const partnersRouter = require("./routes/partners.js")
 app.use("/", indexRouter);
 app.use("/panel", checkAuth, checkStaff, panelRouter);
 app.use("/api", apiRouter);
 app.use("/bots", botsRouter);
 app.use("/bot", botsRouter);
-const serversRouter = require("./routes/servers.js");
-app.use("/servers", serversRouter);
-app.use("/server", serversRouter);
+app.use("/servers", checkAuth, checkBeta,serversRouter);
+app.use("/server", checkAuth, checkBeta, serversRouter);
 app.use("/users", usersRouter);
 app.use("/user", usersRouter);
 app.use("/bot-rules", botRulesRouter);
 app.use("/vital", discordRouter);
 app.use("/docs",docsRouter)
-
+app.use("/team", teamRouter)
+app.use("/partners", partnersRouter)
 app.listen(config.port, () => {
   console.info(`[INFO] Running on port ` + config.port);
 });
@@ -221,6 +224,41 @@ function checkStaff(req, res, next) {
   }
 }
 
+function checkBeta(req, res, next) {
+  if (req.session.userAccountId) {
+    let model = require("../database/models/user.js");
+    model.findOne(
+      { revoltId: req.session.userAccountId },
+      (error, userAccount) => {
+        if (error) {
+          res.status(500).send(error);
+        } else if (userAccount) {
+          if (userAccount.betaTester) {
+            next();
+          } else {
+            let user = userAccount;
+            if (user) {
+              let userRaw = client.users.fetch(user.revoltId);
+              user.username = userRaw.username;
+              user.avatar = userRaw.avatar;
+            }
+            res.status(403).render(
+              "error.ejs", {
+              user,
+              code: 403,
+              message: "You are not authorized to view this page at this time.",
+            }
+            )
+          }
+        } else {
+          res.redirect("/login");
+        }
+      }
+    );
+  } else {
+    res.redirect("/login");
+  }
+}
 function generateLoginCode() {
   const letters = "abcdefghijklmnopqrstuvwxyz";
   let code = "";

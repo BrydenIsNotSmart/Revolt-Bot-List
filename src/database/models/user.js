@@ -21,6 +21,10 @@ let app = mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  betaTester: {
+    type: Boolean,
+    default: false
+  },
   badges: {
     type: Array,
     default: [],
