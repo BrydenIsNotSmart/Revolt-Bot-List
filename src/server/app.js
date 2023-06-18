@@ -155,7 +155,6 @@ app.use("/bot", botsRouter);
 const serversRouter = require("./routes/servers.js");
 app.use("/servers", serversRouter);
 app.use("/server", serversRouter);
-const usersRouter = require("./routes/users.js");
 app.use("/users", usersRouter);
 app.use("/user", usersRouter);
 app.use("/bot-rules", botRulesRouter);
