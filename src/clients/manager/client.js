@@ -63,7 +63,7 @@ client.once("ready", () => {
 });
 
 client.loginBot(config.clients.manager.token);
-//selfBot.login({
- // email: config.selfbot.email,
-  //password: config.selfbot.password,
-//});
+selfBot.login({
+  email: config.selfbot.email,
+  password: config.selfbot.password,
+});
