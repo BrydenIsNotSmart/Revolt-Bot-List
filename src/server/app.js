@@ -156,7 +156,6 @@ app.use("/users", usersRouter);
 app.use("/user", usersRouter);
 app.use("/bot-rules", botRulesRouter);
 app.use("/vital", discordRouter);
-//app.use("/docs", checkAuth,checkStaff,docsRouter)
 app.use("/docs",docsRouter)
 
 app.listen(config.port, () => {
