@@ -140,12 +140,16 @@ app.get("/downloads", async (req, res) => {
 
 //-Routers-//
 const indexRouter = require("./routes/index.js");
-app.use("/", indexRouter);
 const panelRouter = require("./routes/panel.js");
-app.use("/panel", checkAuth, checkStaff, panelRouter);
 const apiRouter = require("./routes/api.js");
-app.use("/api", apiRouter);
 const botsRouter = require("./routes/bots.js");
+const usersRouter = require("./routes/users.js");
+const botRulesRouter = require("./routes/bot-rules.js");
+const discordRouter = require("./routes/discord.js");
+const docsRouter = require("./routes/docs.js")
+app.use("/", indexRouter);
+app.use("/panel", checkAuth, checkStaff, panelRouter);
+app.use("/api", apiRouter);
 app.use("/bots", botsRouter);
 app.use("/bot", botsRouter);
 const serversRouter = require("./routes/servers.js");
@@ -154,10 +158,10 @@ app.use("/server", serversRouter);
 const usersRouter = require("./routes/users.js");
 app.use("/users", usersRouter);
 app.use("/user", usersRouter);
-const botRulesRouter = require("./routes/bot-rules.js");
 app.use("/bot-rules", botRulesRouter);
-const discordRouter = require("./routes/discord.js");
 app.use("/vital", discordRouter);
+//app.use("/docs", checkAuth,checkStaff,docsRouter)
+app.use("/docs",docsRouter)
 
 app.listen(config.port, () => {
   console.info(`[INFO] Running on port ` + config.port);
