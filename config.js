@@ -19,7 +19,8 @@ module.exports = {
     email: process.env.selfBotEmail,
     password: process.env.selfBotPassword,
   },
-  tags: [
+  tags: {
+    bots: [
     "Anime",
     "Bridge",
     "Multipurpose",
@@ -34,6 +35,20 @@ module.exports = {
     "Game",
     "NSFW",
   ],
+  servers: [
+    'Community', 
+    'Development', 
+    'BotList', 
+    "ServerList", 
+    'Social', 
+    'Gaming', 
+    'Fun', 
+    'Emotes', 
+    'Streaming', 
+    'Anime', 
+    'Memes'
+  ]
+},
   channels: {
     weblogs: "01GQ1AKANW8TVTH6R2P79069K8",
     votelogs: "01GXCM24QX3WZP1GBNFQEHSHME",
