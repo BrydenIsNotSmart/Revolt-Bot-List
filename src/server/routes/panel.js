@@ -208,7 +208,7 @@ router.post("/bots/:id/deny", async (req, res) => {
   bot.deniedOn = Date.now();
   bot.status = "denied";
   await bot.save().then(async () => {
-    let testing = client.servers.get(config.servers.testing);
+    let testing = client.servers.get(config.servers.testing) || await client.servers.fetch(config.servers.testing);
     let testingChannel = testing.channels.find(c => c.name === `${bot.name.toLowerCase()}`);
     try {
       await testing.kickUser(bot.id);
