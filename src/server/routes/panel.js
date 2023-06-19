@@ -211,7 +211,7 @@ router.post("/bots/:id/deny", async (req, res) => {
   await bot.save().then(async () => {
     let testing = client.servers.get("01GX1QRSHEA8NE8WCGHEPN3S19");
     console.log(testing)
-    let target = testing.fetchMember(bot.id);
+    let target = await testing.fetchMember(bot.id);
     console.log(target)
     let testingChannel = testing?.channels.find(c => c.name === `${bot.name.toLowerCase()}`);
     try {
