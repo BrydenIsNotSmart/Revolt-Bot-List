@@ -5,7 +5,7 @@ module.exports = {
   port: 80,
   mongoURI:  process.env.mongoURI,
   sessionSecret: process.env.sessionSecret,
-  ownerids: ["01GPZ5PTPQ2RNMZEF02NKD7TQE", "01GQ3NS0EB3FF8V2Q6KHX887DS"],
+  ownerids: ["01GPZ5PTPQ2RNMZEF02NKD7TQE","01FHZCM5J1T2DP08N9MCTYP4DT","01GQ3NS0EB3FF8V2Q6KHX887DS"],
   clients: {
     manager: {
       prefix: "rbl!",
@@ -39,15 +39,14 @@ module.exports = {
   servers: [
     'Community', 
     'Development', 
-    'BotList', 
-    "ServerList", 
     'Social', 
-    'Gaming', 
-    'Fun', 
+    'Gaming',
     'Emotes', 
     'Streaming', 
-    'Anime', 
-    'Memes'
+    'Anime',
+    'Fun',
+    'Roleplay',
+    'Givaway'
   ]
 },
   channels: {

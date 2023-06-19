@@ -59,6 +59,7 @@ router.post("/submit", checkAuth, async (req, res) => {
   let BotRaw = await client.bots.fetchPublic(data.botid).catch((err) => {
     console.log(err);
   });
+
   if (!BotRaw)
     return res.status(400).render(
       "error.ejs", {
@@ -229,7 +230,7 @@ router.get("/:id", async (req, res) => {
     user.id = user.revoltId;
   }
   if (req.params.id == "search")
-    return res.render("explore.ejs", { user: user, bots: null, error: null });
+    return res.render("bexplore.ejs", { user: user, bots: null, error: null });
   if (
     (!approved && !awaiting) ||
     (awaiting &&
@@ -329,6 +330,7 @@ router.post("/:id/edit", checkAuth, async (req, res) => {
   let BotRaw = await client.users.fetch(req.params.id).catch((err) => {
     console.log(err);
   });
+  
   if (!BotRaw)
     return res.status(404).render(
       "error.ejs", {
