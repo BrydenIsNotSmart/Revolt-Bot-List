@@ -1,0 +1,49 @@
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/typeit@7.0.4/dist/typeit.min.js"></script>
+    <title>Revolt Servers - Find the servers that are right for you.</title>
+    <%- include("../parts/head.ejs") %>
+  </head>
+  <%- include("../parts/nav.ejs") %>
+  <div class="container" style="padding-top: 175px;">
+    <p class="talign;" style="color:white;text-align: left;"><br>
+      <span style="padding-top:-5px;font-size:50px;padding-bottom:-5px;color:white"><b><span class="vitalText">Revolt</span>Servers</b></span><br>
+      <span class="typing_desc" style="color:white"></span>
+      <script>
+        new TypeIt(".typing_desc", {
+          speed: 90,
+          waitUntilVisible: true,
+          startDelay: 1000,
+        })
+          new TypeIt(".typing_desc", {
+              speed: 90,
+              waitUntilVisible: true,
+              startDelay: 1000,
+            })
+            .type("A place where you can find the best servers.")
+            .pause(5000)
+            .delete(48)
+            .type('Revolt Servers, providing you and your community to experience more than just a group chat.')
+            .go()
+        </script>
+             </p>
+      <form action="/bots/search" method="POST">
+        <input type="text" class="form-control" style="height: 45px" name="q" placeholder="Searching for bots...">
+      </form>
+          <% for(let i = 0; i < config.tags.servers.length; i++){ %>
+            <%  if (i === 6) break; %>
+            <a href="/bots/tags/<%= config.tags.servers[i].toLowerCase() %>">
+               <button style="border-radius: 7px;margin-top:3px; background-color: #FF3366;border-color: transparent" class="btn btn-primary pl-3 pr-3 mr-3"><i class="fa-brands fa-hashtag"></i>&nbsp;&nbsp;<span style="text-align: right;"><b><%= config.tags.servers[i] %></b></span></button>
+           </a>
+               <% } %>
+               <a href="/explore">
+               <button style="border-radius: 7px;margin-top:3px;" class="btn btn-secondary pl-3 pr-3 mr-3"><i class="fa-solid fa-compass"></i> <b>Explore</b>&nbsp;&nbsp;<span style="text-align: right;"><i class="fa-solid fa-arrow-right"></i></span></button>
+  </div>
+  <%- include("../parts/footer.ejs") %>
+  <style>
+    .centerText {
+      text-align: center;
+      padding-right: 10px;
+      padding-left: 15px;
+  }
+  </style>
+  

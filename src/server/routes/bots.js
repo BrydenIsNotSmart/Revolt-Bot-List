@@ -34,7 +34,7 @@ router.get("/submit", checkAuth, async (req, res) => {
   }
   res.render("bots/submit.ejs", {
     user,
-    tags: config.tags,
+    tags: config.tags.bots,
   });
 });
 
@@ -95,26 +95,13 @@ router.post("/submit", checkAuth, async (req, res) => {
         )
       }
     });
-  }
-
-  let UserRaw = await client.users.fetch(data.botid).catch((err) => {
-    console.log(err);
-  });
-
-  if (!UserRaw)
-    return res.status(400).render(
-      "error.ejs", {
-      user,
-      code: 400,
-      message: "Couldn't find the bot on Revolt.",
-    }
-    )  
+  }  
 
   await botModel
     .create({
       id: data.botid,
       name: BotRaw.username,
-      iconURL: `https://autumn.revolt.chat/avatars/${UserRaw.avatar._id}/${UserRaw.avatar.filename}`,
+      iconURL: `https://autumn.revolt.chat/avatars/${BotRaw.avatar}`,
       prefix: data.prefix,
       shortDesc: data.shortDesc,
       description: data.desc,
@@ -243,7 +230,7 @@ router.get("/:id", async (req, res) => {
     user.id = user.revoltId;
   }
   if (req.params.id == "search")
-    return res.render("explore.ejs", { user: user, bots: null, error: null });
+    return res.render("bexplore.ejs", { user: user, bots: null, error: null });
   if (
     (!approved && !awaiting) ||
     (awaiting &&
@@ -313,7 +300,7 @@ router.get("/:id/edit", checkAuth, async (req, res) => {
   res.render("bots/edit.ejs", {
     user: user || null,
     botclient: client,
-    tags: config.tags,
+    tags: config.tags.bots,
     bot,
   });
 });
@@ -504,6 +491,13 @@ router.get("/tags/:tag", async (req, res) => {
 });
 
 router.post("/:id/vote", async (req, res) => {
+  let user = await userModel.findOne({ revoltId: req.session.userAccountId });
+  if (user) {
+    let userRaw = await client.users.fetch(user.revoltId);
+    user.username = userRaw.username;
+    user.avatar = userRaw.avatar;
+    user.id = user.revoltId;
+  }
   let bot = await botModel.findOne({ id: req.params.id });
   if (!bot)
     return res.status(404).render(

@@ -1,0 +1,183 @@
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/1.1.0/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sanitize-html/1.26.0/sanitize-html.min.js"></script>
+  <title>API Documentation - Revolt Bot List</title>
+  <%- include ("./parts/head.ejs") %>
+</head>
+<%- include ("./parts/nav.ejs") %>
+<br>
+<div class="container">
+  <style>
+    h2,
+    h3,
+    p,
+    pre,
+    tr {
+      color: white;
+    }
+
+    td {
+      color: #D9E4EC;
+    }
+  </style>
+  <h2><b>API Documentation</b></h2>
+  <p>This is the documentation to RevoltList's API.</p><br>
+  <h3>GET Bot Information</h3>
+  <p>Returns all information on a bot.</p><br>
+  <pre><code class="language-plaintext">GET /api/v1/bots/:id/</code></pre><br>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col"><b>Property</b></th>
+        <th scope="col"><b>Type</b></th>
+        <th scope="col"><b>Description</b></th>
+      </tr>
+    <tbody class="bots-list-body">
+      <td>id</td>
+      <td>String</td>
+      <td>The ID of the targeted bot.</td>
+      <tr></tr>
+      <td>username</td>
+      <td>String</td>
+      <td>The username of the targeted bot.</td>
+      <tr></tr>
+      <td>avatar</td>
+      <td>String</td>
+      <td>The avatar URL of the targeted bot.</td>
+      <tr></tr>
+      <td>prefix</td>
+      <td>String</td>
+      <td>The prefix of the targeted bot.</td>
+      <tr></tr>
+      <td>owners</td>
+      <td>Array</td>
+      <td>An array of the targeted bot's owner IDs.</td>
+      <tr></tr>
+      <td>tags</td>
+      <td>Array</td>
+      <td>An array of the targeted bot's tags.</td>
+      <tr></tr>
+      <td>submittedOn</td>
+      <td>String</td>
+      <td>The date the targeted bot was submitted to RevoltList.</td>
+      <tr></tr>
+      <td>shortDescription</td>
+      <td>String</td>
+      <td>The short description of the targeted bot on RevoltList.</td>
+      <tr></tr>
+      <td>description</td>
+      <td>String</td>
+      <td>The description of the targeted bot on RevoltList.</td>
+      <tr></tr>
+      <td>servers</td>
+      <td>Integer</td>
+      <td>The number of servers the targeted bot has.</td>
+      <tr></tr>
+      <td>totalvotes</td>
+      <td>Integer</td>
+      <td>The total number of vots the targeted bot has on RevoltList.</td>
+      <tr></tr>
+      <td>monthlyvotes</td>
+      <td>Integer</td>
+      <td>The monthly number of vots the targeted bot has on RevoltList.</td>
+      <tr></tr>
+      <td>invite</td>
+      <td>String</td>
+      <td>The invite of the targeted bot.</td>
+      <tr></tr>
+      <td>website</td>
+      <td>String</td>
+      <td>The website of the targeted bot.</td>
+      <tr></tr>
+      <td>github</td>
+      <td>String</td>
+      <td>The github of the targeted bot.</td>
+      <tr></tr>
+      <td>library</td>
+      <td>String</td>
+      <td>The library of the targeted bot.</td>
+      <tr></tr>
+      <td>support</td>
+      <td>String</td>
+      <td>The support server of the targeted bot.</td>
+    </tbody>
+    </thead>
+  </table><br><br><br>
+  <h3>POST Bot Stats</h3>
+  <p>Posts your bot's server and shard count.</p><br>
+  <pre><code class="language-plaintext">POST /api/v1/bots/stats</code></pre><br>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col"><b>Header</b></th>
+        <th scope="col"><b>Type</b></th>
+        <th scope="col"><b>Description</b></th>
+      </tr>
+      <td>authorization</td>
+      <td>String</td>
+      <td>The API Key for the targeted bot.</td>
+      <tr></tr>
+      <td>server_count</td>
+      <td>Integer</td>
+      <td>The server count for the targeted bot.</td>
+      <tr></tr>
+    </thead>
+  </table><br><br>
+  <h3>GET Bot Votes</h3>
+  <p>Get all votes of a bot on RevoltList.</p><br>
+  <pre><code class="language-plaintext">GET /api/v1/bots/:id/votes</code></pre><br>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col"><b>Property</b></th>
+        <th scope="col"><b>Type</b></th>
+        <th scope="col"><b>Description</b></th>
+      </tr>
+      <td>user</td>
+      <td>String</td>
+      <td>The user ID who voted for the bot.</td>
+      <tr></tr>
+      <td>current</td>
+      <td>Integer</td>
+      <td>The date the user voted.</td>
+      <tr></tr>
+      <td>next</td>
+      <td>Integer</td>
+      <td>The time until they can vote again.</td>
+    </thead>
+  </table><br><br>
+  <h3>Check Vote</h3>
+  <p>Check if a user voted for your bot.</p><br>
+  <pre><code class="language-plaintext">GET /api/v1/bots/:id/votes?user=:userID</code></pre><br>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col"><b>Property</b></th>
+        <th scope="col"><b>Type</b></th>
+        <th scope="col"><b>Description</b></th>
+      </tr>
+      <td>vote</td>
+      <td>Boolean</td>
+      <td>If the user voted or not.</td>
+      <tr></tr>
+      <td>current</td>
+      <td>Integer</td>
+      <td>The date the user voted.</td>
+      <tr></tr>
+      <td>next</td>
+      <td>Integer</td>
+      <td>The time until they can vote again.</td>
+    </thead>
+  </table><br><br>
+  <h3>GET Server Information</h3>
+  <p>Returns all information on a server.</p><br>
+  <pre><code class="language-plaintext">GET /api/v1/servers/:id</code></pre><br>
+
+  <h3>RevoltList NPM Package</h3>
+  <p>Find Xynnix's NPM Package <a href="https://www.npmjs.com/package/revoltbots.js">here</a> to learn how to interact with our API.</p>
+  <br><br>
+</div>
+<br><br>
+<%- include("./parts/footer.ejs") %>

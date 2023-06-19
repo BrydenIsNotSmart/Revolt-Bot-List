@@ -8,7 +8,7 @@ router.get('/', async (req, res) => {
         user.username = userRaw.username;
         user.avatar = userRaw.avatar;
       }
-      res.render("servers/index.ejs", { user })
+      res.render("docs.ejs", { user })
 })
 
 module.exports = router;

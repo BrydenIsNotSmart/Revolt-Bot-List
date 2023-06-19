@@ -1,10 +1,11 @@
-require("dotenv").config();
+const path = require("node:path");
+require("dotenv").config({ path: path.join(__dirname, '.env') });
 
 module.exports = {
   port: 80,
   mongoURI:  process.env.mongoURI,
   sessionSecret: process.env.sessionSecret,
-  ownerids: ["01GPZ5PTPQ2RNMZEF02NKD7TQE", "01GQ3NS0EB3FF8V2Q6KHX887DS"],
+  ownerids: ["01GPZ5PTPQ2RNMZEF02NKD7TQE","01FHZCM5J1T2DP08N9MCTYP4DT","01GQ3NS0EB3FF8V2Q6KHX887DS"],
   clients: {
     manager: {
       prefix: "rbl!",
@@ -19,7 +20,8 @@ module.exports = {
     email: process.env.selfBotEmail,
     password: process.env.selfBotPassword,
   },
-  tags: [
+  tags: {
+    bots: [
     "Anime",
     "Bridge",
     "Multipurpose",
@@ -34,6 +36,19 @@ module.exports = {
     "Game",
     "NSFW",
   ],
+  servers: [
+    'Community', 
+    'Development', 
+    'Social', 
+    'Gaming',
+    'Emotes', 
+    'Streaming', 
+    'Anime',
+    'Fun',
+    'Roleplay',
+    'Givaway'
+  ]
+},
   channels: {
     weblogs: "01GQ1AKANW8TVTH6R2P79069K8",
     votelogs: "01GXCM24QX3WZP1GBNFQEHSHME",
