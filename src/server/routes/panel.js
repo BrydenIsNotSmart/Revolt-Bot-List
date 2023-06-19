@@ -152,14 +152,15 @@ router.post("/bots/:id/testing", async (req, res) => {
   let cat = [];
   server.categories.map(d => { if (d.id === "01GX1R43Q03JF7SMBKRW71F7EF") d.channels.push(createdChannel._id); cat.push(d) });
   server.edit({ categories: cat }); 
-  await client.channels.get(createdChannel._id).sendMessage({
-    content: `<@${req.session.userAccountId}>`,
-    embeds: [
-      { 
-      colour: "#FF3366",
-      description: `## Testing Session\nWelcome to your new testing session for <@${bot.id}>.\nYou may now begin testing this bot. Any questions? View the staff panel or ask an admin.\n\n### Prefix:\n\`${bot.prefix}\``
-    }],
-  });
+  await client.api
+      .post(`/channels/${createdChannel._id}/messages`, {
+        content: `<@${req.session.userAccountId}>`,
+        embeds: [
+           { 
+          colour: "#FF3366",
+          description: `## Testing Session\nWelcome to your new testing session for <@${bot.id}>.\nYou may now begin testing this bot. Any questions? View the staff panel or ask an admin.\n\n### Prefix:\n\`${bot.prefix}\``
+        }],
+      })
   res.send("You may now begin to test this bot in our testing server.")
 });
 
@@ -209,10 +210,11 @@ router.post("/bots/:id/deny", async (req, res) => {
   bot.status = "denied";
   await bot.save().then(async () => {
     let testing = client.servers.get(config.servers.testing);
-    let testingChannel = testing.channels.find(c => c.name === `${bot.name.toLowerCase()}`);
+    let target = testing.fetchMember(bot.id);
+    let testingChannel = testing?.channels.find(c => c.name === `${bot.name.toLowerCase()}`);
     try {
-      await testing.kickUser(bot.id);
-      await testingChannel.delete();
+      await target?.kick();
+      await testingChannel?.delete();
       res.status(201).json({ message: "Successfully Denied", code: "OK" });
       let logs = client.channels.get(config.channels.weblogs);
       logs.sendMessage(
