@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const { MongooseBackup } = require("mongoose-backup");
 const cron = require("node-cron");
 
-let mongoURI = 'mongodb://127.0.0.1:27017/RevoltBotList?retryWrites=true&w=majority'; // 'mongodb://127.0.0.1:27017/RevoltBotList?retryWrites=true&w=majority'
+let mongoURI = config.mongoURI; // 'mongodb://127.0.0.1:27017/RevoltBotList?retryWrites=true&w=majority'
 try {
   mongoose.set("strictQuery", false);
   mongoose.connect(mongoURI)
