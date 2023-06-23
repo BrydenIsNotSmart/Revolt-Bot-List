@@ -194,7 +194,7 @@
               class="avatar">
             <div style="margin-top: 13px;" class="col-sm">
               <a href="/user/<%= review?.revoltId %>" style="text-decoration: none; color: white;"><b>
-                  <%= reviewUser?.username %>
+                  <%= reviewUser?.username || "Unknown" %>
                 </b> <a style="font-size: 15px; color: #888888; margin-left: 4px;">
                   <%= moment(review?.createdAt).startOf("minute").fromNow();  %>
                 </a></a>
