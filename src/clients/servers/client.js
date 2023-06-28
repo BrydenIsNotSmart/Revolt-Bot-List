@@ -31,3 +31,4 @@ for (const cfile of getFiles("commands")) {
 }
 
 client.loginBot(config.clients.servers.token);
+

@@ -146,7 +146,7 @@ const botsRouter = require("./routes/bots.js");
 const serversRouter = require("./routes/servers.js");
 const usersRouter = require("./routes/users.js");
 const botRulesRouter = require("./routes/bot-rules.js");
-const discordRouter = require("./routes/discord.js");
+const discordRouter = require("./routes/revurn.js");
 const docsRouter = require("./routes/docs.js")
 const teamRouter = require("./routes/team.js")
 const partnersRouter = require("./routes/partners.js")
@@ -160,7 +160,7 @@ app.use("/server", checkAuth, checkBeta, serversRouter);
 app.use("/users", usersRouter);
 app.use("/user", usersRouter);
 app.use("/bot-rules", botRulesRouter);
-app.use("/vital", discordRouter);
+app.use("/revurn", discordRouter);
 app.use("/docs",docsRouter)
 app.use("/team", teamRouter)
 app.use("/partners", partnersRouter)

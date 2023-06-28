@@ -28,7 +28,7 @@ global.botModel = require("./models/bot");
 global.userModel = require("./models/user");
 global.loginModel = require("./models/loginRequest");
 global.reportModel = require("./models/report");
-
+global.serverModel = require("./models/server")
 //-Updater-//
 cron.schedule("*/30 * * * *", () => {
   global.voteModel = require("./models/vote");
@@ -36,6 +36,7 @@ cron.schedule("*/30 * * * *", () => {
   global.userModel = require("./models/user");
   global.loginModel = require("./models/loginRequest");
   global.reportModel = require("./models/report");
+  global.serverModel = require("./models/server")
 });
 
 cron.schedule("* * */ 1 * *", async () => {
