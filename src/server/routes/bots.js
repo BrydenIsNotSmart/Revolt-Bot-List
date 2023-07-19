@@ -398,7 +398,6 @@ router.get("/:id/vote", async (req, res) => {
     return res
       .status(404)
       .json({ message: "This bot could not be found on our list." });
-  if (!bot.owners.includes(req.session.userAccountId)) return res.redirect("/");
 
   let user = await userModel.findOne({ revoltId: req.session.userAccountId });
 
