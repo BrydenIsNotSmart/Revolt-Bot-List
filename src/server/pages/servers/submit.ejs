@@ -1,0 +1,36 @@
+<head>
+  <title>Add Server - Revolt Bots</title>
+  <%- include("../parts/head.ejs") %>
+</head>
+<%- include("../parts/nav.ejs") %>
+
+
+<div class="text-center" style="margin-top: 150px;">
+  <img src="https://revolt.chat/_next/static/media/revolt-logo.24213514.svg" style="width: 185px;" alt="logo">
+  <h2 style="color: white"><b>SERVERS</b></h2><br>
+
+  <form action="../../../servers/submit" method="POST">
+    <h5 style="color:white"><b>Please fill out this form below to add your server.</b></h5><br><br>
+    <h3 style="color:white"><B>Server Id</B></h3>
+    <input type="text" class="inputField" placeholder="&nbsp;Ex. 01GQ14WC58C8AXCWNJQBFDZNT3" name="serverid" required /><br>
+    <h3 style="color:white;margin-top:25px"><b>Short Description</b></h3>
+    <input type="text" class="inputField" placeholder="&nbsp;Join us we do giveaways, events, and much more!" name="shortDesc" autocomplete="off" required><br>
+    <h3 style="color:white;margin-top:25px"><b>Long Description</b></h3>
+    <textarea type="text" class="inputTextarea" autocomplete="off" name="desc" placeholder="More about your server! Except for giveaways and events (Supports Markdown and HTML)" spellcheck="true" required></textarea><br>
+    <h3 style="color:white;margin-top:25px"><b>Server Website</b></h3>
+    <input type="url" class="inputField" placeholder="&nbsp;Ex. https://remod.gg" name="website" autocomplete="off"><br>
+    <h3 style="color:white;margin-top:25px"><b>Server invite</b></h3>
+    <input type="url" class="inputField" placeholder="&nbsp;Ex. https://rvlt.gg/kmZBZ6h1" name="invite" autocomplete="off"><br>
+    <h3 style="color:white;margin-top:25px"><b>Other Owners</b></h3>
+    <input type="text" class="inputField" placeholder="&nbsp;Ids sepreated by space (must be in our server)" name="owners" autocomplete="off"><br>
+    <h3 style="color:white;margin-top:25px"><b>Server Tags</b></h3>
+    <select class="inputSelect" name="tags" size="4" multiple required>
+      <% tags.map(tag => {%>
+      <option value="<%= tag %>"><%= tag %></option>
+      <% }); %>
+    </select><br>
+    <br>
+    <button style="border-radius: 7px;margin-top:3px; background-color: #fe4655;border-color: #fe4655" class="btn btn-primary pl-3 pr-3 mr-3" type="submit"><i class="fa-solid fa-paper-plane"></i> Submit</button>
+</div>
+</form>
+</section>

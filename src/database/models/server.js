@@ -5,6 +5,10 @@ let app = mongoose.Schema({
     type: String,
     required: true,
   },
+  owners: {
+    type: Array,
+    required: true,
+  },
   name: {
     type: String,
     required: true
@@ -29,12 +33,14 @@ let app = mongoose.Schema({
     type: Date,
     required: false,
   },
+  invite: {
+    type: String,
+    required: true,
+  },
   tags: {
     type: Array,
     required: true
   },
-
-
 });
 
 module.exports = mongoose.model("servers", app);
