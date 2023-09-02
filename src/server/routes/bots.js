@@ -210,7 +210,7 @@ router.get("/:id", async (req, res) => {
   let approved =
     (await botModel.findOne({ id: req.params.id, status: "approved" })) ||
     (await botModel.findOne({
-      vanity: req.params.id,
+      vanity: {$regex: `^${req.params.id}$`, $options: "i"},
       status: "approved",
       certified: true,
     }));
@@ -278,7 +278,7 @@ router.get("/:id", async (req, res) => {
 router.get("/:id/edit", checkAuth, async (req, res) => {
   let bot = await botModel.findOne({ id: req.params.id }) ||
     (await botModel.findOne({
-      vanity: { $regex: `${req.params.id}`, $options: "i" },
+      vanity: {$regex: `^${req.params.id}$`, $options: "i"},
       status: "approved",
       certified: true,
     }));
@@ -369,7 +369,7 @@ router.post("/:id/edit", checkAuth, async (req, res) => {
     (bot.prefix = data.prefix);
   bot.website = data.website;
   bot.github = data.github;
-  bot.vanity = data.vanity || null;
+  bot.vanity = data.vanity?.toLowerCase() || null;
   bot.description = data.desc;
   bot.shortDesc = data.shortDesc;
   bot.support = data.support || null;
@@ -389,7 +389,7 @@ router.post("/:id/edit", checkAuth, async (req, res) => {
 router.get("/:id/vote", async (req, res) => {
   let bot = await botModel.findOne({ id: req.params.id }) ||
     (await botModel.findOne({
-      vanity: { $regex: `${req.params.id}`, $options: "i" },
+      vanity: {$regex: `^${req.params.id}$`, $options: "i"},
       status: "approved",
       certified: true,
     }));
